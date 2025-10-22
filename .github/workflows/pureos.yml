@@ -1,4 +1,4 @@
-name: "PureOS Byzantium"
+name: "PureOS"
 
 on:
   workflow_dispatch:
