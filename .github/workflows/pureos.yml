@@ -31,8 +31,8 @@ jobs:
            --format=tar \
            --customize-hook=='
            wget -O "$1/tmp/pureos-archive-keyring.deb" https://repo.pureos.net/pureos/pool/main/p/pureos-archive-keyring/pureos-archive-keyring_2024.04.0_all.deb;
-           sudo chroot "$1" apt update || true;
-           sudo chroot "$1" apt install -y /tmp/pureos-archive-keyring.deb || true;
+           sudo chroot "$1" apt-get update
+           sudo chroot "$1" apt-get install -y /tmp/pureos-archive-keyring.deb || true;
            echo "deb [signed-by=/usr/share/keyrings/pureos-archive-keyring.gpg] https://repo.pureos.net/pureos byzantium main" > "$1/etc/apt/sources.list";
            echo "deb [signed-by=/usr/share/keyrings/pureos-archive-keyring.gpg] https://repo.pureos.net/pureos byzantium-updates main" >> "$1/etc/apt/sources.list";
            echo "deb [signed-by=/usr/share/keyrings/pureos-archive-keyring.gpg] https://repo.pureos.net/pureos byzantium-security main" >> "$1/etc/apt/sources.list";
