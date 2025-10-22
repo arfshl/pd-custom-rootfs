@@ -1,8 +1,6 @@
-name: "Debian Sid"
+name: "PureOS Byzantium"
 
 on:
-  schedule:
-    - cron: "0 0 * * *"
   workflow_dispatch:
 
 permissions:
@@ -25,14 +23,14 @@ jobs:
           sudo apt install -yq /tmp/keyring.deb
       - name: Start Building
         run: |
-          sudo mmdebstrap --arch=arm64 --variant=apt --components="main,contrib,non-free,non-free-firmware" --include=locales,passwd,software-properties-common,ca-certificates --format=tar sid - http://deb.debian.org/debian | xz -9 -T0 -c > debian-sid-arm64.tar.xz
+          sudo mmdebstrap --arch=arm64 --variant=apt --components="main" --include=locales,passwd,software-properties-common,ca-certificates --format=tar byzantium - https://repo.pureos.net/pureos | xz -9 -T0 -c > pureos-byzantium-arm64.tar.xz
       - name: Push to Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: debian-sid-latest
-          name: Debian Sid (Rolling Release)
+          tag_name: pureos-byzantium
+          name: PureOS Byzantium
           files: |
-            debian-sid-arm64.tar.xz
+            pureos-byzantium-arm64.tar.xz
           preserve_order: true
           make_latest: true
           overwrite: true
