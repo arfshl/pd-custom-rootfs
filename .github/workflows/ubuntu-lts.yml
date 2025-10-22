@@ -3,6 +3,9 @@ name: "Ubuntu LTS"
 on:
   workflow_dispatch:
 
+permissions:
+  contents: write  
+
 jobs:
   build:
     runs-on: ubuntu-24.04-arm
@@ -20,7 +23,7 @@ jobs:
           sudo apt install -yq /tmp/keyring.deb
       - name: Start Building
         run: |
-          sudo mmdebstrap --arch=arm64 --variant=apt --components="main,universe,multiverse" --include=locales,passwd,software-properties-common --format=tar noble - http://ports.ubuntu.com/ubuntu | xz -9 -T0 -c > ubuntu-lts-24.04-arm64.tar.xz
+          sudo mmdebstrap --arch=arm64 --variant=apt --components="main,universe,multiverse" --include=locales,passwd,software-properties-common --format=tar noble - http://ports.ubuntu.com/ubuntu-ports | xz -9 -T0 -c > ubuntu-lts-24.04-arm64.tar.xz
           cp ubuntu-lts-24.04-arm64.tar.xz ubuntu-lts-latest-arm64.tar.xz
       - name: Push to release
         uses: softprops/action-gh-release@v2
