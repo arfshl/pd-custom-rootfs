@@ -29,7 +29,7 @@ jobs:
            --components="main" \
            --include=locales,passwd,ca-certificates,apt \
            --format=tar \
-           --setup-hook='
+           --customize-hook=='
            wget -O "$1/tmp/pureos-archive-keyring.deb" https://repo.pureos.net/pureos/pool/main/p/pureos-archive-keyring/pureos-archive-keyring_2024.04.0_all.deb;
            sudo chroot "$1" apt update || true;
            sudo chroot "$1" apt install -y /tmp/pureos-archive-keyring.deb || true;
