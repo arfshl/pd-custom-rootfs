@@ -1,4 +1,4 @@
-dist_name="Ubuntu"
+dist_name="Ubuntu LTS"
 
 # After changing, update the DISTRO_NAME below.
 dist_version="noble"
