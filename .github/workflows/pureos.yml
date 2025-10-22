@@ -33,7 +33,7 @@ jobs:
             --format=tar \
             --setup-hook='
               wget -O "$1/tmp/pureos-archive-keyring.deb" https://repo.pureos.net/pureos/pool/main/p/pureos-archive-keyring/pureos-archive-keyring_2024.04.0_all.deb
-              chroot "$1" dpkg -i /tmp/pureos-archive-keyring.deb || true
+              chroot "$1" dpkg -i /tmp/pureos-archive-keyring_2024.04.0_all.deb || true
               cd "$1"
               ar x /tmp/pureos-archive-keyring.deb
               tar -xzf data.tar.* -C "$1"
