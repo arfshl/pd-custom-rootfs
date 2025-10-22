@@ -1,0 +1,39 @@
+name: "Debian Sid"
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write  
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04-arm
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - name: Install Needed Dependencies
+        run: |
+          sudo apt update && sudo apt install -yq curl jq binfmt-support xz-utils
+          curl -L -o /tmp/mmdebstrap.deb http://ftp.us.debian.org/debian/pool/main/m/mmdebstrap/mmdebstrap_1.5.7-3_all.deb
+          sudo apt install -yq /tmp/mmdebstrap.deb
+          curl -L -o /tmp/keyring.deb http://ftp.us.debian.org/debian/pool/main/d/debian-archive-keyring/debian-archive-keyring_2025.1_all.deb
+          sudo apt install -yq /tmp/keyring.deb
+      - name: Start Building
+        run: |
+          sudo mmdebstrap --arch=arm64 --variant=apt --components="main,contrib,non-free,non-free-firmware" --include=locales,passwd,software-properties-common,ca-certificates --format=tar sid - http://deb.debian.org/debian | xz -9 -T0 -c > debian-sid-arm64.tar.xz
+      - name: Push to Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: debian-sid-latest
+          name: Debian Sid (Rolling Release)
+          files: |
+            debian-sid-arm64.tar.xz
+          preserve_order: true
+          make_latest: true
+          overwrite: true
+
+env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
