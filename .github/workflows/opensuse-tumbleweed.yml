@@ -23,12 +23,7 @@ jobs:
       - name: Fetch arm64 image digest
         run: |
               arch="arm64"
-              digest=$(
-              echo "$opensuse_manifest" | \
-              jq -r ".manifests[]" | \
-              jq -r "select(.platform.architecture == \"${arch}\")" | \
-              jq -r ".digest"
-              )
+              digest=$(echo "$opensuse_manifest" | jq -r ".manifests[] | select(.platform.architecture == \"${arch}\") | .digest")
       - name: Pull and Export image
         run: |
               mkdir --parent --mode 755 $GITHUB_WORKSPACE/opensuse-dump/rootfs
