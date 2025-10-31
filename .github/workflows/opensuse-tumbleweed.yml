@@ -49,8 +49,20 @@ jobs:
               umount "${TARGET_DIR}/sys"
               EOF
               sudo rm -f /tmp/opensuse-pkgs.txt
+              # Make rootfs archive
+              tar -cJvf opensuse-tumbleweed-arm64.tar.xz -C "${TARGET_DIR}"
+              
+      - name: Push to release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: opensuse-tumbleweed
+          name: OpenSUSE Tumbleweed (Rolling Release)
+          files: |
+            $GITHUB_WORKSPACE/opensuse-dump/opensuse-tumbleweed-arm64.tar.xz
+          preserve_order: true
+          make_latest: false
+          overwrite: true
           
-
 env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
