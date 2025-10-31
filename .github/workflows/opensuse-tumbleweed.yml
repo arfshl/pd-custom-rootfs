@@ -22,10 +22,11 @@ jobs:
               opensuse_manifest=$(docker manifest inspect opensuse/tumbleweed:latest)
       - name: Fetch arm64 image digest
         run: |
+              arch="arm64"
               digest=$(
               echo "$opensuse_manifest" | \
               jq -r ".manifests[]" | \
-              jq -r "select(.platform.architecture=="arm64")" | \
+              jq -r "select(.platform.architecture == \"${arch}\")" | \
               jq -r ".digest"
               )
       - name: Pull and Export image
