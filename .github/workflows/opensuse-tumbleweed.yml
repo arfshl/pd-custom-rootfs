@@ -25,7 +25,7 @@ jobs:
               digest=$(
               echo "$opensuse_manifest" | \
               jq -r ".manifests[]" | \
-              jq -r "select(.platform.architecture == arm64)" | \
+              jq -r "select(.platform.architecture == "arm64")" | \
               jq -r ".digest"
               )
       - name: Pull and Export image
