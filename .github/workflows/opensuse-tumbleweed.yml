@@ -16,11 +16,18 @@ jobs:
         uses: actions/checkout@v5
         with:
           fetch-depth: 0
-      - name: Install Needed Dependencies
+      - name: Get image manifest
         run: |
-          sudo apt update && sudo apt install -yq curl jq binfmt-support xz-utils
-      - name: Start Building
+              opensuse_manifest=$(docker manifest inspect opensuse/tumbleweed:latest)
+      - name: Fetch arm64 image digest
         run: |
+              digest=$(
+        echo "$opensuse_manifest" | \
+        jq -r ".manifests[]" | \
+        jq -r "select(.platform.architecture == \"${arch}\")" | \
+        jq -r ".digest"
+              )
+
           
 
 
