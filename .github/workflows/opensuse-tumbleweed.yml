@@ -17,23 +17,21 @@ jobs:
         uses: actions/checkout@v5
         with:
           fetch-depth: 0
-      - name: Get image manifest
+      - name: Start Build!
         run: |
+              # Fetch image manifest
               opensuse_manifest=$(docker manifest inspect opensuse/tumbleweed:latest)
-      - name: Fetch arm64 image digest
-        run: |
+              # Fetch arm64 image digest
               arch="arm64"
               digest=$(echo "$opensuse_manifest" | jq -r ".manifests[] | select(.platform.architecture == \"${arch}\") | .digest")
-      - name: Pull and Export image
-        run: |
+              # Pull and Export image
               mkdir --parent --mode 755 $GITHUB_WORKSPACE/opensuse-dump/rootfs
               TARGET_DIR="$GITHUB_WORKSPACE/opensuse-dump/rootfs"
               docker pull "opensuse/tumbleweed@${digest}"
               docker export --output "$GITHUB_WORKSPACE/opensuse-dump/opensuse-dump-arm64.tar" \
               $(docker create "opensuse/tumbleweed@${digest}")
               tar -xpf "$GITHUB_WORKSPACE/opensuse-dump/opensuse-dump-arm64.tar" -C "$TARGET_DIR"
-      - name: Modification so rootfs can run in proot-distro
-        run: |
+              # Modification so rootfs can run in proot-distro
               cat <<- EOF | sudo unshare -mpf bash -e -
               rm -f "${TARGET_DIR}/etc/resolv.conf"
               echo "nameserver 1.1.1.1" > "${TARGET_DIR}/etc/resolv.conf"
