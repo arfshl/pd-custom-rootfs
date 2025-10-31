@@ -58,7 +58,7 @@ jobs:
           tag_name: opensuse-tumbleweed
           name: OpenSUSE Tumbleweed (Rolling Release)
           files: |
-            $GITHUB_WORKSPACE/opensuse-dump/opensuse-tumbleweed-arm64.tar.xz
+            $GITHUB_WORKSPACE/opensuse-tumbleweed-arm64.tar.xz
           preserve_order: true
           make_latest: false
           overwrite: true
