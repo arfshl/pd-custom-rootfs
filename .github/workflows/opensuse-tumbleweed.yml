@@ -30,7 +30,7 @@ jobs:
               )
       - name: Pull and Export image
         run: |
-              mkdir -m 755 $GITHUB_WORKSPACE/opensuse-dump/rootfs
+              mkdir -pm 755 $GITHUB_WORKSPACE/opensuse-dump/rootfs
               TARGET_DIR="$GITHUB_WORKSPACE/opensuse-dump/rootfs"
               docker pull "opensuse/tumbleweed@${digest}"
               docker export --output "$GITHUB_WORKSPACE/opensuse-dump/opensuse-dump-arm64.tar" \
