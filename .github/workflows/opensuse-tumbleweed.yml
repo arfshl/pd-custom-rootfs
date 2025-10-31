@@ -2,7 +2,8 @@ name: "OpenSUSE Tumbleweed"
 
 on:
   schedule:
-    - cron: "0 0 * * *"
+# Build Every Months
+    - cron: "0 0 1 * *"
   workflow_dispatch:
 
 permissions:
@@ -22,15 +23,43 @@ jobs:
       - name: Fetch arm64 image digest
         run: |
               digest=$(
-        echo "$opensuse_manifest" | \
-        jq -r ".manifests[]" | \
-        jq -r "select(.platform.architecture == \"${arch}\")" | \
-        jq -r ".digest"
+              echo "$opensuse_manifest" | \
+              jq -r ".manifests[]" | \
+              jq -r "select(.platform.architecture == arm64)" | \
+              jq -r ".digest"
               )
-
+      - name: Pull and Export image
+        run: |
+              mkdir -m 755 $GITHUB_WORKSPACE/opensuse-dump/rootfs
+              TARGET_DIR="$GITHUB_WORKSPACE/opensuse-dump/rootfs"
+              docker pull "opensuse/tumbleweed@${digest}"
+              docker export --output "$GITHUB_WORKSPACE/opensuse-dump/opensuse-dump-arm64.tar" \
+              $(docker create "opensuse/tumbleweed@${digest}")
+              tar -xpf "$GITHUB_WORKSPACE/opensuse-dump/opensuse-dump-arm64.tar" -C "$TARGET_DIR"
+      - name: Modification so rootfs can run in proot-distro
+        run: |
+              cat <<- EOF | sudo unshare -mpf bash -e -
+              rm -f "${TARGET_DIR}/etc/resolv.conf"
+              echo "nameserver 1.1.1.1" > "${TARGET_DIR}/etc/resolv.conf"
+              sed -i -E 's/^(rpm\.install\.excludedocs)/# \1/g' "${TARGET_DIR}/etc/zypp/zypp.conf"
+              mount --bind /dev "${TARGET_DIR}/dev"
+              mount --bind /proc "${TARGET_DIR}/proc"
+              mount --bind /sys "${TARGET_DIR}/sys"
+              chroot "${TARGET_DIR}" zypper removerepo repo-openh264 || true
+              chroot "${TARGET_DIR}" zypper dup --no-confirm
+              chroot "${TARGET_DIR}" rpm -qa --qf '%{NAME} ' | xargs -n 1 | grep -Pv '(filesystem|gpg-pubkey)' > /tmp/opensuse-pkgs.txt
+              cat /tmp/opensuse-pkgs.txt | xargs chroot "${TARGET_DIR}" zypper install --no-confirm --force
+              chroot "${TARGET_DIR}" zypper install --no-confirm util-linux
+              umount "${TARGET_DIR}/dev"
+              umount "${TARGET_DIR}/proc"
+              umount "${TARGET_DIR}/sys"
+              EOF
+              sudo rm -f /tmp/opensuse-pkgs.txt
           
 
-
+env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
 
 
 
