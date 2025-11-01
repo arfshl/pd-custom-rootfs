@@ -25,7 +25,7 @@ jobs:
           sudo apt install -yq /tmp/devuankey.deb
       - name: Start Building
         run: |
-          sudo mmdebstrap --arch=arm64 --variant=apt --components="main,contrib" --include=locales,passwd,software-properties-common,ca-certificates --format=tar daedalus - http://deb.devuan.org/merged | xz -9 -T0 -c > devuan-daedalus-arm64.tar.xz
+          sudo mmdebstrap --arch=arm64 --variant=apt --components="main,contrib,non-free" --include=locales,passwd,software-properties-common,ca-certificates --format=tar daedalus - http://deb.devuan.org/merged | xz -9 -T0 -c > devuan-daedalus-arm64.tar.xz
           cp devuan-daedalus-arm64.tar.xz devuan-latest-arm64.tar.xz
       - name: Push to release
         uses: softprops/action-gh-release@v2
