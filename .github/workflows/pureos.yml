@@ -25,7 +25,7 @@ jobs:
           sudo apt install -yq /tmp/pureoskey.deb
       - name: Start Building
         run: |
-          sudo mmdebstrap --arch=arm64 --variant=apt --components="main" --include=locales,passwd,software-properties-common,ca-certificates --format=tar byzantium - https://repo.pureos.net/pureos | xz -9 -T0 -c > pureos-byzantium-arm64.tar.xz
+          sudo mmdebstrap --arch=arm64 --variant=apt --components="main" --include=locales,passwd,software-properties-common,ca-certificates,libc-bin --format=tar byzantium - https://repo.pureos.net/pureos | xz -9 -T0 -c > pureos-byzantium-arm64.tar.xz
       - name: Push to Release
         uses: softprops/action-gh-release@v2
         with:
