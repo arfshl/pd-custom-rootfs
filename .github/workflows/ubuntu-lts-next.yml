@@ -38,16 +38,16 @@ jobs:
           sudo mount --bind /dev $GITHUB_WORKSPACE/rootfs/dev
           sudo mount --bind /proc $GITHUB_WORKSPACE/rootfs/proc
           sudo mount --bind /sys $GITHUB_WORKSPACE/rootfs/sys
-          sudo chroot $GITHUB_WORKSPACES/rootfs apt update
-          sudo chroot $GITHUB_WORKSPACES/rootfs apt purge -yq --allow-remove-essential coreutils-from-uutils
-          sudo chroot $GITHUB_WORKSPACES/rootfs apt purge -yq --allow-remove-essential rust-coreutils
-          sudo chroot $GITHUB_WORKSPACES/rootfs apt install -yq coreutils-from-gnu
-          sudo chroot $GITHUB_WORKSPACES/rootfs apt install -yq gnu-coreutils
-          sudo chroot $GITHUB_WORKSPACES/rootfs apt clean
-          sudo rm -rf $GITHUB_WORKSPACES/rootfs/var/lib/apt/lists/*
+          sudo chroot $GITHUB_WORKSPACE/rootfs apt update
+          sudo chroot $GITHUB_WORKSPACE/rootfs apt purge -yq --allow-remove-essential coreutils-from-uutils
+          sudo chroot $GITHUB_WORKSPACE/rootfs apt purge -yq --allow-remove-essential rust-coreutils
+          sudo chroot $GITHUB_WORKSPACE/rootfs apt install -yq coreutils-from-gnu
+          sudo chroot $GITHUB_WORKSPACE/rootfs apt install -yq gnu-coreutils
+          sudo chroot $GITHUB_WORKSPACE/rootfs apt clean
+          sudo rm -rf $GITHUB_WORKSPACE/rootfs/var/lib/apt/lists/*
           EOF
 
-          tar -cvf - $GITHUB_WORKSPACES/rootfs | xz -9 -T0 -c > ubuntu-lts-26.04-arm64.tar.xz
+          tar -cvf - $GITHUB_WORKSPACE/rootfs | xz -9 -T0 -c > ubuntu-lts-26.04-arm64.tar.xz
           
       - name: Push to release
         uses: softprops/action-gh-release@v2
