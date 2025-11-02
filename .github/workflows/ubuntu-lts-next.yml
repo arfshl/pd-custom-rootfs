@@ -23,15 +23,15 @@ jobs:
           sudo apt install -yq /tmp/keyring.deb
       - name: Start Building
         run: |
-          sudo mkdir -p $GITHUB_WORKSPACES/rootfs
+          mkdir -p $GITHUB_WORKSPACE/rootfs
           sudo mmdebstrap \
           --arch=arm64 \
           --variant=apt \
           --components="main,universe,multiverse" \
           --include=locales,passwd,software-properties-common,ca-certificates \
-          --format=directory \ 
+          --format=directory \
           resolute \
-          $GITHUB_WORKSPACES/rootfs \
+          $GITHUB_WORKSPACE/rootfs \
           http://ports.ubuntu.com/ubuntu-ports
 
           cat <<- EOF | sudo unshare -mpf bash -e -
