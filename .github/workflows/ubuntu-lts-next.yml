@@ -23,7 +23,7 @@ jobs:
           sudo apt install -yq /tmp/keyring.deb
       - name: Start Building
         run: |
-          mkdir -p $GITHUB_WORKSPACES/rootfs
+          sudo mkdir -p $GITHUB_WORKSPACES/rootfs
           sudo mmdebstrap \
           --arch=arm64 \
           --variant=apt \
