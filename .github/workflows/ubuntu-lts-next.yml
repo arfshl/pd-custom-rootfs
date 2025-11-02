@@ -1,0 +1,65 @@
+name: "Ubuntu LTS next"
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write  
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04-arm
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - name: Install Needed Dependencies
+        run: |
+          sudo apt update && sudo apt install -yq curl jq binfmt-support xz-utils
+          curl -L -o /tmp/mmdebstrap.deb http://ftp.us.debian.org/debian/pool/main/m/mmdebstrap/mmdebstrap_1.5.7-3_all.deb
+          sudo apt install -yq /tmp/mmdebstrap.deb
+          curl -L -o /tmp/keyring.deb http://ftp.us.debian.org/debian/pool/main/d/debian-archive-keyring/debian-archive-keyring_2025.1_all.deb
+          sudo apt install -yq /tmp/keyring.deb
+      - name: Start Building
+        run: |
+          mkdir -p $GITHUB_WORKSPACES/rootfs
+          sudo mmdebstrap \
+          --arch=arm64 \
+          --variant=apt \
+          --components="main,universe,multiverse" \
+          --include=locales,passwd,software-properties-common,ca-certificates \
+          --format=directory \ 
+          resolute \
+          $GITHUB_WORKSPACES/rootfs \
+          http://ports.ubuntu.com/ubuntu-ports
+
+          cat <<- EOF | sudo unshare -mpf bash -e -
+          sudo mount --bind /dev $GITHUB_WORKSPACES/rootfs/dev
+          sudo mount --bind /proc $GITHUB_WORKSPACES/rootfs/proc
+          sudo mount --bind /sys $GITHUB_WORKSPACES/rootfs/sys
+          sudo chroot $GITHUB_WORKSPACES/rootfs apt update
+          sudo chroot $GITHUB_WORKSPACES/rootfs apt purge -yq --allow-remove-essential coreutils-from-uutils
+          sudo chroot $GITHUB_WORKSPACES/rootfs apt purge -yq --allow-remove-essential rust-coreutils
+          sudo chroot $GITHUB_WORKSPACES/rootfs apt install -yq coreutils-from-gnu
+          sudo chroot $GITHUB_WORKSPACES/rootfs apt install -yq gnu-coreutils
+          sudo chroot $GITHUB_WORKSPACES/rootfs apt clean
+          sudo rm -rf $GITHUB_WORKSPACES/rootfs/var/lib/apt/lists/*
+          EOF
+
+          tar -cvf - $GITHUB_WORKSPACES/rootfs | xz -9 -T0 -c > ubuntu-lts-26.04-arm64.tar.xz
+          
+      - name: Push to release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ubuntu-lts-26.04
+          name: Ubuntu LTS 26.04 (Resolute Racoon) daily build
+          files: |
+             ubuntu-lts-26.04-arm64.tar.xz
+          preserve_order: true
+          make_latest: false
+          overwrite: true
+   
+
+env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
