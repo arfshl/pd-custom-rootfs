@@ -23,7 +23,7 @@ jobs:
           sudo apt install -yq /tmp/keyring.deb
       - name: Start Building
         run: |
-          mkdir -p $GITHUB_WORKSPACE/rootfs/ubuntu-lts-26.04-arm64
+          mkdir -p $GITHUB_WORKSPACE/ubuntu-lts-26.04-arm64
           sudo mmdebstrap \
           --arch=arm64 \
           --variant=apt \
@@ -31,22 +31,22 @@ jobs:
           --include=locales,passwd,software-properties-common,ca-certificates \
           --format=directory \
           resolute \
-          $GITHUB_WORKSPACE/rootfs/ubuntu-lts-26.04-arm64 \
+          $GITHUB_WORKSPACE/ubuntu-lts-26.04-arm64 \
           http://ports.ubuntu.com/ubuntu-ports
 
           cat <<- EOF | sudo unshare -mpf bash -e -
-          sudo mount --bind /dev $GITHUB_WORKSPACE/rootfs/ubuntu-lts-26.04-arm64/dev
-          sudo mount --bind /proc $GITHUB_WORKSPACE/rootfs/ubuntu-lts-26.04-arm64/proc
-          sudo mount --bind /sys $GITHUB_WORKSPACE/rootfs/ubuntu-lts-26.04-arm64/sys
-          sudo chroot $GITHUB_WORKSPACE/rootfs/ubuntu-lts-26.04-arm64 apt update
-          sudo chroot $GITHUB_WORKSPACE/rootfs/ubuntu-lts-26.04-arm64 apt purge -yq --allow-remove-essential coreutils-from-uutils
-          sudo chroot $GITHUB_WORKSPACE/rootfs/ubuntu-lts-26.04-arm64 apt purge -yq --allow-remove-essential rust-coreutils
-          sudo chroot $GITHUB_WORKSPACE/rootfs/ubuntu-lts-26.04-arm64 apt install -yq coreutils-from-gnu
-          sudo chroot $GITHUB_WORKSPACE/rootfs/ubuntu-lts-26.04-arm64 apt install -yq gnu-coreutils
-          sudo chroot $GITHUB_WORKSPACE/rootfs/ubuntu-lts-26.04-arm64 apt clean
-          sudo rm -rf $GITHUB_WORKSPACE/rootfs/ubuntu-lts-26.04-arm64/var/lib/apt/lists/*
+          sudo mount --bind /dev $GITHUB_WORKSPACE/ubuntu-lts-26.04-arm64/dev
+          sudo mount --bind /proc $GITHUB_WORKSPACE/ubuntu-lts-26.04-arm64/proc
+          sudo mount --bind /sys $GITHUB_WORKSPACE/ubuntu-lts-26.04-arm64/sys
+          sudo chroot $GITHUB_WORKSPACE/ubuntu-lts-26.04-arm64 apt update
+          sudo chroot $GITHUB_WORKSPACE/ubuntu-lts-26.04-arm64 apt purge -yq --allow-remove-essential coreutils-from-uutils
+          sudo chroot $GITHUB_WORKSPACE/ubuntu-lts-26.04-arm64 apt purge -yq --allow-remove-essential rust-coreutils
+          sudo chroot $GITHUB_WORKSPACE/ubuntu-lts-26.04-arm64 apt install -yq coreutils-from-gnu
+          sudo chroot $GITHUB_WORKSPACE/ubuntu-lts-26.04-arm64 apt install -yq gnu-coreutils
+          sudo chroot $GITHUB_WORKSPACE/ubuntu-lts-26.04-arm64 apt clean
+          sudo rm -rf $GITHUB_WORKSPACE/ubuntu-lts-26.04-arm64/var/lib/apt/lists/*
           EOF
-          tar -cvf - rootfs/ | xz -9 -T0 -c > ubuntu-lts-26.04-arm64.tar.xz
+          tar -cvf - ubuntu-lts-26.04-arm64/ | xz -9 -T0 -c > ubuntu-lts-26.04-arm64.tar.xz
           
       - name: Push to release
         uses: softprops/action-gh-release@v2
