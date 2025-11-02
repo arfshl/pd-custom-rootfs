@@ -46,7 +46,7 @@ jobs:
           sudo chroot $GITHUB_WORKSPACE/rootfs/ubuntu-lts-26.04-arm64 apt clean
           sudo rm -rf $GITHUB_WORKSPACE/rootfs/ubuntu-lts-26.04-arm64/var/lib/apt/lists/*
           EOF
-          tar -cvf - $GITHUB_WORKSPACE/rootfs/ | xz -9 -T0 -c > ubuntu-lts-26.04-arm64.tar.xz
+          tar -cvf - rootfs/ | xz -9 -T0 -c > ubuntu-lts-26.04-arm64.tar.xz
           
       - name: Push to release
         uses: softprops/action-gh-release@v2
