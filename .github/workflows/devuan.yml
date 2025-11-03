@@ -32,10 +32,10 @@ jobs:
           --include=ca-certificates,locales \
           --format=tar \
           excalibur \
+          - \
           "deb http://deb.devuan.org/merged excalibur main contrib non-free" \
           "deb http://deb.devuan.org/merged excalibur-updates main contrib non-free" \
           "deb http://deb.devuan.org/merged excalibur-security main contrib non-free" \
-          - \
           | xz -9 -T0 -c > devuan-excalibur-arm64.tar.xz
           cp devuan-excalibur-arm64.tar.xz devuan-latest-arm64.tar.xz
       - name: Push to release
