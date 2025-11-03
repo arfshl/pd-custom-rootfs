@@ -27,7 +27,7 @@ jobs:
         run: |
           sudo mmdebstrap \
           --arch=arm64 \
-          --variant=apt \
+          --variant=minbase \
           --components="main" \
           --include=locales,passwd,software-properties-common,ca-certificates,libc-bin \
           --format=tar byzantium \
