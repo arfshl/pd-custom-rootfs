@@ -1,0 +1,63 @@
+name: "Devuan"
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write  
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04-arm
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - name: Install Needed Dependencies
+        run: |
+          sudo apt update && sudo apt install -yq curl jq binfmt-support xz-utils
+          curl -L -o /tmp/mmdebstrap.deb http://ftp.us.debian.org/debian/pool/main/m/mmdebstrap/mmdebstrap_1.5.7-3_all.deb
+          sudo apt install -yq /tmp/mmdebstrap.deb
+          curl -L -o /tmp/keyring.deb http://ftp.us.debian.org/debian/pool/main/d/debian-archive-keyring/debian-archive-keyring_2025.1_all.deb
+          sudo apt install -yq /tmp/keyring.deb
+          curl -L -o /tmp/devuankey.deb http://deb.devuan.org/merged/pool/DEVUAN/main/d/devuan-keyring/devuan-keyring_2025.08.09_all.deb
+          sudo apt install -yq /tmp/devuankey.deb
+      - name: Start Building
+        run: |
+          sudo mmdebstrap \
+          --arch=arm64 \
+          --variant=minbase \
+          --components="main,contrib,non-free" \
+          --include=locales,passwd,software-properties-common,ca-certificates \
+          --format=tar \
+          excalibur \
+          - \
+          "deb http://deb.devuan.org/merged excalibur main" \
+          "deb http://deb.devuan.org/merged excalibur-updates main" \
+          "deb http://deb.devuan.org/merged excalibur-security main" \
+          | xz -9 -T0 -c > devuan-excalibur-arm64.tar.xz
+          cp devuan-daedalus-arm64.tar.xz devuan-latest-arm64.tar.xz
+      - name: Push to release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: devuan-excalibur
+          name: Devuan Excalibur (based on Debian 13 Trixie)
+          files: |
+            devuan-excalibur-arm64.tar.xz
+          preserve_order: true
+          make_latest: false
+          overwrite: true
+      - name: Deploy release to proot-distro-desktop
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: devuan-latest
+          name: Devuan (Latest)
+          files: |
+            devuan-latest-arm64.tar.xz
+          preserve_order: true
+          make_latest: true
+          overwrite: true
+
+env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
