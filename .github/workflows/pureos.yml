@@ -16,14 +16,12 @@ jobs:
           fetch-depth: 0
       - name: Install Needed Dependencies
         run: |
-          sudo bash -c 'echo "nameserver 1.1.1.1" >> /etc/resolv.conf'
-          ping -c 3 repo.pureos.net
           sudo apt update && sudo apt install -yq curl jq binfmt-support xz-utils
           curl -L -o /tmp/mmdebstrap.deb http://ftp.us.debian.org/debian/pool/main/m/mmdebstrap/mmdebstrap_1.5.7-3_all.deb
           sudo apt install -yq /tmp/mmdebstrap.deb
           curl -L -o /tmp/keyring.deb http://ftp.us.debian.org/debian/pool/main/d/debian-archive-keyring/debian-archive-keyring_2025.1_all.deb
           sudo apt install -yq /tmp/keyring.deb
-          curl -L -o /tmp/pureoskey.deb https://repo.pureos.net/pureos/pool/main/p/pureos-archive-keyring/pureos-archive-keyring_2024.04.0_all.deb
+          curl -L -o /tmp/pureoskey.deb https://mirror.fsf.org/pureos/pool/main/p/pureos-archive-keyring/pureos-archive-keyring_2024.04.0_all.deb
           sudo apt install -yq /tmp/pureoskey.deb
       - name: Start Building
         run: |
@@ -34,9 +32,9 @@ jobs:
           --include=locales,passwd,software-properties-common,ca-certificates,libc-bin \
           --format=tar byzantium \
           - \
-          "deb http://repo.pureos.net/pureos byzantium main" \
-          "deb http://repo.pureos.net/pureos byzantium-updates main" \
-          "deb http://repo.pureos.net/pureos byzantium-security main" \
+          "deb http://mirror.fsf.org/pureos byzantium main" \
+          "deb http://mirror.fsf.org/pureos byzantium-updates main" \
+          "deb http://mirror.fsf.org/pureos byzantium-security main" \
           | xz -9 -T0 -c > pureos-byzantium-arm64.tar.xz
       - name: Push to Release
         uses: softprops/action-gh-release@v2
