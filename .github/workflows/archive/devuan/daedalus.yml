@@ -29,20 +29,19 @@ jobs:
           --arch=arm64 \
           --variant=minbase \
           --components="main,contrib,non-free" \
-          --include=locales,passwd,software-properties-common,ca-certificates \
+          --include=ca-certificates,locales \
           --format=tar \
-          daedalus \
+          "deb http://deb.devuan.org/merged daedalus main contrib non-free" \
+          "deb http://deb.devuan.org/merged daedalus-updates main contrib non-free" \
+          "deb http://deb.devuan.org/merged daedalus-security main contrib non-free" \
           - \
-          "deb http://deb.devuan.org/merged daedalus main" \
-          "deb http://deb.devuan.org/merged daedalus-updates main" \
-          "deb http://deb.devuan.org/merged daedalus-security main" \
           | xz -9 -T0 -c > devuan-daedalus-arm64.tar.xz
           cp devuan-daedalus-arm64.tar.xz devuan-latest-arm64.tar.xz
       - name: Push to release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: devuan-daedalus
-          name: Devuan Daedalus (based on Debian Bookworm)
+          name: Devuan daedalus (based on Debian 12 Bookworm)
           files: |
             devuan-daedalus-arm64.tar.xz
           preserve_order: true
@@ -61,3 +60,4 @@ jobs:
 
 env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
