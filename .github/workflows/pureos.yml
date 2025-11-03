@@ -16,7 +16,8 @@ jobs:
           fetch-depth: 0
       - name: Install Needed Dependencies
         run: |
-          ping repo.pureos.net
+          sudo bash -c 'echo "nameserver 1.1.1.1" >> /etc/resolv.conf'
+          ping -c 3 repo.pureos.net
           sudo apt update && sudo apt install -yq curl jq binfmt-support xz-utils
           curl -L -o /tmp/mmdebstrap.deb http://ftp.us.debian.org/debian/pool/main/m/mmdebstrap/mmdebstrap_1.5.7-3_all.deb
           sudo apt install -yq /tmp/mmdebstrap.deb
