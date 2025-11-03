@@ -32,7 +32,7 @@ jobs:
           tag_name: almalinux-10
           name: AlmaLinux 10 (Based on Red Hat Enterprise Linux 10)
           files: |
-             rootfs/almalinux-*-arm64.tar.xz
+             rootfs/almalinux-10-arm64.tar.xz
           preserve_order: true
           make_latest: false
       - name: Deploy release to proot-distro-desktop
