@@ -31,10 +31,10 @@ jobs:
           --components="main,contrib,non-free" \
           --include=ca-certificates,locales \
           --format=tar \
+          - \
           "deb http://deb.devuan.org/merged daedalus main contrib non-free" \
           "deb http://deb.devuan.org/merged daedalus-updates main contrib non-free" \
           "deb http://deb.devuan.org/merged daedalus-security main contrib non-free" \
-          - \
           | xz -9 -T0 -c > devuan-daedalus-arm64.tar.xz
           cp devuan-daedalus-arm64.tar.xz devuan-latest-arm64.tar.xz
       - name: Push to release
