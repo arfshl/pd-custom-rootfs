@@ -37,7 +37,7 @@ jobs:
           "deb http://deb.devuan.org/merged excalibur-updates main" \
           "deb http://deb.devuan.org/merged excalibur-security main" \
           | xz -9 -T0 -c > devuan-excalibur-arm64.tar.xz
-          cp devuan-daedalus-arm64.tar.xz devuan-latest-arm64.tar.xz
+          cp devuan-excalibur-arm64.tar.xz devuan-latest-arm64.tar.xz
       - name: Push to release
         uses: softprops/action-gh-release@v2
         with:
