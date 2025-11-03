@@ -30,7 +30,7 @@ jobs:
           --arch=arm64 \
           --variant=minbase \
           --components="main,contrib,non-free" \
-          --include=locales,passwd,software-properties-common,ca-certificates \ 
+          --include=locales,passwd,software-properties-common,ca-certificates \
           --format=tar \
           testing \
           - \
