@@ -21,7 +21,7 @@ jobs:
           mkdir -p $GITHUB_WORKSPACE/rootfs
           curl --fail --location --output "$GITHUB_WORKSPACE/rootfs/oraclelinux-arm64.tar.xz" "https://github.com/oracle/container-images/raw/dist-arm64v8/${dist_version}/oraclelinux-${dist_version}-arm64v8-rootfs.tar.xz"
           mkdir -p $GITHUB_WORKSPACE/rootfs/oraclelinux-arm64
-          tar -xJf $GITHUB_WORKSPACE/rootfs/oraclelinux-arm64.tar.xz -C $GITHUB_WORKSPACE/rootfs/oraclelinux-arm64
+          tar --exclude=dev/* -xJf $GITHUB_WORKSPACE/rootfs/oraclelinux-arm64.tar.xz -C $GITHUB_WORKSPACE/rootfs/oraclelinux-arm64
           rm $GITHUB_WORKSPACE/rootfs/oraclelinux-arm64.tar.xz
           cd $GITHUB_WORKSPACE/rootfs
           sudo tar -cJf $GITHUB_WORKSPACE/rootfs/oraclelinux-latest-arm64.tar.xz oraclelinux-arm64
