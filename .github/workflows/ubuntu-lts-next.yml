@@ -47,7 +47,7 @@ jobs:
           sudo chroot $GITHUB_WORKSPACE/ubuntu-lts-${dist_version}-aarch64 apt clean
           sudo rm -rf $GITHUB_WORKSPACE/ubuntu-lts-${dist_version}-aarch64/var/lib/apt/lists/*
           EOF
-          tar -cvf - ubuntu-lts-${dist_version}-aarch64/ | xz -9 -T0 -c > ubuntu-lts-${dist_version}-aarch64
+          tar -cvf - ubuntu-lts-${dist_version}-aarch64/ | xz -9 -T0 -c > ubuntu-lts-${dist_version}-aarch64.tar.xz
           
       - name: Push to release
         uses: softprops/action-gh-release@v2
