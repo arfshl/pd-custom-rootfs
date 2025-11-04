@@ -19,7 +19,7 @@ jobs:
           dist_version="10"
           sudo rm -f $GITHUB_WORKSPACE/rootfs/oraclelinux-*.tar.xz
           mkdir -p $GITHUB_WORKSPACE/rootfs
-          curl --fail --location --output "$GITHUB_WORKSPACE/rootfs/oraclelinux-aarch4.tar.xz" "https://github.com/oracle/container-images/raw/dist-arm64v8/${dist_version}/oraclelinux-${dist_version}-arm64v8-rootfs.tar.xz"
+          curl --fail --location --output "$GITHUB_WORKSPACE/rootfs/oraclelinux-aarch64.tar.xz" "https://github.com/oracle/container-images/raw/dist-arm64v8/${dist_version}/oraclelinux-${dist_version}-arm64v8-rootfs.tar.xz"
           mkdir -p $GITHUB_WORKSPACE/rootfs/oraclelinux-aarch64
           tar --exclude=dev/* -xJf $GITHUB_WORKSPACE/rootfs/oraclelinux-aarch64.tar.xz -C $GITHUB_WORKSPACE/rootfs/oraclelinux-aarch64
           rm $GITHUB_WORKSPACE/rootfs/oraclelinux-aarch64.tar.xz
