@@ -16,45 +16,46 @@ jobs:
           fetch-depth: 0
       - name: Install Needed Dependencies
         run: |
-          sudo apt update && sudo apt install -yq curl jq binfmt-support xz-utils
+          sudo apt update && sudo apt install -yq curl xz-utils
           curl -L -o /tmp/mmdebstrap.deb http://ftp.us.debian.org/debian/pool/main/m/mmdebstrap/mmdebstrap_1.5.7-3_all.deb
           sudo apt install -yq /tmp/mmdebstrap.deb
           curl -L -o /tmp/keyring.deb http://ftp.us.debian.org/debian/pool/main/d/debian-archive-keyring/debian-archive-keyring_2025.1_all.deb
           sudo apt install -yq /tmp/keyring.deb
       - name: Start Building
         run: |
-          mkdir -p $GITHUB_WORKSPACE/ubuntu-lts-26.04-arm64
+          dist_version="resolute"
+          mkdir -p $GITHUB_WORKSPACE/ubuntu-lts-${dist_version}-aarch64
           sudo mmdebstrap \
           --arch=arm64 \
           --variant=apt \
           --components="main,universe,multiverse" \
           --include=locales,passwd,software-properties-common,ca-certificates \
           --format=directory \
-          resolute \
-          $GITHUB_WORKSPACE/ubuntu-lts-26.04-arm64 \
+          ${dist_version} \
+          $GITHUB_WORKSPACE/ubuntu-lts-${dist_version}-aarch64 \
           http://ports.ubuntu.com/ubuntu-ports
 
           cat <<- EOF | sudo unshare -mpf bash -e -
-          sudo mount --bind /dev $GITHUB_WORKSPACE/ubuntu-lts-26.04-arm64/dev
-          sudo mount --bind /proc $GITHUB_WORKSPACE/ubuntu-lts-26.04-arm64/proc
-          sudo mount --bind /sys $GITHUB_WORKSPACE/ubuntu-lts-26.04-arm64/sys
-          sudo chroot $GITHUB_WORKSPACE/ubuntu-lts-26.04-arm64 apt update
-          sudo chroot $GITHUB_WORKSPACE/ubuntu-lts-26.04-arm64 apt purge -yq --allow-remove-essential coreutils-from-uutils
-          sudo chroot $GITHUB_WORKSPACE/ubuntu-lts-26.04-arm64 apt purge -yq --allow-remove-essential rust-coreutils
-          sudo chroot $GITHUB_WORKSPACE/ubuntu-lts-26.04-arm64 apt install -yq coreutils-from-gnu
-          sudo chroot $GITHUB_WORKSPACE/ubuntu-lts-26.04-arm64 apt install -yq gnu-coreutils
-          sudo chroot $GITHUB_WORKSPACE/ubuntu-lts-26.04-arm64 apt clean
-          sudo rm -rf $GITHUB_WORKSPACE/ubuntu-lts-26.04-arm64/var/lib/apt/lists/*
+          sudo mount --bind /dev $GITHUB_WORKSPACE/ubuntu-lts-${dist_version}-aarch64/dev
+          sudo mount --bind /proc $GITHUB_WORKSPACE/ubuntu-lts-${dist_version}-aarch64/proc
+          sudo mount --bind /sys $GITHUB_WORKSPACE/ubuntu-lts-${dist_version}-aarch64/sys
+          sudo chroot $GITHUB_WORKSPACE/ubuntu-lts-${dist_version}-aarch64 apt update
+          sudo chroot $GITHUB_WORKSPACE/ubuntu-lts-${dist_version}-aarch64 apt purge -yq --allow-remove-essential coreutils-from-uutils
+          sudo chroot $GITHUB_WORKSPACE/ubuntu-lts-${dist_version}-aarch64 apt purge -yq --allow-remove-essential rust-coreutils
+          sudo chroot $GITHUB_WORKSPACE/ubuntu-lts-${dist_version}-aarch64 apt install -yq coreutils-from-gnu
+          sudo chroot $GITHUB_WORKSPACE/ubuntu-lts-${dist_version}-aarch64 apt install -yq gnu-coreutils
+          sudo chroot $GITHUB_WORKSPACE/ubuntu-lts-${dist_version}-aarch64 apt clean
+          sudo rm -rf $GITHUB_WORKSPACE/ubuntu-lts-${dist_version}-aarch64/var/lib/apt/lists/*
           EOF
-          tar -cvf - ubuntu-lts-26.04-arm64/ | xz -9 -T0 -c > ubuntu-lts-26.04-arm64.tar.xz
+          tar -cvf - ubuntu-lts-${dist_version}-aarch64/ | xz -9 -T0 -c > ubuntu-lts-${dist_version}-aarch64
           
       - name: Push to release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ubuntu-lts-26.04
-          name: Ubuntu LTS 26.04 (Resolute Racoon) daily build
+          tag_name: ubuntu-lts-next
+          name: Ubuntu LTS development branch daily build
           files: |
-             ubuntu-lts-26.04-arm64.tar.xz
+             ubuntu-lts-*-aarch64.tar.xz
           preserve_order: true
           make_latest: false
    
