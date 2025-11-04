@@ -19,31 +19,21 @@ jobs:
           dist_version="10"
           sudo rm -f $GITHUB_WORKSPACE/rootfs/almalinux-*.tar.xz
           mkdir -p $GITHUB_WORKSPACE/rootfs
-          curl --fail --location --output "$GITHUB_WORKSPACE/rootfs/almalinux-arm64.tar.xz" "https://github.com/AlmaLinux/container-images/raw/refs/heads/${dist_version}/default/arm64/almalinux-${dist_version}-default-arm64.tar.xz"
-          mkdir -p $GITHUB_WORKSPACE/rootfs/almalinux-arm64
-          tar -xJf $GITHUB_WORKSPACE/rootfs/almalinux-arm64.tar.xz -C $GITHUB_WORKSPACE/rootfs/almalinux-arm64
-          rm $GITHUB_WORKSPACE/rootfs/almalinux-arm64.tar.xz
+          curl --fail --location --output "$GITHUB_WORKSPACE/rootfs/almalinux-aarch64.tar.xz" "https://github.com/AlmaLinux/container-images/raw/refs/heads/${dist_version}/default/arm64/almalinux-${dist_version}-default-arm64.tar.xz"
+          mkdir -p $GITHUB_WORKSPACE/rootfs/almalinux-aarch64
+          tar -xJf $GITHUB_WORKSPACE/rootfs/almalinux-aarch64.tar.xz -C $GITHUB_WORKSPACE/rootfs/almalinux-aarch64
+          rm $GITHUB_WORKSPACE/rootfs/almalinux-aarch64.tar.xz
           cd $GITHUB_WORKSPACE/rootfs
-          sudo tar -cJf $GITHUB_WORKSPACE/rootfs/almalinux-latest-arm64.tar.xz almalinux-arm64
-          cp almalinux-latest-arm64.tar.xz  almalinux-${dist_version}-arm64.tar.xz
+          sudo tar -cJf $GITHUB_WORKSPACE/rootfs/almalinux-aarch64.tar.xz almalinux-aarch64
+          cp almalinux-aarch64.tar.xz  almalinux-${dist_version}-aarch64.tar.xz
       - name: Push to release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: almalinux-10
-          name: AlmaLinux 10 (Based on Red Hat Enterprise Linux 10)
+          tag_name: almalinux
+          name: AlmaLinux (Based on RHEL)
           files: |
-             rootfs/almalinux-10-arm64.tar.xz
+             rootfs/almalinux*aarch64.tar.xz
           preserve_order: true
           make_latest: false
-      - name: Deploy release to proot-distro-desktop
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: almalinux-latest
-          name: AlmaLinux (Latest)
-          files: |
-            rootfs/almalinux-latest-arm64.tar.xz
-          preserve_order: true
-          make_latest: true
-
 env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
