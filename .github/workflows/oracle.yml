@@ -19,31 +19,22 @@ jobs:
           dist_version="10"
           sudo rm -f $GITHUB_WORKSPACE/rootfs/oraclelinux-*.tar.xz
           mkdir -p $GITHUB_WORKSPACE/rootfs
-          curl --fail --location --output "$GITHUB_WORKSPACE/rootfs/oraclelinux-arm64.tar.xz" "https://github.com/oracle/container-images/raw/dist-arm64v8/${dist_version}/oraclelinux-${dist_version}-arm64v8-rootfs.tar.xz"
-          mkdir -p $GITHUB_WORKSPACE/rootfs/oraclelinux-arm64
-          tar --exclude=dev/* -xJf $GITHUB_WORKSPACE/rootfs/oraclelinux-arm64.tar.xz -C $GITHUB_WORKSPACE/rootfs/oraclelinux-arm64
-          rm $GITHUB_WORKSPACE/rootfs/oraclelinux-arm64.tar.xz
+          curl --fail --location --output "$GITHUB_WORKSPACE/rootfs/oraclelinux-aarch4.tar.xz" "https://github.com/oracle/container-images/raw/dist-arm64v8/${dist_version}/oraclelinux-${dist_version}-arm64v8-rootfs.tar.xz"
+          mkdir -p $GITHUB_WORKSPACE/rootfs/oraclelinux-aarch64
+          tar --exclude=dev/* -xJf $GITHUB_WORKSPACE/rootfs/oraclelinux-aarch64.tar.xz -C $GITHUB_WORKSPACE/rootfs/oraclelinux-aarch64
+          rm $GITHUB_WORKSPACE/rootfs/oraclelinux-aarch64.tar.xz
           cd $GITHUB_WORKSPACE/rootfs
-          sudo tar -cJf $GITHUB_WORKSPACE/rootfs/oraclelinux-latest-arm64.tar.xz oraclelinux-arm64
-          cp oraclelinux-latest-arm64.tar.xz  oraclelinux-${dist_version}-arm64.tar.xz
+          sudo tar -cJf $GITHUB_WORKSPACE/rootfs/oraclelinux-${dist_version}-aarch64.tar.xz oraclelinux-aarch64
+          cp oraclelinux-${dist_version}-aarch64.tar.xz oraclelinux-aarch64.tar.xz
       - name: Push to release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: oraclelinux-10
-          name: Oracle Linux 10 (Based on Red Hat Enterprise Linux 10)
+          tag_name: oraclelinux
+          name: Oracle Linux (Based on RHEL)
           files: |
-             rootfs/oraclelinux-10-arm64.tar.xz
+             rootfs/oraclelinux*aarch64.tar.xz
           preserve_order: true
           make_latest: false
-      - name: Deploy release to proot-distro-desktop
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: oraclelinux-latest
-          name: Oracle Linux (Latest)
-          files: |
-            rootfs/oraclelinux-latest-arm64.tar.xz
-          preserve_order: true
-          make_latest: true
 
 env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
