@@ -36,15 +36,15 @@ jobs:
           "deb http://deb.devuan.org/merged excalibur main contrib non-free" \
           "deb http://deb.devuan.org/merged excalibur-updates main contrib non-free" \
           "deb http://deb.devuan.org/merged excalibur-security main contrib non-free" \
-          | xz -9 -T0 -c > devuan-excalibur-arm64.tar.xz
-          cp devuan-excalibur-arm64.tar.xz devuan-latest-arm64.tar.xz
+          | xz -9 -T0 -c > devuan-excalibur-aarch64.tar.xz
+          cp devuan-excalibur-aarch64.tar.xz devuan-latest-arm64.tar.xz
       - name: Push to release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: devuan-excalibur
           name: Devuan Excalibur (based on Debian 13 Trixie)
           files: |
-            devuan-excalibur-arm64.tar.xz
+            devuan-excalibur-aarch64.tar.xz
           preserve_order: true
           make_latest: false
           overwrite: true
@@ -54,7 +54,7 @@ jobs:
           tag_name: devuan-latest
           name: Devuan (Latest)
           files: |
-            devuan-latest-arm64.tar.xz
+            devuan-latest-aarch64.tar.xz
           preserve_order: true
           make_latest: true
           overwrite: true
