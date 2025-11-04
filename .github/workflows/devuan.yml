@@ -16,7 +16,7 @@ jobs:
           fetch-depth: 0
       - name: Install Needed Dependencies
         run: |
-          sudo apt update && sudo apt install -yq curl jq binfmt-support xz-utils
+          sudo apt update && sudo apt install -yq curl xz-utils
           curl -L -o /tmp/mmdebstrap.deb http://ftp.us.debian.org/debian/pool/main/m/mmdebstrap/mmdebstrap_1.5.7-3_all.deb
           sudo apt install -yq /tmp/mmdebstrap.deb
           curl -L -o /tmp/keyring.deb http://ftp.us.debian.org/debian/pool/main/d/debian-archive-keyring/debian-archive-keyring_2025.1_all.deb
@@ -25,39 +25,29 @@ jobs:
           sudo apt install -yq /tmp/devuankey.deb
       - name: Start Building
         run: |
+          dist_version="excalibur"
           sudo mmdebstrap \
           --arch=arm64 \
           --variant=minbase \
           --components="main,contrib,non-free" \
           --include=ca-certificates,locales,devuan-keyring \
           --format=tar \
-          excalibur \
+          ${dist_version} \
           - \
-          "deb http://deb.devuan.org/merged excalibur main contrib non-free" \
-          "deb http://deb.devuan.org/merged excalibur-updates main contrib non-free" \
-          "deb http://deb.devuan.org/merged excalibur-security main contrib non-free" \
-          | xz -9 -T0 -c > devuan-excalibur-aarch64.tar.xz
-          cp devuan-excalibur-aarch64.tar.xz devuan-latest-arm64.tar.xz
+          "deb http://deb.devuan.org/merged ${dist_version} main contrib non-free" \
+          "deb http://deb.devuan.org/merged ${dist_version}-updates main contrib non-free" \
+          "deb http://deb.devuan.org/merged ${dist_version}-security main contrib non-free" \
+          | xz -9 -T0 -c > devuan-${dist_version}-aarch64.tar.xz
+          cp devuan-${dist_version}-aarch64.tar.xz devuan-aarch64.tar.xz
       - name: Push to release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: devuan-excalibur
-          name: Devuan Excalibur (based on Debian 13 Trixie)
+          tag_name: devuan
+          name: Devuan Linux (Based on Debian)
           files: |
-            devuan-excalibur-aarch64.tar.xz
+            devuan*aarch64.tar.xz
           preserve_order: true
           make_latest: false
-          overwrite: true
-      - name: Deploy release to proot-distro-desktop
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: devuan-latest
-          name: Devuan (Latest)
-          files: |
-            devuan-latest-aarch64.tar.xz
-          preserve_order: true
-          make_latest: true
-          overwrite: true
 
 env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
