@@ -34,17 +34,16 @@ jobs:
           --format=tar \
           testing \
           - \
-          | xz -9 -T0 -c > debian-testing-arm64.tar.xz
+          | xz -9 -T0 -c > debian-testing-aarch64.tar.xz
       - name: Push to Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: debian-testing-latest
+          tag_name: debian-testing
           name: Debian Testing (Rolling Release)
           files: |
-            debian-testing-arm64.tar.xz
+            debian-testing-aarch64.tar.xz
           preserve_order: true
           make_latest: true
-          overwrite: true
 
 env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
