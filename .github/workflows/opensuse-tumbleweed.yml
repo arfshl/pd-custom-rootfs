@@ -50,7 +50,7 @@ jobs:
               EOF
               sudo rm -f /tmp/opensuse-pkgs.txt
               # Make rootfs archive
-              sudo env XZ_OPT=-9 tar -cJf opensuse-tumbleweed-arm64.tar.xz -C "${TARGET_DIR}" .
+              sudo env XZ_OPT=-9 tar -cJf opensuse-tumbleweed-aarch64.tar.xz -C "${TARGET_DIR}" .
 
       - name: Push to release
         uses: softprops/action-gh-release@v2
@@ -58,10 +58,9 @@ jobs:
           tag_name: opensuse-tumbleweed
           name: OpenSUSE Tumbleweed (Rolling Release)
           files: |
-            opensuse-tumbleweed-arm64.tar.xz
+            opensuse-tumbleweed-aarch64.tar.xz
           preserve_order: true
           make_latest: false
-          overwrite: true
           
 env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
