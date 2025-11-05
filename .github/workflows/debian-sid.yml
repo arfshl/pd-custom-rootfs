@@ -34,14 +34,14 @@ jobs:
           --format=tar \
           sid \
           - \
-          | xz -9 -T0 -c > debian-sid-arm64.tar.xz
+          | xz -9 -T0 -c > debian-sid-aarch64.tar.xz
       - name: Push to Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: debian-sid-latest
+          tag_name: debian-sid
           name: Debian Sid (Rolling Release)
           files: |
-            debian-sid-arm64.tar.xz
+            debian-sid-aarch64.tar.xz
           preserve_order: true
           make_latest: true
           overwrite: true
