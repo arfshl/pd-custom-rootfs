@@ -44,7 +44,6 @@ jobs:
             debian-sid-aarch64.tar.xz
           preserve_order: true
           make_latest: true
-          overwrite: true
 
 env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
