@@ -1,6 +1,9 @@
 name: "Ubuntu LTS"
 
 on:
+  schedule:
+# Build Every Months
+    - cron: "0 0 1 * *"
   workflow_dispatch:
 
 permissions:
@@ -34,6 +37,18 @@ jobs:
           http://ports.ubuntu.com/ubuntu-ports \
           | xz -9 -T0 -c > ubuntu-lts-${dist_version}-aarch64.tar.xz
           cp ubuntu-lts-${dist_version}-aarch64.tar.xz ubuntu-lts-aarch64.tar.xz
+          
+          sudo mmdebstrap --arch=arm64 \
+          --variant=apt \
+          --components="main,universe,multiverse" \
+          --include=locales,passwd,software-properties-common,ca-certificates,xfce4,xfce4-terminal,dbus-x11,pulseaudio,nano,wget,curl,sudo,adduser,xdg-user-dirs,xdg-user-dirs-gtk,xubuntu-wallpapers,xfce4-whiskermenu-plugin,xubuntu-icon-theme,xubuntu-default-settings,xubuntu-artwork,pavucontrol,tigervnc-standalone-server \
+          --customize-hook='wget https://raw.githubusercontent.com/arfshl/pd-custom-rootfs/refs/heads/main/customize-hook/ubuntu-xfce.sh && sh ubuntu-xfce.sh && rm ubuntu-xfce.sh' \
+          --format=tar \
+          ${dist_version} \
+          - \
+          http://ports.ubuntu.com/ubuntu-ports \
+          | xz -9 -T0 -c > ubuntu-lts-${dist_version}-xfce-aarch64.tar.xz
+          cp ubuntu-lts-${dist_version}-xfce-aarch64.tar.xz ubuntu-lts-xfce-aarch64.tar.xz
       - name: Push to release
         uses: softprops/action-gh-release@v2
         with:
@@ -44,4 +59,3 @@ jobs:
             ubuntu-lts-*-aarch64.tar.xz
           preserve_order: true
           make_latest: false
-          overwrite: true
