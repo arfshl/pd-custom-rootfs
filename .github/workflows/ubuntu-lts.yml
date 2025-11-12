@@ -40,16 +40,16 @@ jobs:
 
           tar --exclude=dev/* -xJf ubuntu-lts-aarch64.tar.xz
           cat <<- EOF | sudo unshare -mpf bash -e -
-          sudo mkdir -p $GITHUB_WORKSPACE/ubuntu-lts-aarch64/ubuntu-lts-aarch64/dev
-          sudo mkdir -p $GITHUB_WORKSPACE/ubuntu-lts-aarch64/ubuntu-lts-aarch64/proc
-          sudo mkdir -p $GITHUB_WORKSPACE/ubuntu-lts-aarch64/ubuntu-lts-aarch64/sys
-          sudo mount --bind /dev $GITHUB_WORKSPACE/ubuntu-lts-aarch64/ubuntu-lts-aarch64/dev
-          sudo mount --bind /proc $GITHUB_WORKSPACE/ubuntu-lts-aarch64/ubuntu-lts-aarch64/proc
-          sudo mount --bind /sys $GITHUB_WORKSPACE/ubuntu-lts-aarch64/ubuntu-lts-aarch64/sys
-          sudo chroot $GITHUB_WORKSPACE/ubuntu-lts-aarch64/ubuntu-lts-aarch64 apt update && apt install wget -y && wget https://raw.githubusercontent.com/arfshl/proot-distro-desktop/refs/heads/main/ubuntu/xfce/install.sh && sh install.sh && rm install.sh
-          sudo umount -l $GITHUB_WORKSPACE/ubuntu-lts-aarch64/ubuntu-lts-aarch64/dev
-          sudo umount -l $GITHUB_WORKSPACE/ubuntu-lts-aarch64/ubuntu-lts-aarch64/proc
-          sudo umount -l $GITHUB_WORKSPACE/ubuntu-lts-aarch64/ubuntu-lts-aarch64/sys
+          sudo mkdir -p $GITHUB_WORKSPACE/ubuntu-lts-aarch64/./dev
+          sudo mkdir -p $GITHUB_WORKSPACE/ubuntu-lts-aarch64/./proc
+          sudo mkdir -p $GITHUB_WORKSPACE/ubuntu-lts-aarch64/./sys
+          sudo mount --bind /dev $GITHUB_WORKSPACE/ubuntu-lts-aarch64/./dev
+          sudo mount --bind /proc $GITHUB_WORKSPACE/ubuntu-lts-aarch64/./proc
+          sudo mount --bind /sys $GITHUB_WORKSPACE/ubuntu-lts-aarch64/./sys
+          sudo chroot $GITHUB_WORKSPACE/ubuntu-lts-aarch64/. apt update && apt install wget -y && wget https://raw.githubusercontent.com/arfshl/proot-distro-desktop/refs/heads/main/ubuntu/xfce/install.sh && sh install.sh && rm install.sh
+          sudo umount -l $GITHUB_WORKSPACE/ubuntu-lts-aarch64/./dev
+          sudo umount -l $GITHUB_WORKSPACE/ubuntu-lts-aarch64/./proc
+          sudo umount -l $GITHUB_WORKSPACE/ubuntu-lts-aarch64/./sys
           EOF
           tar --exclude=dev/* -cvf - ubuntu-lts-aarch64/ | xz -9 -T0 -c > ubuntu-lts-xfce-aarch64.tar.xz
           cp ubuntu-lts-xfce-aarch64.tar.xz ubuntu-lts-${dist_version}-xfce-aarch64.tar.xz
