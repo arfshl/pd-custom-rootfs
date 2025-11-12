@@ -40,6 +40,9 @@ jobs:
 
           tar --exclude=dev/* -xJf ubuntu-lts-aarch64.tar.xz
           cat <<- EOF | sudo unshare -mpf bash -e -
+          sudo mkdir -p $GITHUB_WORKSPACE/ubuntu-lts-aarch64/ubuntu-lts-aarch64/dev
+          sudo mkdir -p $GITHUB_WORKSPACE/ubuntu-lts-aarch64/ubuntu-lts-aarch64/proc
+          sudo mkdir -p $GITHUB_WORKSPACE/ubuntu-lts-aarch64/ubuntu-lts-aarch64/sys
           sudo mount --bind /dev $GITHUB_WORKSPACE/ubuntu-lts-aarch64/ubuntu-lts-aarch64/dev
           sudo mount --bind /proc $GITHUB_WORKSPACE/ubuntu-lts-aarch64/ubuntu-lts-aarch64/proc
           sudo mount --bind /sys $GITHUB_WORKSPACE/ubuntu-lts-aarch64/ubuntu-lts-aarch64/sys
