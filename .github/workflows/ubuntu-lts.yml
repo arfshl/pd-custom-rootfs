@@ -41,7 +41,9 @@ jobs:
           tar --exclude=dev/* -xJf ubuntu-lts-aarch64.tar.xz
           sudo mkdir -p $GITHUB_WORKSPACE/./dev
           sudo mkdir -p $GITHUB_WORKSPACE/./proc
-          sudo mkdir -p $GITHUB_WORKSPAC/./sys
+          sudo mkdir -p $GITHUB_WORKSPACE/./sys
+          sudo mkdir -p $GITHUB_WORKSPACE/./tmp
+          sudo chmod -R 777 $GITHUB_WORKSPACE/.
           sudo mount --bind /dev $GITHUB_WORKSPACE/./dev
           sudo mount --bind /proc $GITHUB_WORKSPACE/./proc
           sudo mount --bind /sys $GITHUB_WORKSPACE/./sys
