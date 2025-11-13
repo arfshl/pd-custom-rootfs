@@ -30,7 +30,7 @@ jobs:
           sudo mmdebstrap --arch=arm64 \
           --variant=apt \
           --components="main,universe,multiverse" \
-          --include=locales,passwd,software-properties-common,ca-certificates \
+          --include=locales,passwd,software-properties-common,ca-certificates,ubuntu-keyring \
           --format=tar \
           ${dist_version} \
           - \
