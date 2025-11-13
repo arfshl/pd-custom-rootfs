@@ -39,14 +39,13 @@ jobs:
           cp ubuntu-lts-${dist_version}-aarch64.tar.xz ubuntu-lts-aarch64.tar.xz
 
           tar --exclude=dev/* -xJf ubuntu-lts-aarch64.tar.xz
-          cat <<- EOF | sudo unshare -mpf bash -e -
           sudo mkdir -p $GITHUB_WORKSPACE/./dev
           sudo mkdir -p $GITHUB_WORKSPACE/./proc
           sudo mkdir -p $GITHUB_WORKSPAC/./sys
           sudo mount --bind /dev $GITHUB_WORKSPACE/./dev
           sudo mount --bind /proc $GITHUB_WORKSPACE/./proc
           sudo mount --bind /sys $GITHUB_WORKSPACE/./sys
-          sudo chroot $GITHUB_WORKSPACE/. apt update && apt install wget -y && wget https://raw.githubusercontent.com/arfshl/proot-distro-desktop/refs/heads/main/ubuntu/xfce/install.sh && sh install.sh && rm install.sh
+          sudo chroot $GITHUB_WORKSPACE/. /bin/sh -c "apt update && apt install wget -y && wget https://raw.githubusercontent.com/arfshl/proot-distro-desktop/refs/heads/main/ubuntu/xfce/install.sh && sh install.sh && rm install.sh"
           sudo umount -l $GITHUB_WORKSPACE/./dev
           sudo umount -l $GITHUB_WORKSPACE/./proc
           sudo umount -l $GITHUB_WORKSPACE/./sys
