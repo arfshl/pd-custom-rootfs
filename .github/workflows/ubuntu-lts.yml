@@ -51,7 +51,7 @@ jobs:
           sudo umount -l $GITHUB_WORKSPACE/./proc
           sudo umount -l $GITHUB_WORKSPACE/./sys
           EOF
-          tar --exclude=dev/* -cf - ./ | xz -9 -T0 -c > ubuntu-lts-xfce-aarch64.tar.xz
+          sudo tar --exclude=dev/* -cf - ./ | xz -9 -T0 -c > ubuntu-lts-xfce-aarch64.tar.xz
           cp ubuntu-lts-xfce-aarch64.tar.xz ubuntu-lts-${dist_version}-xfce-aarch64.tar.xz
           
       - name: Push to release
