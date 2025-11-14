@@ -29,8 +29,9 @@ jobs:
           --arch=arm64 \
           --variant=minbase \
           --components="main" \
-          --include=locales,passwd,software-properties-common,ca-certificates,libc-bin,libc6 \
-          --format=tar byzantium \
+          --include=locales,passwd,software-properties-common,ca-certificates,libc-bin,libc6,gcc,util-linux,coreutils \
+          --format=tar 
+          byzantium \
           - \
           "deb http://mirror.fsf.org/pureos byzantium main" \
           "deb http://mirror.fsf.org/pureos byzantium-updates main" \
