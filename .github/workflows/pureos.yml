@@ -25,28 +25,27 @@ jobs:
           sudo apt install -yq /tmp/pureoskey.deb
       - name: Start Building
         run: |
-          dist_version="byzantium"
-          sudo mmdebstrap --arch=arm64 \
+          sudo mmdebstrap \
+          --arch=arm64 \
           --variant=minbase \
           --components="main" \
-          --include=locales,ca-certificates,pureos-archive-keyring \
-          --format=tar 
-          ${dist_version} \
+          --include=locales,passwd,software-properties-common,ca-certificates,libc-bin,libc6 \
+          --format=tar byzantium \
           - \
-          "deb http://repo.pureos.net/pureos byzantium main" \
-          "deb http://repo.pureos.net/pureos byzantium-updates main" \
-          "deb http://repo.pureos.net/pureos byzantium-security main" \
-          | xz -9 -T0 -c > pureos-${dist_version}-aarch64.tar.xz
-          cp pureos-${dist_version}-aarch64.tar.xz pureos-aarch64.tar.xz
-      - name: Push to Release
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: pureos
-          name: PureOS
-          files: |
-            pureos-*aarch64.tar.xz
-          preserve_order: true
-          make_latest: false
+          "deb http://mirror.fsf.org/pureos byzantium main" \
+          "deb http://mirror.fsf.org/pureos byzantium-updates main" \
+          "deb http://mirror.fsf.org/pureos byzantium-security main" \
+          "deb http://mirror.fsf.org/pureos byzantium-updates-proposed main" \
+          | xz -9 -T0 -c > pureos-byzantium-arm64.tar.xz
+      #- name: Push to Release
+        #uses: softprops/action-gh-release@v2
+        #with:
+         # tag_name: pureos
+         # name: PureOS
+         # files: |
+           # pureos-*aarch64.tar.xz
+         # preserve_order: true
+       #   make_latest: false
 
 env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
