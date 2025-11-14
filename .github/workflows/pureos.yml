@@ -34,10 +34,10 @@ jobs:
           --format=tar 
           ${dist_version} \
           - \
-          "deb http://mirror.fsf.org/pureos ${dist_version} main" \
-          "deb http://mirror.fsf.org/pureos ${dist_version}-updates main" \
-          "deb http://mirror.fsf.org/pureos ${dist_version}-security main" \
-          "deb http://mirror.fsf.org/pureos ${dist_version}-updates-proposed main" \
+          "deb http://repo.pureos.net/pureos ${dist_version} main" \
+          "deb http://repo.pureos.net/pureos ${dist_version}-updates main" \
+          "deb http://repo.pureos.net/pureos ${dist_version}-security main" \
+          "deb http://repo.pureos.net/pureos ${dist_version}-updates-proposed main" \
           | xz -9 -T0 -c > pureos-${dist_version}-aarch64.tar.xz
           cp pureos-${dist_version}-aarch64.tar.xz pureos-aarch64.tar.xz
       - name: Push to Release
