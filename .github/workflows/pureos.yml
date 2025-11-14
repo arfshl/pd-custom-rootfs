@@ -29,7 +29,7 @@ jobs:
           --arch=arm64 \
           --variant=minbase \
           --components="main" \
-          --include=locales,passwd,software-properties-common,ca-certificates,libc-bin,libc6,gcc,util-linux,coreutils \
+          --include=locales,ca-certificates,pureos-archive-keyring \
           --format=tar 
           byzantium \
           - \
@@ -37,17 +37,17 @@ jobs:
           "deb http://mirror.fsf.org/pureos byzantium-updates main" \
           "deb http://mirror.fsf.org/pureos byzantium-security main" \
           "deb http://mirror.fsf.org/pureos byzantium-updates-proposed main" \
-          | xz -9 -T0 -c > pureos-byzantium-arm64.tar.xz
+          | xz -9 -T0 -c > pureos-byzantium-aarch64.tar.xz
+cp pureos-byzantium-aarch64.tar.xz pureos-aarch64.tar.xz
       - name: Push to Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: pureos-byzantium
-          name: PureOS Byzantium
+          tag_name: pureos
+          name: PureOS
           files: |
-            pureos-byzantium-arm64.tar.xz
+            pureos-*aarch64.tar.xz
           preserve_order: true
-          make_latest: true
-          overwrite: true
+          make_latest: false
 
 env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
