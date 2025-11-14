@@ -29,7 +29,7 @@ jobs:
           --arch=arm64 \
           --variant=minbase \
           --components="main" \
-          --include=locales,ca-certificates \
+          --include=locales,ca-certificates,pureos-archive-keyring,build-essential \
           --format=tar byzantium \
           - \
           "deb http://mirror.fsf.org/pureos byzantium main" \
