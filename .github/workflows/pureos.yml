@@ -25,7 +25,7 @@ jobs:
           sudo apt install -yq /tmp/pureoskey.deb
       - name: Start Building
         run: |
-          dist_version="byzantium"
+          dist_version="crimson"
           sudo mmdebstrap \
           --arch=arm64 \
           --variant=minbase \
