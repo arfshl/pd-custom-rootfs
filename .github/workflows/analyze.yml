@@ -17,7 +17,7 @@ jobs:
       - name: Go analyze the rootfs
         run: |
           sudo apt install tree -y
-          url="https://github.com/arfshl/pd-custom-rootfs/releases/download/ubuntu-lts/ubuntu-lts-xfce-aarch64.tar.xz"
+          url="https://github.com/arfshl/pd-custom-rootfs/releases/download/ubuntu-lts/ubuntu-lts-aarch64.tar.xz"
           curl -L -o rootfs.tar.xz ${url}
           tar -xvJf rootfs.tar.xz
           tree -d $GITHUB_WORKSPACE
