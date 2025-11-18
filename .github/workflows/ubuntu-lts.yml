@@ -132,6 +132,7 @@ jobs:
           sudo tar --exclude=dev/* -cf - ./ | xz -9 -T0 -c > ubuntu-lts-cinnamon-aarch64.tar.xz
           cp ubuntu-lts-cinnamon-aarch64.tar.xz ubuntu-lts-${dist_version}-cinnamon-aarch64.tar.xz
           rm -r .
+        continue-on-error: true
 
       - name: Build KDE
         run: |
