@@ -38,7 +38,7 @@ jobs:
           http://ports.ubuntu.com/ubuntu-ports \
           | xz -9 -T0 -c > tmprootfs.tar.xz
           mkdir $GITHUB_WORKSPACE/ubuntu
-          tar -xJf tmprootfs.tar.xz -C ubuntu
+          tar --exclude=dev/* -xJf tmprootfs.tar.xz -C ubuntu
           sudo tar --exclude=dev/* -cf - ubuntu | xz -9 -T0 -c > ubuntu-lts-aarch64.tar.xz
           sudo rm -r ubuntu
 
