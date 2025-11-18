@@ -36,12 +36,12 @@ jobs:
           ubuntu \
           http://ports.ubuntu.com/ubuntu-ports
           sudo chmod -R 777 ubuntu
-          tar -cf - ubuntu | xz -9 -T0 -c > ubuntu-lts-${dist_version}-aarch64.tar.xz
+          tar --no-same-owner --no-same-permissions -cf - ubuntu | xz -9 -T0 -c > ubuntu-lts-${dist_version}-aarch64.tar.xz
           cp ubuntu-lts-${dist_version}-aarch64.tar.xz ubuntu-lts-aarch64.tar.xz
           
       - name: Build XFCE
         run: |
-          tar --exclude=dev/* -xJf ubuntu-lts-aarch64.tar.xz
+          tar --no-same-owner --no-same-permissions --exclude=dev/* -xJf ubuntu-lts-aarch64.tar.xz
           sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/dev
           sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/proc
           sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/sys
@@ -54,13 +54,13 @@ jobs:
           sudo umount -l $GITHUB_WORKSPACE/ubuntu/dev
           sudo umount -l $GITHUB_WORKSPACE/ubuntu/proc
           sudo umount -l $GITHUB_WORKSPACE/ubuntu/sys
-          sudo tar --exclude=dev/* -cf - ubuntu | xz -9 -T0 -c > ubuntu-lts-xfce-aarch64.tar.xz
+          tar --no-same-owner --no-same-permissions --exclude=dev/* -cf - ubuntu | xz -9 -T0 -c > ubuntu-lts-xfce-aarch64.tar.xz
           cp ubuntu-lts-xfce-aarch64.tar.xz ubuntu-lts-${dist_version}-xfce-aarch64.tar.xz
           sudo rm -rf ubuntu
           
       - name: Build MATE
         run: |
-          tar --exclude=dev/* -xJf ubuntu-lts-aarch64.tar.xz
+          tar  --no-same-owner --no-same-permissions --exclude=dev/* -xJf ubuntu-lts-aarch64.tar.xz
           sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/dev
           sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/proc
           sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/sys
@@ -73,13 +73,13 @@ jobs:
           sudo umount -l $GITHUB_WORKSPACE/ubuntu/dev
           sudo umount -l $GITHUB_WORKSPACE/ubuntu/proc
           sudo umount -l $GITHUB_WORKSPACE/ubuntu/sys
-          sudo tar --exclude=dev/* -cf - ubuntu | xz -9 -T0 -c > ubuntu-lts-mate-aarch64.tar.xz
+          tar  --no-same-owner --no-same-permissions --exclude=dev/* -cf - ubuntu | xz -9 -T0 -c > ubuntu-lts-mate-aarch64.tar.xz
           cp ubuntu-lts-mate-aarch64.tar.xz ubuntu-lts-${dist_version}-mate-aarch64.tar.xz
           sudo rm -rf ubuntu
           
       - name: Build LXQt
         run: |
-          tar --exclude=dev/* -xJf ubuntu-lts-aarch64.tar.xz
+          tar  --no-same-owner --no-same-permissions --exclude=dev/* -xJf ubuntu-lts-aarch64.tar.xz
           sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/dev
           sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/proc
           sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/sys
@@ -92,13 +92,13 @@ jobs:
           sudo umount -l $GITHUB_WORKSPACE/ubuntu/dev
           sudo umount -l $GITHUB_WORKSPACE/ubuntu/proc
           sudo umount -l $GITHUB_WORKSPACE/ubuntu/sys
-          sudo tar --exclude=dev/* -cf - ubuntu | xz -9 -T0 -c > ubuntu-lts-lxqt-aarch64.tar.xz
+          tar  --no-same-owner --no-same-permissions --exclude=dev/* -cf - ubuntu | xz -9 -T0 -c > ubuntu-lts-lxqt-aarch64.tar.xz
           cp ubuntu-lts-lxqt-aarch64.tar.xz ubuntu-lts-${dist_version}-lxqt-aarch64.tar.xz
           sudo rm -rf ubuntu
 
       - name: Build LXDE
         run: |
-          tar --exclude=dev/* -xJf ubuntu-lts-aarch64.tar.xz
+          tar  --no-same-owner --no-same-permissions --exclude=dev/* -xJf ubuntu-lts-aarch64.tar.xz
           sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/dev
           sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/proc
           sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/sys
@@ -111,13 +111,13 @@ jobs:
           sudo umount -l $GITHUB_WORKSPACE/ubuntu/dev
           sudo umount -l $GITHUB_WORKSPACE/ubuntu/proc
           sudo umount -l $GITHUB_WORKSPACE/ubuntu/sys
-          sudo tar --exclude=dev/* -cf - ubuntu | xz -9 -T0 -c > ubuntu-lts-lxde-aarch64.tar.xz
+          tar  --no-same-owner --no-same-permissions --exclude=dev/* -cf - ubuntu | xz -9 -T0 -c > ubuntu-lts-lxde-aarch64.tar.xz
           cp ubuntu-lts-lxde-aarch64.tar.xz ubuntu-lts-${dist_version}-lxde-aarch64.tar.xz
           sudo rm -rf ubuntu
           
       - name: Build Cinnamon
         run: |
-          tar --exclude=dev/* -xJf ubuntu-lts-aarch64.tar.xz
+          tar  --no-same-owner --no-same-permissions --exclude=dev/* -xJf ubuntu-lts-aarch64.tar.xz
           sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/dev
           sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/proc
           sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/sys
@@ -130,7 +130,7 @@ jobs:
           sudo umount -l $GITHUB_WORKSPACE/ubuntu/dev
           sudo umount -l $GITHUB_WORKSPACE/ubuntu/proc
           sudo umount -l $GITHUB_WORKSPACE/ubuntu/sys
-          sudo tar --exclude=dev/* -cf - ubuntu | xz -9 -T0 -c > ubuntu-lts-cinnamon-aarch64.tar.xz
+          tar  --no-same-owner --no-same-permissions --exclude=dev/* -cf - ubuntu | xz -9 -T0 -c > ubuntu-lts-cinnamon-aarch64.tar.xz
           cp ubuntu-lts-cinnamon-aarch64.tar.xz ubuntu-lts-${dist_version}-cinnamon-aarch64.tar.xz
           sudo rm -rf ubuntu
         continue-on-error: true
@@ -150,7 +150,7 @@ jobs:
           sudo umount -l $GITHUB_WORKSPACE/ubuntu/dev
           sudo umount -l $GITHUB_WORKSPACE/ubuntu/proc
           sudo umount -l $GITHUB_WORKSPACE/ubuntu/sys
-          sudo tar --exclude=dev/* -cf - ubuntu | xz -9 -T0 -c > ubuntu-lts-kde-aarch64.tar.xz
+          tar --no-same-owner --no-same-permissions --exclude=dev/* -cf - ubuntu | xz -9 -T0 -c > ubuntu-lts-kde-aarch64.tar.xz
           cp ubuntu-lts-kde-aarch64.tar.xz ubuntu-lts-${dist_version}-kde-aarch64.tar.xz
           sudo rm -rf ubuntu
           
