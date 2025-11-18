@@ -45,7 +45,7 @@ jobs:
       - name: Build XFCE
         run: |
           mkdir $GITHUB_WORKSPACE/ubuntu
-          tar --exclude=dev/* -xJf ubuntu-lts-aarch64.tar.xz -C ubuntu
+          tar -xJf ubuntu-lts-aarch64.tar.xz -C ubuntu
           sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/dev
           sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/proc
           sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/sys
@@ -64,7 +64,7 @@ jobs:
       - name: Build MATE
         run: |
           mkdir $GITHUB_WORKSPACE/ubuntu
-          tar --exclude=dev/* -xJf ubuntu-lts-aarch64.tar.xz -C ubuntu
+          tar -xJf ubuntu-lts-aarch64.tar.xz -C ubuntu
           sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/dev
           sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/proc
           sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/sys
@@ -83,7 +83,7 @@ jobs:
       - name: Build LXQt
         run: |
           mkdir $GITHUB_WORKSPACE/ubuntu
-          tar --exclude=dev/* -xJf ubuntu-lts-aarch64.tar.xz -C ubuntu
+          tar -xJf ubuntu-lts-aarch64.tar.xz -C ubuntu
           sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/dev
           sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/proc
           sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/sys
@@ -102,7 +102,7 @@ jobs:
       - name: Build LXDE
         run: |
           mkdir $GITHUB_WORKSPACE/ubuntu
-          tar --exclude=dev/* -xJf ubuntu-lts-aarch64.tar.xz -C ubuntu
+          tar -xJf ubuntu-lts-aarch64.tar.xz -C ubuntu
           sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/dev
           sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/proc
           sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/sys
@@ -121,7 +121,7 @@ jobs:
       - name: Build Cinnamon
         run: |
           mkdir $GITHUB_WORKSPACE/ubuntu
-          tar --exclude=dev/* -xJf ubuntu-lts-aarch64.tar.xz -C ubuntu
+          tar -xJf ubuntu-lts-aarch64.tar.xz -C ubuntu
           sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/dev
           sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/proc
           sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/sys
@@ -140,7 +140,7 @@ jobs:
       - name: Build KDE
         run: |
           mkdir $GITHUB_WORKSPACE/ubuntu
-          tar --exclude=dev/* -xJf ubuntu-lts-aarch64.tar.xz -C ubuntu
+          tar -xJf ubuntu-lts-aarch64.tar.xz -C ubuntu
           sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/dev
           sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/proc
           sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/sys
