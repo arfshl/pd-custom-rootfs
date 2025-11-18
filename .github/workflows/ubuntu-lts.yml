@@ -167,7 +167,7 @@ jobs:
           preserve_order: true
           make_latest: true
 
-      - name: Push to release
+      - name: Deploy to proot-distro-desktop
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ubuntu-lts
