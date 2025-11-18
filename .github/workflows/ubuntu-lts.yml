@@ -27,7 +27,7 @@ jobs:
           
       - name: Start Building
         run: |
-          dist_version="noble"
+          dist_version="bionic"
           sudo mmdebstrap --arch=arm64 \
           --variant=apt \
           --components="main,universe,multiverse" \
@@ -59,7 +59,7 @@ jobs:
           sudo rm -r ubuntu
           cp ubuntu-lts-xfce-aarch64.tar.xz ubuntu-lts-${dist_version}-xfce-aarch64.tar.xz
 
-      - name: Build mate
+      - name: Build MATE
         run: |
           mkdir $GITHUB_WORKSPACE/ubuntu
           tar --exclude=dev/* -xJf ubuntu-lts-aarch64.tar.xz -C ubuntu
@@ -79,7 +79,7 @@ jobs:
           sudo rm -r ubuntu
           cp ubuntu-lts-mate-aarch64.tar.xz ubuntu-lts-${dist_version}-mate-aarch64.tar.xz
 
-      - name: Build lxqt
+      - name: Build LXQt
         run: |
           mkdir $GITHUB_WORKSPACE/ubuntu
           tar --exclude=dev/* -xJf ubuntu-lts-aarch64.tar.xz -C ubuntu
@@ -99,7 +99,7 @@ jobs:
           sudo rm -r ubuntu
           cp ubuntu-lts-lxqt-aarch64.tar.xz ubuntu-lts-${dist_version}-lxqt-aarch64.tar.xz
 
-      - name: Build lxde
+      - name: Build LXDE
         run: |
           mkdir $GITHUB_WORKSPACE/ubuntu
           tar --exclude=dev/* -xJf ubuntu-lts-aarch64.tar.xz -C ubuntu
@@ -119,7 +119,7 @@ jobs:
           sudo rm -r ubuntu
           cp ubuntu-lts-lxde-aarch64.tar.xz ubuntu-lts-${dist_version}-lxde-aarch64.tar.xz
 
-      - name: Build cinnamon
+      - name: Build Cinnamon
         run: |
           mkdir $GITHUB_WORKSPACE/ubuntu
           tar --exclude=dev/* -xJf ubuntu-lts-aarch64.tar.xz -C ubuntu
@@ -138,8 +138,9 @@ jobs:
           sudo tar --exclude=dev/* -cf - ubuntu | xz -9 -T0 -c > ubuntu-lts-cinnamon-aarch64.tar.xz
           sudo rm -r ubuntu
           cp ubuntu-lts-cinnamon-aarch64.tar.xz ubuntu-lts-${dist_version}-cinnamon-aarch64.tar.xz
-
-      - name: Build kde
+        continue-on-error: true
+        
+      - name: Build KDE
         run: |
           mkdir $GITHUB_WORKSPACE/ubuntu
           tar --exclude=dev/* -xJf ubuntu-lts-aarch64.tar.xz -C ubuntu
