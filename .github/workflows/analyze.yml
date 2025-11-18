@@ -15,8 +15,8 @@ jobs:
         with:
           fetch-depth: 0
       - name: Go analyze the rootfs
-        run: |
- url="https://github.com/arfshl/pd-custom-rootfs/releases/download/ubuntu-lts/ubuntu-lts-aarch64.tar.xz"
+        run: | 
+url="https://github.com/arfshl/pd-custom-rootfs/releases/download/ubuntu-lts/ubuntu-lts-aarch64.tar.xz"
           curl -L -o rootfs.tar.xz ${url}
           tar -xvJf rootfs.tar.xz
           tree -d $GITHUB_WORKSPACE
