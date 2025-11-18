@@ -27,7 +27,7 @@ jobs:
           
       - name: Start Building
         run: |
-          dist_version="bionic"
+          dist_version="noble"
           sudo mmdebstrap --arch=arm64 \
           --variant=apt \
           --components="main,universe,multiverse" \
@@ -156,7 +156,8 @@ jobs:
       - name: Push to release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ubuntu-lts-bionic          name: Ubuntu LTS
+          tag_name: ubuntu-lts
+          name: Ubuntu LTS
           files: |
             ubuntu-lts-aarch64.tar.xz
             ubuntu-lts-*-aarch64.tar.xz
