@@ -39,8 +39,7 @@ jobs:
           | xz -9 -T0 -c > ubuntu-lts-${dist_version}-aarch64.tar.xz
           cp ubuntu-lts-${dist_version}-aarch64.tar.xz ubuntu-lts-aarch64.tar.xz
 
-      - name: Build XFCE
-        run: |
+          # Build XFCE
           mkdir $GITHUB_WORKSPACE/ubuntu
           tar --exclude=dev/* -xJf ubuntu-lts-aarch64.tar.xz -C ubuntu
           sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/dev
@@ -59,8 +58,7 @@ jobs:
           sudo rm -r ubuntu
           cp ubuntu-lts-xfce-aarch64.tar.xz ubuntu-lts-${dist_version}-xfce-aarch64.tar.xz
 
-      - name: Build MATE
-        run: |
+          # Build MATE
           mkdir $GITHUB_WORKSPACE/ubuntu
           tar --exclude=dev/* -xJf ubuntu-lts-aarch64.tar.xz -C ubuntu
           sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/dev
@@ -79,8 +77,7 @@ jobs:
           sudo rm -r ubuntu
           cp ubuntu-lts-mate-aarch64.tar.xz ubuntu-lts-${dist_version}-mate-aarch64.tar.xz
 
-      - name: Build LXQt
-        run: |
+          # Build LXQt9
           mkdir $GITHUB_WORKSPACE/ubuntu
           tar --exclude=dev/* -xJf ubuntu-lts-aarch64.tar.xz -C ubuntu
           sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/dev
@@ -99,8 +96,7 @@ jobs:
           sudo rm -r ubuntu
           cp ubuntu-lts-lxqt-aarch64.tar.xz ubuntu-lts-${dist_version}-lxqt-aarch64.tar.xz
 
-      - name: Build LXDE
-        run: |
+          # Build LXDE
           mkdir $GITHUB_WORKSPACE/ubuntu
           tar --exclude=dev/* -xJf ubuntu-lts-aarch64.tar.xz -C ubuntu
           sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/dev
@@ -119,8 +115,7 @@ jobs:
           sudo rm -r ubuntu
           cp ubuntu-lts-lxde-aarch64.tar.xz ubuntu-lts-${dist_version}-lxde-aarch64.tar.xz
 
-      - name: Build Cinnamon
-        run: |
+          # Build Cinnamon
           mkdir $GITHUB_WORKSPACE/ubuntu
           tar --exclude=dev/* -xJf ubuntu-lts-aarch64.tar.xz -C ubuntu
           sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/dev
@@ -138,10 +133,8 @@ jobs:
           sudo tar --exclude=dev/* -cf - ubuntu | xz -9 -T0 -c > ubuntu-lts-cinnamon-aarch64.tar.xz
           sudo rm -r ubuntu
           cp ubuntu-lts-cinnamon-aarch64.tar.xz ubuntu-lts-${dist_version}-cinnamon-aarch64.tar.xz
-        continue-on-error: true
-        
-      - name: Build KDE
-        run: |
+          
+          # Build KDE
           mkdir $GITHUB_WORKSPACE/ubuntu
           tar --exclude=dev/* -xJf ubuntu-lts-aarch64.tar.xz -C ubuntu
           sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/dev
