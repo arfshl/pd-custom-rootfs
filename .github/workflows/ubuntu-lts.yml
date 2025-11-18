@@ -38,7 +38,7 @@ jobs:
           http://ports.ubuntu.com/ubuntu-ports \
           | xz -9 -T0 -c > tmprootfs.tar.xz
           mkdir ubuntu
-          tar -xJf tmprootfs.tar.xz -C ubuntu
+          tar -xJf --exclude=dev/* tmprootfs.tar.xz -C ubuntu
           sudo tar --exclude=dev/* -cf - ubuntu | xz -9 -T0 -c > ubuntu-lts-aarch64.tar.xz
           sudo rm -r ubuntu
 
@@ -137,7 +137,7 @@ jobs:
           sudo tar --exclude=dev/* -cf - ubuntu | xz -9 -T0 -c > ubuntu-lts-cinnamon-aarch64.tar.xz
           sudo rm -r ubuntu
           
-      - name: Build Cinnamon
+      - name: Build KDE
         run: |
           mkdir $GITHUB_WORKSPACE/ubuntu
           tar --exclude=dev/* -xJf ubuntu-lts-aarch64.tar.xz -C ubuntu
