@@ -34,7 +34,7 @@ jobs:
           --format=directory \
           ${dist_version} \
           ubuntu \
-          http://ports.ubuntu.com/ubuntu-ports \
+          http://ports.ubuntu.com/ubuntu-ports
           tar -cf - ubuntu | xz -9 -T0 -c > ubuntu-lts-${dist_version}-aarch64.tar.xz
           cp ubuntu-lts-${dist_version}-aarch64.tar.xz ubuntu-lts-aarch64.tar.xz
           
