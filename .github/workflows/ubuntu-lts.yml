@@ -167,3 +167,14 @@ jobs:
           preserve_order: true
           make_latest: true
 
+      - name: Push to release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ubuntu-lts
+          name: Ubuntu LTS
+          files: |
+            ubuntu-lts-aarch64.tar.xz
+            ubuntu-lts-*-aarch64.tar.xz
+          preserve_order: true
+          make_latest: true
+
