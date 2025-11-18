@@ -31,132 +31,21 @@ jobs:
           --variant=apt \
           --components="main,universe,multiverse" \
           --include=locales,passwd,software-properties-common,ca-certificates,ubuntu-keyring \
-          --format=tar \
+          --format=directory \
           ${dist_version} \
-          - \
+          ubuntu \
           http://ports.ubuntu.com/ubuntu-ports \
-          | xz -9 -T0 -c > ubuntu-lts-${dist_version}-aarch64.tar.xz
+          tar -cf - ubuntu | xz -9 -T0 -c > ubuntu-lts-${dist_version}-aarch64.tar.xz
           cp ubuntu-lts-${dist_version}-aarch64.tar.xz ubuntu-lts-aarch64.tar.xz
           
-      - name: Build XFCE
-        run: |
-          tar --exclude=dev/* -xJf ubuntu-lts-aarch64.tar.xz
-          sudo mkdir -p $GITHUB_WORKSPACE/./dev
-          sudo mkdir -p $GITHUB_WORKSPACE/./proc
-          sudo mkdir -p $GITHUB_WORKSPACE/./sys
-          sudo mkdir -p $GITHUB_WORKSPACE/./tmp
-          sudo chmod -R 777 $GITHUB_WORKSPACE/.
-          sudo mount --bind /dev $GITHUB_WORKSPACE/./dev
-          sudo mount --bind /proc $GITHUB_WORKSPACE/./proc
-          sudo mount --bind /sys $GITHUB_WORKSPACE/./sys
-          sudo chroot $GITHUB_WORKSPACE/. /bin/sh -c "apt update && apt install wget -y && wget https://raw.githubusercontent.com/arfshl/proot-distro-desktop/refs/heads/main/ubuntu/xfce/install.sh && sh install.sh && rm install.sh"
-          sudo umount -l $GITHUB_WORKSPACE/./dev
-          sudo umount -l $GITHUB_WORKSPACE/./proc
-          sudo umount -l $GITHUB_WORKSPACE/./sys
-          sudo tar --exclude=dev/* -cf - ./ | xz -9 -T0 -c > ubuntu-lts-xfce-aarch64.tar.xz
-          cp ubuntu-lts-xfce-aarch64.tar.xz ubuntu-lts-${dist_version}-xfce-aarch64.tar.xz
-          rm -rf -- '.'
-          
-      - name: Build MATE
-        run: |
-          tar --exclude=dev/* -xJf ubuntu-lts-aarch64.tar.xz
-          sudo mkdir -p $GITHUB_WORKSPACE/./dev
-          sudo mkdir -p $GITHUB_WORKSPACE/./proc
-          sudo mkdir -p $GITHUB_WORKSPACE/./sys
-          sudo mkdir -p $GITHUB_WORKSPACE/./tmp
-          sudo chmod -R 777 $GITHUB_WORKSPACE/.
-          sudo mount --bind /dev $GITHUB_WORKSPACE/./dev
-          sudo mount --bind /proc $GITHUB_WORKSPACE/./proc
-          sudo mount --bind /sys $GITHUB_WORKSPACE/./sys
-          sudo chroot $GITHUB_WORKSPACE/. /bin/sh -c "apt update && apt install wget -y && wget https://raw.githubusercontent.com/arfshl/proot-distro-desktop/refs/heads/main/ubuntu/mate/install.sh && sh install.sh && rm install.sh"
-          sudo umount -l $GITHUB_WORKSPACE/./dev
-          sudo umount -l $GITHUB_WORKSPACE/./proc
-          sudo umount -l $GITHUB_WORKSPACE/./sys
-          sudo tar --exclude=dev/* -cf - ./ | xz -9 -T0 -c > ubuntu-lts-mate-aarch64.tar.xz
-          cp ubuntu-lts-mate-aarch64.tar.xz ubuntu-lts-${dist_version}-mate-aarch64.tar.xz
-          rm -rf -- '.'
-          
-      - name: Build LXQt
-        run: |
-          tar --exclude=dev/* -xJf ubuntu-lts-aarch64.tar.xz
-          sudo mkdir -p $GITHUB_WORKSPACE/./dev
-          sudo mkdir -p $GITHUB_WORKSPACE/./proc
-          sudo mkdir -p $GITHUB_WORKSPACE/./sys
-          sudo mkdir -p $GITHUB_WORKSPACE/./tmp
-          sudo chmod -R 777 $GITHUB_WORKSPACE/.
-          sudo mount --bind /dev $GITHUB_WORKSPACE/./dev
-          sudo mount --bind /proc $GITHUB_WORKSPACE/./proc
-          sudo mount --bind /sys $GITHUB_WORKSPACE/./sys
-          sudo chroot $GITHUB_WORKSPACE/. /bin/sh -c "apt update && apt install wget -y && wget https://raw.githubusercontent.com/arfshl/proot-distro-desktop/refs/heads/main/ubuntu/lxqt/install.sh && sh install.sh && rm install.sh"
-          sudo umount -l $GITHUB_WORKSPACE/./dev
-          sudo umount -l $GITHUB_WORKSPACE/./proc
-          sudo umount -l $GITHUB_WORKSPACE/./sys
-          sudo tar --exclude=dev/* -cf - ./ | xz -9 -T0 -c > ubuntu-lts-lxqt-aarch64.tar.xz
-          cp ubuntu-lts-lxqt-aarch64.tar.xz ubuntu-lts-${dist_version}-lxqt-aarch64.tar.xz
-          rm -rf -- '.'
 
-      - name: Build LXDE
-        run: |
-          tar --exclude=dev/* -xJf ubuntu-lts-aarch64.tar.xz
-          sudo mkdir -p $GITHUB_WORKSPACE/./dev
-          sudo mkdir -p $GITHUB_WORKSPACE/./proc
-          sudo mkdir -p $GITHUB_WORKSPACE/./sys
-          sudo mkdir -p $GITHUB_WORKSPACE/./tmp
-          sudo chmod -R 777 $GITHUB_WORKSPACE/.
-          sudo mount --bind /dev $GITHUB_WORKSPACE/./dev
-          sudo mount --bind /proc $GITHUB_WORKSPACE/./proc
-          sudo mount --bind /sys $GITHUB_WORKSPACE/./sys
-          sudo chroot $GITHUB_WORKSPACE/. /bin/sh -c "apt update && apt install wget -y && wget https://raw.githubusercontent.com/arfshl/proot-distro-desktop/refs/heads/main/ubuntu/lxde/install.sh && sh install.sh && rm install.sh"
-          sudo umount -l $GITHUB_WORKSPACE/./dev
-          sudo umount -l $GITHUB_WORKSPACE/./proc
-          sudo umount -l $GITHUB_WORKSPACE/./sys
-          sudo tar --exclude=dev/* -cf - ./ | xz -9 -T0 -c > ubuntu-lts-lxde-aarch64.tar.xz
-          cp ubuntu-lts-lxde-aarch64.tar.xz ubuntu-lts-${dist_version}-lxde-aarch64.tar.xz
-          rm -rf -- '.'
           
-      - name: Build Cinnamon
-        run: |
-          tar --exclude=dev/* -xJf ubuntu-lts-aarch64.tar.xz
-          sudo mkdir -p $GITHUB_WORKSPACE/./dev
-          sudo mkdir -p $GITHUB_WORKSPACE/./proc
-          sudo mkdir -p $GITHUB_WORKSPACE/./sys
-          sudo mkdir -p $GITHUB_WORKSPACE/./tmp
-          sudo chmod -R 777 $GITHUB_WORKSPACE/.
-          sudo mount --bind /dev $GITHUB_WORKSPACE/./dev
-          sudo mount --bind /proc $GITHUB_WORKSPACE/./proc
-          sudo mount --bind /sys $GITHUB_WORKSPACE/./sys
-          sudo chroot $GITHUB_WORKSPACE/. /bin/sh -c "apt update && apt install wget -y && wget https://raw.githubusercontent.com/arfshl/proot-distro-desktop/refs/heads/main/ubuntu/cinnamon/install.sh && sh install.sh && rm install.sh"
-          sudo umount -l $GITHUB_WORKSPACE/./dev
-          sudo umount -l $GITHUB_WORKSPACE/./proc
-          sudo umount -l $GITHUB_WORKSPACE/./sys
-          sudo tar --exclude=dev/* -cf - ./ | xz -9 -T0 -c > ubuntu-lts-cinnamon-aarch64.tar.xz
-          cp ubuntu-lts-cinnamon-aarch64.tar.xz ubuntu-lts-${dist_version}-cinnamon-aarch64.tar.xz
-          rm -rf -- '.'
-        continue-on-error: true
-
-      - name: Build KDE
-        run: |
-          tar --exclude=dev/* -xJf ubuntu-lts-aarch64.tar.xz
-          sudo mkdir -p $GITHUB_WORKSPACE/./dev
-          sudo mkdir -p $GITHUB_WORKSPACE/./proc
-          sudo mkdir -p $GITHUB_WORKSPACE/./sys
-          sudo mkdir -p $GITHUB_WORKSPACE/./tmp
-          sudo chmod -R 777 $GITHUB_WORKSPACE/.
-          sudo mount --bind /dev $GITHUB_WORKSPACE/./dev
-          sudo mount --bind /proc $GITHUB_WORKSPACE/./proc
-          sudo mount --bind /sys $GITHUB_WORKSPACE/./sys
-          sudo chroot $GITHUB_WORKSPACE/. /bin/sh -c "apt update && apt install wget -y && wget https://raw.githubusercontent.com/arfshl/proot-distro-desktop/refs/heads/main/ubuntu/kde/install.sh && sh install.sh && rm install.sh"
-          sudo umount -l $GITHUB_WORKSPACE/./dev
-          sudo umount -l $GITHUB_WORKSPACE/./proc
-          sudo umount -l $GITHUB_WORKSPACE/./sys
-          sudo tar --exclude=dev/* -cf - ./ | xz -9 -T0 -c > ubuntu-lts-kde-aarch64.tar.xz
-          cp ubuntu-lts-kde-aarch64.tar.xz ubuntu-lts-${dist_version}-kde-aarch64.tar.xz
-          rm -rf -- '.'
+          
           
       - name: Push to release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ubuntu-lts
+          tag_name: ubuntu-lts-0
           name: Ubuntu LTS
           files: |
             ubuntu-lts-aarch64.tar.xz
