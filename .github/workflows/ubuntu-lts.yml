@@ -39,7 +39,7 @@ jobs:
           | xz -9 -T0 -c > tmprootfs.tar.xz
           mkdir $GITHUB_WORKSPACE/ubuntu
           tar -xJf tmprootfs.tar.xz -C ubuntu
-          sudo tar -cf - ubuntu | xz -9 -T0 -c > ubuntu-lts-aarch64.tar.xz
+          sudo tar --exclude=dev/* -cf - ubuntu | xz -9 -T0 -c > ubuntu-lts-aarch64.tar.xz
           sudo rm -r ubuntu
 
       - name: Build XFCE
