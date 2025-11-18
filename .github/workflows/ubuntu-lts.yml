@@ -55,7 +55,7 @@ jobs:
           sudo umount -l $GITHUB_WORKSPACE/./sys
           sudo tar --exclude=dev/* -cf - ./ | xz -9 -T0 -c > ubuntu-lts-xfce-aarch64.tar.xz
           cp ubuntu-lts-xfce-aarch64.tar.xz ubuntu-lts-${dist_version}-xfce-aarch64.tar.xz
-          rm -r .
+          rm -rf -- '.'
           
       - name: Build MATE
         run: |
@@ -74,7 +74,7 @@ jobs:
           sudo umount -l $GITHUB_WORKSPACE/./sys
           sudo tar --exclude=dev/* -cf - ./ | xz -9 -T0 -c > ubuntu-lts-mate-aarch64.tar.xz
           cp ubuntu-lts-mate-aarch64.tar.xz ubuntu-lts-${dist_version}-mate-aarch64.tar.xz
-          rm -r .
+          rm -rf -- '.'
           
       - name: Build LXQt
         run: |
@@ -93,7 +93,7 @@ jobs:
           sudo umount -l $GITHUB_WORKSPACE/./sys
           sudo tar --exclude=dev/* -cf - ./ | xz -9 -T0 -c > ubuntu-lts-lxqt-aarch64.tar.xz
           cp ubuntu-lts-lxqt-aarch64.tar.xz ubuntu-lts-${dist_version}-lxqt-aarch64.tar.xz
-          rm -r .
+          rm -rf -- '.'
 
       - name: Build LXDE
         run: |
@@ -112,7 +112,7 @@ jobs:
           sudo umount -l $GITHUB_WORKSPACE/./sys
           sudo tar --exclude=dev/* -cf - ./ | xz -9 -T0 -c > ubuntu-lts-lxde-aarch64.tar.xz
           cp ubuntu-lts-lxde-aarch64.tar.xz ubuntu-lts-${dist_version}-lxde-aarch64.tar.xz
-          rm -r .
+          rm -rf -- '.'
           
       - name: Build Cinnamon
         run: |
@@ -131,7 +131,7 @@ jobs:
           sudo umount -l $GITHUB_WORKSPACE/./sys
           sudo tar --exclude=dev/* -cf - ./ | xz -9 -T0 -c > ubuntu-lts-cinnamon-aarch64.tar.xz
           cp ubuntu-lts-cinnamon-aarch64.tar.xz ubuntu-lts-${dist_version}-cinnamon-aarch64.tar.xz
-          rm -r .
+          rm -rf -- '.'
         continue-on-error: true
 
       - name: Build KDE
@@ -151,7 +151,7 @@ jobs:
           sudo umount -l $GITHUB_WORKSPACE/./sys
           sudo tar --exclude=dev/* -cf - ./ | xz -9 -T0 -c > ubuntu-lts-kde-aarch64.tar.xz
           cp ubuntu-lts-kde-aarch64.tar.xz ubuntu-lts-${dist_version}-kde-aarch64.tar.xz
-          rm -r .
+          rm -rf -- '.'
           
       - name: Push to release
         uses: softprops/action-gh-release@v2
