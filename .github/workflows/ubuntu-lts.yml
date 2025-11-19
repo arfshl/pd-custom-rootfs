@@ -50,6 +50,7 @@ jobs:
           sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/sys
           sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/tmp
           sudo chmod -R 755 $GITHUB_WORKSPACE/ubuntu
+          sudo chmod -R 1777 $GITHUB_WORKSPACE/ubuntu/tmp
           sudo mount --bind /dev $GITHUB_WORKSPACE/ubuntu/dev
           sudo mount --bind /proc $GITHUB_WORKSPACE/ubuntu/proc
           sudo mount --bind /sys $GITHUB_WORKSPACE/ubuntu/sys
@@ -68,6 +69,7 @@ jobs:
           sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/sys
           sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/tmp
           sudo chmod -R 755 $GITHUB_WORKSPACE/ubuntu
+          sudo chmod -R 1777 $GITHUB_WORKSPACE/ubuntu/tmp
           sudo mount --bind /dev $GITHUB_WORKSPACE/ubuntu/dev
           sudo mount --bind /proc $GITHUB_WORKSPACE/ubuntu/proc
           sudo mount --bind /sys $GITHUB_WORKSPACE/ubuntu/sys
@@ -86,6 +88,7 @@ jobs:
           sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/sys
           sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/tmp
           sudo chmod -R 755 $GITHUB_WORKSPACE/ubuntu
+          sudo chmod -R 1777 $GITHUB_WORKSPACE/ubuntu/tmp
           sudo mount --bind /dev $GITHUB_WORKSPACE/ubuntu/dev
           sudo mount --bind /proc $GITHUB_WORKSPACE/ubuntu/proc
           sudo mount --bind /sys $GITHUB_WORKSPACE/ubuntu/sys
@@ -104,6 +107,7 @@ jobs:
           sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/sys
           sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/tmp
           sudo chmod -R 755 $GITHUB_WORKSPACE/ubuntu
+          sudo chmod -R 1777 $GITHUB_WORKSPACE/ubuntu/tmp
           sudo mount --bind /dev $GITHUB_WORKSPACE/ubuntu/dev
           sudo mount --bind /proc $GITHUB_WORKSPACE/ubuntu/proc
           sudo mount --bind /sys $GITHUB_WORKSPACE/ubuntu/sys
@@ -122,6 +126,7 @@ jobs:
           sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/sys
           sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/tmp
           sudo chmod -R 755 $GITHUB_WORKSPACE/ubuntu
+          sudo chmod -R 1777 $GITHUB_WORKSPACE/ubuntu/tmp
           sudo mount --bind /dev $GITHUB_WORKSPACE/ubuntu/dev
           sudo mount --bind /proc $GITHUB_WORKSPACE/ubuntu/proc
           sudo mount --bind /sys $GITHUB_WORKSPACE/ubuntu/sys
@@ -140,6 +145,7 @@ jobs:
           sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/sys
           sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/tmp
           sudo chmod -R 755 $GITHUB_WORKSPACE/ubuntu
+          sudo chmod -R 1777 $GITHUB_WORKSPACE/ubuntu/tmp
           sudo mount --bind /dev $GITHUB_WORKSPACE/ubuntu/dev
           sudo mount --bind /proc $GITHUB_WORKSPACE/ubuntu/proc
           sudo mount --bind /sys $GITHUB_WORKSPACE/ubuntu/sys
