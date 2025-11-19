@@ -50,7 +50,7 @@ jobs:
               EOF
               sudo rm -f /tmp/opensuse-pkgs.txt
               # Make rootfs archive
-              sudo env XZ_OPT=-9 tar -cJf opensuse-tumbleweed-aarch64.tar.xz "${TARGET_DIR}"
+              tar --exclude=dev/* -cJf opensuse-tumbleweed-aarch64.tar.xz "${TARGET_DIR}"
 
       - name: Push to release
         uses: softprops/action-gh-release@v2
