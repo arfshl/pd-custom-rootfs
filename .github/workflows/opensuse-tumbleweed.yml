@@ -25,8 +25,8 @@ jobs:
               arch="arm64"
               digest=$(echo "$opensuse_manifest" | jq -r ".manifests[] | select(.platform.architecture == \"${arch}\") | .digest")
               # Pull and Export image
-              mkdir --parent --mode 755 $GITHUB_WORKSPACE/opensuse-dump/rootfs
-              TARGET_DIR="$GITHUB_WORKSPACE/opensuse-dump/rootfs"
+              mkdir --parent --mode 755 $GITHUB_WORKSPACE/opensuse-dump/opensuse
+              TARGET_DIR="$GITHUB_WORKSPACE/opensuse-dump/opensuse"
               docker pull "opensuse/tumbleweed@${digest}"
               docker export --output "$GITHUB_WORKSPACE/opensuse-dump/opensuse-dump-arm64.tar" \
               $(docker create "opensuse/tumbleweed@${digest}")
@@ -50,7 +50,7 @@ jobs:
               EOF
               sudo rm -f /tmp/opensuse-pkgs.txt
               # Make rootfs archive
-              sudo env XZ_OPT=-9 tar -cJf opensuse-tumbleweed-aarch64.tar.xz -C "${TARGET_DIR}" .
+              sudo env XZ_OPT=-9 tar -cJf opensuse-tumbleweed-aarch64.tar.xz "${TARGET_DIR}"
 
       - name: Push to release
         uses: softprops/action-gh-release@v2
