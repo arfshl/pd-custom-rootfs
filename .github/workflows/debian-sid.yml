@@ -34,7 +34,12 @@ jobs:
           --format=tar \
           sid \
           - \
-          | xz -9 -T0 -c > debian-sid-aarch64.tar.xz
+          | xz -9 -T0 -c > tmprootfs.tar.xz
+          mkdir $GITHUB_WORKSPACE/debian
+          tar  --exclude=dev/* -xJf tmprootfs.tar.xz -C debian
+          sudo tar -cf - debian | xz -9 -T0 -c > debian-sid-aarch64.tar.xz
+          sudo rm -r debian
+
       - name: Push to Release
         uses: softprops/action-gh-release@v2
         with:
