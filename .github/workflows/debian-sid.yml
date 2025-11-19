@@ -48,6 +48,7 @@ jobs:
           sudo mkdir -p $GITHUB_WORKSPACE/debian/sys
           sudo mkdir -p $GITHUB_WORKSPACE/debian/tmp
           sudo chmod -R 755 $GITHUB_WORKSPACE/debian
+          sudo chmod -R 1777 $GITHUB_WORKSPACE/debian/tmp
           sudo mount --bind /dev $GITHUB_WORKSPACE/debian/dev
           sudo mount --bind /proc $GITHUB_WORKSPACE/debian/proc
           sudo mount --bind /sys $GITHUB_WORKSPACE/debian/sys
@@ -66,6 +67,7 @@ jobs:
           sudo mkdir -p $GITHUB_WORKSPACE/debian/sys
           sudo mkdir -p $GITHUB_WORKSPACE/debian/tmp
           sudo chmod -R 755 $GITHUB_WORKSPACE/debian
+          sudo chmod -R 1777 $GITHUB_WORKSPACE/debian/tmp
           sudo mount --bind /dev $GITHUB_WORKSPACE/debian/dev
           sudo mount --bind /proc $GITHUB_WORKSPACE/debian/proc
           sudo mount --bind /sys $GITHUB_WORKSPACE/debian/sys
@@ -84,6 +86,7 @@ jobs:
           sudo mkdir -p $GITHUB_WORKSPACE/debian/sys
           sudo mkdir -p $GITHUB_WORKSPACE/debian/tmp
           sudo chmod -R 755 $GITHUB_WORKSPACE/debian
+          sudo chmod -R 1777 $GITHUB_WORKSPACE/debian/tmp
           sudo mount --bind /dev $GITHUB_WORKSPACE/debian/dev
           sudo mount --bind /proc $GITHUB_WORKSPACE/debian/proc
           sudo mount --bind /sys $GITHUB_WORKSPACE/debian/sys
@@ -102,6 +105,7 @@ jobs:
           sudo mkdir -p $GITHUB_WORKSPACE/debian/sys
           sudo mkdir -p $GITHUB_WORKSPACE/debian/tmp
           sudo chmod -R 755 $GITHUB_WORKSPACE/debian
+          sudo chmod -R 1777 $GITHUB_WORKSPACE/debian/tmp
           sudo mount --bind /dev $GITHUB_WORKSPACE/debian/dev
           sudo mount --bind /proc $GITHUB_WORKSPACE/debian/proc
           sudo mount --bind /sys $GITHUB_WORKSPACE/debian/sys
@@ -120,6 +124,7 @@ jobs:
           sudo mkdir -p $GITHUB_WORKSPACE/debian/sys
           sudo mkdir -p $GITHUB_WORKSPACE/debian/tmp
           sudo chmod -R 755 $GITHUB_WORKSPACE/debian
+          sudo chmod -R 1777 $GITHUB_WORKSPACE/debian/tmp
           sudo mount --bind /dev $GITHUB_WORKSPACE/debian/dev
           sudo mount --bind /proc $GITHUB_WORKSPACE/debian/proc
           sudo mount --bind /sys $GITHUB_WORKSPACE/debian/sys
@@ -138,6 +143,7 @@ jobs:
           sudo mkdir -p $GITHUB_WORKSPACE/debian/sys
           sudo mkdir -p $GITHUB_WORKSPACE/debian/tmp
           sudo chmod -R 755 $GITHUB_WORKSPACE/debian
+          sudo chmod -R 1777 $GITHUB_WORKSPACE/debian/tmp
           sudo mount --bind /dev $GITHUB_WORKSPACE/debian/dev
           sudo mount --bind /proc $GITHUB_WORKSPACE/debian/proc
           sudo mount --bind /sys $GITHUB_WORKSPACE/debian/sys
