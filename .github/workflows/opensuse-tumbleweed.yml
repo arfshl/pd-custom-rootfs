@@ -50,7 +50,7 @@ jobs:
               EOF
               sudo rm -f /tmp/opensuse-pkgs.txt
               # Make rootfs archive
-              cd $GITHUB_WORKSPACE/opensuse-dump/
+              cd $GITHUB_WORKSPACE/opensuse-dump/home/runner/work/pd-custom-rootfs/pd-custom-rootfs/opensuse-dump/
               sudo tar --exclude=dev/* -cf - opensuse | xz -9 -T0 -c > opensuse-tumbleweed-aarch64.tar.xz
 
       - name: Push to release
