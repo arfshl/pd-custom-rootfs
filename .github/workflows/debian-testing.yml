@@ -24,6 +24,7 @@ jobs:
           sudo apt install -yq /tmp/mmdebstrap.deb
           curl -L -o /tmp/keyring.deb http://ftp.us.debian.org/debian/pool/main/d/debian-archive-keyring/debian-archive-keyring_2025.1_all.deb
           sudo apt install -yq /tmp/keyring.deb
+
       - name: Start Building
         run: |
           sudo mmdebstrap \
@@ -34,7 +35,12 @@ jobs:
           --format=tar \
           testing \
           - \
-          | xz -9 -T0 -c > debian-testing-aarch64.tar.xz
+          | xz -9 -T0 -c > tmprootfs.tar.xz
+          mkdir $GITHUB_WORKSPACE/debian
+          tar  --exclude=dev/* -xJf tmprootfs.tar.xz -C debian
+          sudo tar -cf - debian | xz -9 -T0 -c > debian-testing-aarch64.tar.xz
+          sudo rm -r debian
+
       - name: Push to Release
         uses: softprops/action-gh-release@v2
         with:
