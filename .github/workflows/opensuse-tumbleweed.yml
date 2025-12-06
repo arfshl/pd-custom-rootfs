@@ -53,6 +53,121 @@ jobs:
               cd $GITHUB_WORKSPACE/opensuse-dump
               sudo tar --exclude=dev/* -cf - opensuse | xz -9 -T0 -c > $GITHUB_WORKSPACE/opensuse-tumbleweed-aarch64.tar.xz
 
+      - name: Build XFCE
+        run: |
+          tar -xJf opensuse-tumbleweed-aarch64.tar.xz
+          sudo mkdir -p $GITHUB_WORKSPACE/opensuse/dev
+          sudo mkdir -p $GITHUB_WORKSPACE/opensuse/proc
+          sudo mkdir -p $GITHUB_WORKSPACE/opensuse/sys
+          sudo mkdir -p $GITHUB_WORKSPACE/opensuse/tmp
+          sudo chmod -R 755 $GITHUB_WORKSPACE/opensuse
+          sudo chmod -R 1777 $GITHUB_WORKSPACE/opensuse/tmp
+          sudo mount --bind /dev $GITHUB_WORKSPACE/opensuse/dev
+          sudo mount --bind /proc $GITHUB_WORKSPACE/opensuse/proc
+          sudo mount --bind /sys $GITHUB_WORKSPACE/opensuse/sys
+          sudo chroot $GITHUB_WORKSPACE/opensuse /bin/sh -c "zypper dup && zypper in wget && wget https://raw.githubusercontent.com/arfshl/proot-distro-desktop/refs/heads/main/opensuse/xfce/install-xfce.sh && sh install-xfce.sh && rm install-xfce.sh"
+          sudo umount -l $GITHUB_WORKSPACE/opensuse/dev
+          sudo umount -l $GITHUB_WORKSPACE/opensuse/proc
+          sudo umount -l $GITHUB_WORKSPACE/opensuse/sys
+          sudo tar --exclude=dev/* -cf - opensuse | xz -9 -T0 -c > opensuse-tumbleweed-xfce-aarch64.tar.xz
+          sudo rm -r opensuse
+          
+      - name: Build lxqt
+        run: |
+          tar -xJf opensuse-tumbleweed-aarch64.tar.xz
+          sudo mkdir -p $GITHUB_WORKSPACE/opensuse/dev
+          sudo mkdir -p $GITHUB_WORKSPACE/opensuse/proc
+          sudo mkdir -p $GITHUB_WORKSPACE/opensuse/sys
+          sudo mkdir -p $GITHUB_WORKSPACE/opensuse/tmp
+          sudo chmod -R 755 $GITHUB_WORKSPACE/opensuse
+          sudo chmod -R 1777 $GITHUB_WORKSPACE/opensuse/tmp
+          sudo mount --bind /dev $GITHUB_WORKSPACE/opensuse/dev
+          sudo mount --bind /proc $GITHUB_WORKSPACE/opensuse/proc
+          sudo mount --bind /sys $GITHUB_WORKSPACE/opensuse/sys
+          sudo chroot $GITHUB_WORKSPACE/opensuse /bin/sh -c "zypper dup && zypper in wget && wget https://raw.githubusercontent.com/arfshl/proot-distro-desktop/refs/heads/main/opensuse/lxqt/install-lxqt.sh && sh install-lxqt.sh && rm install-lxqt.sh"
+          sudo umount -l $GITHUB_WORKSPACE/opensuse/dev
+          sudo umount -l $GITHUB_WORKSPACE/opensuse/proc
+          sudo umount -l $GITHUB_WORKSPACE/opensuse/sys
+          sudo tar --exclude=dev/* -cf - opensuse | xz -9 -T0 -c > opensuse-tumbleweed-lxqt-aarch64.tar.xz
+          sudo rm -r opensuse
+          
+      - name: Build mate
+        run: |
+          tar -xJf opensuse-tumbleweed-aarch64.tar.xz
+          sudo mkdir -p $GITHUB_WORKSPACE/opensuse/dev
+          sudo mkdir -p $GITHUB_WORKSPACE/opensuse/proc
+          sudo mkdir -p $GITHUB_WORKSPACE/opensuse/sys
+          sudo mkdir -p $GITHUB_WORKSPACE/opensuse/tmp
+          sudo chmod -R 755 $GITHUB_WORKSPACE/opensuse
+          sudo chmod -R 1777 $GITHUB_WORKSPACE/opensuse/tmp
+          sudo mount --bind /dev $GITHUB_WORKSPACE/opensuse/dev
+          sudo mount --bind /proc $GITHUB_WORKSPACE/opensuse/proc
+          sudo mount --bind /sys $GITHUB_WORKSPACE/opensuse/sys
+          sudo chroot $GITHUB_WORKSPACE/opensuse /bin/sh -c "zypper dup && zypper in wget && wget https://raw.githubusercontent.com/arfshl/proot-distro-desktop/refs/heads/main/opensuse/mate/install-mate.sh && sh install-mate.sh && rm install-mate.sh"
+          sudo umount -l $GITHUB_WORKSPACE/opensuse/dev
+          sudo umount -l $GITHUB_WORKSPACE/opensuse/proc
+          sudo umount -l $GITHUB_WORKSPACE/opensuse/sys
+          sudo tar --exclude=dev/* -cf - opensuse | xz -9 -T0 -c > opensuse-tumbleweed-mate-aarch64.tar.xz
+          sudo rm -r opensuse
+          
+      - name: Build lxde
+        run: |
+          tar -xJf opensuse-tumbleweed-aarch64.tar.xz
+          sudo mkdir -p $GITHUB_WORKSPACE/opensuse/dev
+          sudo mkdir -p $GITHUB_WORKSPACE/opensuse/proc
+          sudo mkdir -p $GITHUB_WORKSPACE/opensuse/sys
+          sudo mkdir -p $GITHUB_WORKSPACE/opensuse/tmp
+          sudo chmod -R 755 $GITHUB_WORKSPACE/opensuse
+          sudo chmod -R 1777 $GITHUB_WORKSPACE/opensuse/tmp
+          sudo mount --bind /dev $GITHUB_WORKSPACE/opensuse/dev
+          sudo mount --bind /proc $GITHUB_WORKSPACE/opensuse/proc
+          sudo mount --bind /sys $GITHUB_WORKSPACE/opensuse/sys
+          sudo chroot $GITHUB_WORKSPACE/opensuse /bin/sh -c "zypper dup && zypper in wget && wget https://raw.githubusercontent.com/arfshl/proot-distro-desktop/refs/heads/main/opensuse/lxde/install-lxde.sh && sh install-lxde.sh && rm install-lxde.sh"
+          sudo umount -l $GITHUB_WORKSPACE/opensuse/dev
+          sudo umount -l $GITHUB_WORKSPACE/opensuse/proc
+          sudo umount -l $GITHUB_WORKSPACE/opensuse/sys
+          sudo tar --exclude=dev/* -cf - opensuse | xz -9 -T0 -c > opensuse-tumbleweed-lxde-aarch64.tar.xz
+          sudo rm -r opensuse
+          
+      - name: Build kde
+        run: |
+          tar -xJf opensuse-tumbleweed-aarch64.tar.xz
+          sudo mkdir -p $GITHUB_WORKSPACE/opensuse/dev
+          sudo mkdir -p $GITHUB_WORKSPACE/opensuse/proc
+          sudo mkdir -p $GITHUB_WORKSPACE/opensuse/sys
+          sudo mkdir -p $GITHUB_WORKSPACE/opensuse/tmp
+          sudo chmod -R 755 $GITHUB_WORKSPACE/opensuse
+          sudo chmod -R 1777 $GITHUB_WORKSPACE/opensuse/tmp
+          sudo mount --bind /dev $GITHUB_WORKSPACE/opensuse/dev
+          sudo mount --bind /proc $GITHUB_WORKSPACE/opensuse/proc
+          sudo mount --bind /sys $GITHUB_WORKSPACE/opensuse/sys
+          sudo chroot $GITHUB_WORKSPACE/opensuse /bin/sh -c "zypper dup && zypper in wget && wget https://raw.githubusercontent.com/arfshl/proot-distro-desktop/refs/heads/main/opensuse/kde/install-kde.sh && sh install-kde.sh && rm install-kde.sh"
+          sudo umount -l $GITHUB_WORKSPACE/opensuse/dev
+          sudo umount -l $GITHUB_WORKSPACE/opensuse/proc
+          sudo umount -l $GITHUB_WORKSPACE/opensuse/sys
+          sudo tar --exclude=dev/* -cf - opensuse | xz -9 -T0 -c > opensuse-tumbleweed-kde-aarch64.tar.xz
+          sudo rm -r opensuse
+          
+      - name: Build cinnamon
+        run: |
+          tar -xJf opensuse-tumbleweed-aarch64.tar.xz
+          sudo mkdir -p $GITHUB_WORKSPACE/opensuse/dev
+          sudo mkdir -p $GITHUB_WORKSPACE/opensuse/proc
+          sudo mkdir -p $GITHUB_WORKSPACE/opensuse/sys
+          sudo mkdir -p $GITHUB_WORKSPACE/opensuse/tmp
+          sudo chmod -R 755 $GITHUB_WORKSPACE/opensuse
+          sudo chmod -R 1777 $GITHUB_WORKSPACE/opensuse/tmp
+          sudo mount --bind /dev $GITHUB_WORKSPACE/opensuse/dev
+          sudo mount --bind /proc $GITHUB_WORKSPACE/opensuse/proc
+          sudo mount --bind /sys $GITHUB_WORKSPACE/opensuse/sys
+          sudo chroot $GITHUB_WORKSPACE/opensuse /bin/sh -c "zypper dup && zypper in wget && wget https://raw.githubusercontent.com/arfshl/proot-distro-desktop/refs/heads/main/opensuse/cinnamon/install-cinnamon.sh && sh install-cinnamon.sh && rm install-cinnamon.sh"
+          sudo umount -l $GITHUB_WORKSPACE/opensuse/dev
+          sudo umount -l $GITHUB_WORKSPACE/opensuse/proc
+          sudo umount -l $GITHUB_WORKSPACE/opensuse/sys
+          sudo tar --exclude=dev/* -cf - opensuse | xz -9 -T0 -c > opensuse-tumbleweed-cinnamon-aarch64.tar.xz
+          sudo rm -r opensuse
+          
+                    
       - name: Push to release
         uses: softprops/action-gh-release@v2
         with:
@@ -60,6 +175,7 @@ jobs:
           name: OpenSUSE Tumbleweed (Rolling Release)
           files: |
             opensuse-tumbleweed-aarch64.tar.xz
+            opensuse-tumbleweed-*-aarch64.tar.xz
           preserve_order: true
           make_latest: false
           
