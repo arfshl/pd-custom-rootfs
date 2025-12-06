@@ -40,7 +40,7 @@ jobs:
               mount --bind /proc "${TARGET_DIR}/proc"
               mount --bind /sys "${TARGET_DIR}/sys"
               chroot "${TARGET_DIR}" zypper removerepo repo-openh264 || true
-              chroot "${TARGET_DIR}" zypper dup --no-confirm
+              chroot "${TARGET_DIR}" zypper refresh && zypper dup --no-confirm
               chroot "${TARGET_DIR}" rpm -qa --qf '%{NAME} ' | xargs -n 1 | grep -Pv '(filesystem|gpg-pubkey)' > /tmp/opensuse-pkgs.txt
               cat /tmp/opensuse-pkgs.txt | xargs chroot "${TARGET_DIR}" zypper install --no-confirm --force
               chroot "${TARGET_DIR}" zypper install --no-confirm util-linux
