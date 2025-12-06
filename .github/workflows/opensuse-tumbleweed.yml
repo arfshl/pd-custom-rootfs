@@ -65,7 +65,7 @@ jobs:
           sudo mount --bind /dev $GITHUB_WORKSPACE/opensuse/dev
           sudo mount --bind /proc $GITHUB_WORKSPACE/opensuse/proc
           sudo mount --bind /sys $GITHUB_WORKSPACE/opensuse/sys
-          sudo chroot $GITHUB_WORKSPACE/opensuse /bin/sh -c "zypper dup && zypper in wget && wget https://raw.githubusercontent.com/arfshl/proot-distro-desktop/refs/heads/main/opensuse/xfce/install-xfce.sh && sh install-xfce.sh && rm install-xfce.sh"
+          sudo chroot $GITHUB_WORKSPACE/opensuse /bin/sh -c "zypper -n dup && zypper in wget && wget https://raw.githubusercontent.com/arfshl/proot-distro-desktop/refs/heads/main/opensuse/xfce/install-xfce.sh && sh install-xfce.sh && rm install-xfce.sh"
           sudo umount -l $GITHUB_WORKSPACE/opensuse/dev
           sudo umount -l $GITHUB_WORKSPACE/opensuse/proc
           sudo umount -l $GITHUB_WORKSPACE/opensuse/sys
@@ -84,7 +84,7 @@ jobs:
           sudo mount --bind /dev $GITHUB_WORKSPACE/opensuse/dev
           sudo mount --bind /proc $GITHUB_WORKSPACE/opensuse/proc
           sudo mount --bind /sys $GITHUB_WORKSPACE/opensuse/sys
-          sudo chroot $GITHUB_WORKSPACE/opensuse /bin/sh -c "zypper dup && zypper in wget && wget https://raw.githubusercontent.com/arfshl/proot-distro-desktop/refs/heads/main/opensuse/lxqt/install-lxqt.sh && sh install-lxqt.sh && rm install-lxqt.sh"
+          sudo chroot $GITHUB_WORKSPACE/opensuse /bin/sh -c "zypper -n dup && zypper in wget && wget https://raw.githubusercontent.com/arfshl/proot-distro-desktop/refs/heads/main/opensuse/lxqt/install-lxqt.sh && sh install-lxqt.sh && rm install-lxqt.sh"
           sudo umount -l $GITHUB_WORKSPACE/opensuse/dev
           sudo umount -l $GITHUB_WORKSPACE/opensuse/proc
           sudo umount -l $GITHUB_WORKSPACE/opensuse/sys
@@ -103,7 +103,7 @@ jobs:
           sudo mount --bind /dev $GITHUB_WORKSPACE/opensuse/dev
           sudo mount --bind /proc $GITHUB_WORKSPACE/opensuse/proc
           sudo mount --bind /sys $GITHUB_WORKSPACE/opensuse/sys
-          sudo chroot $GITHUB_WORKSPACE/opensuse /bin/sh -c "zypper dup && zypper in wget && wget https://raw.githubusercontent.com/arfshl/proot-distro-desktop/refs/heads/main/opensuse/mate/install-mate.sh && sh install-mate.sh && rm install-mate.sh"
+          sudo chroot $GITHUB_WORKSPACE/opensuse /bin/sh -c "zypper -n dup && zypper in wget && wget https://raw.githubusercontent.com/arfshl/proot-distro-desktop/refs/heads/main/opensuse/mate/install-mate.sh && sh install-mate.sh && rm install-mate.sh"
           sudo umount -l $GITHUB_WORKSPACE/opensuse/dev
           sudo umount -l $GITHUB_WORKSPACE/opensuse/proc
           sudo umount -l $GITHUB_WORKSPACE/opensuse/sys
@@ -122,7 +122,7 @@ jobs:
           sudo mount --bind /dev $GITHUB_WORKSPACE/opensuse/dev
           sudo mount --bind /proc $GITHUB_WORKSPACE/opensuse/proc
           sudo mount --bind /sys $GITHUB_WORKSPACE/opensuse/sys
-          sudo chroot $GITHUB_WORKSPACE/opensuse /bin/sh -c "zypper dup && zypper in wget && wget https://raw.githubusercontent.com/arfshl/proot-distro-desktop/refs/heads/main/opensuse/lxde/install-lxde.sh && sh install-lxde.sh && rm install-lxde.sh"
+          sudo chroot $GITHUB_WORKSPACE/opensuse /bin/sh -c "zypper -n dup && zypper in wget && wget https://raw.githubusercontent.com/arfshl/proot-distro-desktop/refs/heads/main/opensuse/lxde/install-lxde.sh && sh install-lxde.sh && rm install-lxde.sh"
           sudo umount -l $GITHUB_WORKSPACE/opensuse/dev
           sudo umount -l $GITHUB_WORKSPACE/opensuse/proc
           sudo umount -l $GITHUB_WORKSPACE/opensuse/sys
@@ -141,7 +141,7 @@ jobs:
           sudo mount --bind /dev $GITHUB_WORKSPACE/opensuse/dev
           sudo mount --bind /proc $GITHUB_WORKSPACE/opensuse/proc
           sudo mount --bind /sys $GITHUB_WORKSPACE/opensuse/sys
-          sudo chroot $GITHUB_WORKSPACE/opensuse /bin/sh -c "zypper dup && zypper in wget && wget https://raw.githubusercontent.com/arfshl/proot-distro-desktop/refs/heads/main/opensuse/kde/install-kde.sh && sh install-kde.sh && rm install-kde.sh"
+          sudo chroot $GITHUB_WORKSPACE/opensuse /bin/sh -c "zypper -n dup && zypper in wget && wget https://raw.githubusercontent.com/arfshl/proot-distro-desktop/refs/heads/main/opensuse/kde/install-kde.sh && sh install-kde.sh && rm install-kde.sh"
           sudo umount -l $GITHUB_WORKSPACE/opensuse/dev
           sudo umount -l $GITHUB_WORKSPACE/opensuse/proc
           sudo umount -l $GITHUB_WORKSPACE/opensuse/sys
@@ -160,7 +160,7 @@ jobs:
           sudo mount --bind /dev $GITHUB_WORKSPACE/opensuse/dev
           sudo mount --bind /proc $GITHUB_WORKSPACE/opensuse/proc
           sudo mount --bind /sys $GITHUB_WORKSPACE/opensuse/sys
-          sudo chroot $GITHUB_WORKSPACE/opensuse /bin/sh -c "zypper dup && zypper in wget && wget https://raw.githubusercontent.com/arfshl/proot-distro-desktop/refs/heads/main/opensuse/cinnamon/install-cinnamon.sh && sh install-cinnamon.sh && rm install-cinnamon.sh"
+          sudo chroot $GITHUB_WORKSPACE/opensuse /bin/sh -c "zypper -n dup && zypper in wget && wget https://raw.githubusercontent.com/arfshl/proot-distro-desktop/refs/heads/main/opensuse/cinnamon/install-cinnamon.sh && sh install-cinnamon.sh && rm install-cinnamon.sh"
           sudo umount -l $GITHUB_WORKSPACE/opensuse/dev
           sudo umount -l $GITHUB_WORKSPACE/opensuse/proc
           sudo umount -l $GITHUB_WORKSPACE/opensuse/sys
