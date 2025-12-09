@@ -47,6 +47,121 @@ jobs:
           
           cd $GITHUB_WORKSPACE/archlinux-dump
           sudo tar --exclude=dev/* -cf - archlinux | xz -9 -T0 -c > $GITHUB_WORKSPACE/archlinux-aarch64.tar.xz
+          rm -r $GITHUB_WORKSPACE/archlinux-dump
+
+      - name: Build XFCE
+        run: |
+          tar -xJf archlinux-aarch64.tar.xz
+          sudo mkdir -p $GITHUB_WORKSPACE/archlinux/dev
+          sudo mkdir -p $GITHUB_WORKSPACE/archlinux/proc
+          sudo mkdir -p $GITHUB_WORKSPACE/archlinux/sys
+          sudo mkdir -p $GITHUB_WORKSPACE/archlinux/tmp
+          sudo chmod -R 755 $GITHUB_WORKSPACE/archlinux
+          sudo chmod -R 1777 $GITHUB_WORKSPACE/archlinux/tmp
+          sudo mount --bind /dev $GITHUB_WORKSPACE/archlinux/dev
+          sudo mount --bind /proc $GITHUB_WORKSPACE/archlinux/proc
+          sudo mount --bind /sys $GITHUB_WORKSPACE/archlinux/sys
+          sudo chroot $GITHUB_WORKSPACE/archlinux /bin/sh -c "pacman -Syu && pacman -S wget && wget https://raw.githubusercontent.com/arfshl/proot-distro-desktop/refs/heads/main/archlinux/xfce/install.sh && sh install.sh && rm install.sh"
+          sudo umount -l $GITHUB_WORKSPACE/archlinux/dev
+          sudo umount -l $GITHUB_WORKSPACE/archlinux/proc
+          sudo umount -l $GITHUB_WORKSPACE/archlinux/sys
+          sudo tar --exclude=dev/* -cf - archlinux | xz -9 -T0 -c > archlinux-xfce-aarch64.tar.xz
+          sudo rm -r archlinux
+          
+      - name: Build lxqt
+        run: |
+          tar -xJf archlinux-aarch64.tar.xz
+          sudo mkdir -p $GITHUB_WORKSPACE/archlinux/dev
+          sudo mkdir -p $GITHUB_WORKSPACE/archlinux/proc
+          sudo mkdir -p $GITHUB_WORKSPACE/archlinux/sys
+          sudo mkdir -p $GITHUB_WORKSPACE/archlinux/tmp
+          sudo chmod -R 755 $GITHUB_WORKSPACE/archlinux
+          sudo chmod -R 1777 $GITHUB_WORKSPACE/archlinux/tmp
+          sudo mount --bind /dev $GITHUB_WORKSPACE/archlinux/dev
+          sudo mount --bind /proc $GITHUB_WORKSPACE/archlinux/proc
+          sudo mount --bind /sys $GITHUB_WORKSPACE/archlinux/sys
+          sudo chroot $GITHUB_WORKSPACE/archlinux /bin/sh -c "pacman -Syu && pacman -S wget && wget https://raw.githubusercontent.com/arfshl/proot-distro-desktop/refs/heads/main/archlinux/lxqt/install.sh && sh install.sh && rm install.sh"
+          sudo umount -l $GITHUB_WORKSPACE/archlinux/dev
+          sudo umount -l $GITHUB_WORKSPACE/archlinux/proc
+          sudo umount -l $GITHUB_WORKSPACE/archlinux/sys
+          sudo tar --exclude=dev/* -cf - archlinux | xz -9 -T0 -c > archlinux-lxqt-aarch64.tar.xz
+          sudo rm -r archlinux
+          
+      - name: Build mate
+        run: |
+          tar -xJf archlinux-aarch64.tar.xz
+          sudo mkdir -p $GITHUB_WORKSPACE/archlinux/dev
+          sudo mkdir -p $GITHUB_WORKSPACE/archlinux/proc
+          sudo mkdir -p $GITHUB_WORKSPACE/archlinux/sys
+          sudo mkdir -p $GITHUB_WORKSPACE/archlinux/tmp
+          sudo chmod -R 755 $GITHUB_WORKSPACE/archlinux
+          sudo chmod -R 1777 $GITHUB_WORKSPACE/archlinux/tmp
+          sudo mount --bind /dev $GITHUB_WORKSPACE/archlinux/dev
+          sudo mount --bind /proc $GITHUB_WORKSPACE/archlinux/proc
+          sudo mount --bind /sys $GITHUB_WORKSPACE/archlinux/sys
+          sudo chroot $GITHUB_WORKSPACE/archlinux /bin/sh -c "pacman -Syu && pacman -S wget && wget https://raw.githubusercontent.com/arfshl/proot-distro-desktop/refs/heads/main/archlinux/mate/install.sh && sh install.sh && rm install.sh"
+          sudo umount -l $GITHUB_WORKSPACE/archlinux/dev
+          sudo umount -l $GITHUB_WORKSPACE/archlinux/proc
+          sudo umount -l $GITHUB_WORKSPACE/archlinux/sys
+          sudo tar --exclude=dev/* -cf - archlinux | xz -9 -T0 -c > archlinux-mate-aarch64.tar.xz
+          sudo rm -r archlinux
+          
+      - name: Build lxde
+        run: |
+          tar -xJf archlinux-aarch64.tar.xz
+          sudo mkdir -p $GITHUB_WORKSPACE/archlinux/dev
+          sudo mkdir -p $GITHUB_WORKSPACE/archlinux/proc
+          sudo mkdir -p $GITHUB_WORKSPACE/archlinux/sys
+          sudo mkdir -p $GITHUB_WORKSPACE/archlinux/tmp
+          sudo chmod -R 755 $GITHUB_WORKSPACE/archlinux
+          sudo chmod -R 1777 $GITHUB_WORKSPACE/archlinux/tmp
+          sudo mount --bind /dev $GITHUB_WORKSPACE/archlinux/dev
+          sudo mount --bind /proc $GITHUB_WORKSPACE/archlinux/proc
+          sudo mount --bind /sys $GITHUB_WORKSPACE/archlinux/sys
+          sudo chroot $GITHUB_WORKSPACE/archlinux /bin/sh -c "pacman -Syu && pacman -S wget && wget https://raw.githubusercontent.com/arfshl/proot-distro-desktop/refs/heads/main/archlinux/lxde/install.sh && sh install.sh && rm install.sh"
+          sudo umount -l $GITHUB_WORKSPACE/archlinux/dev
+          sudo umount -l $GITHUB_WORKSPACE/archlinux/proc
+          sudo umount -l $GITHUB_WORKSPACE/archlinux/sys
+          sudo tar --exclude=dev/* -cf - archlinux | xz -9 -T0 -c > archlinux-lxde-aarch64.tar.xz
+          sudo rm -r archlinux
+          
+      - name: Build kde
+        run: |
+          tar -xJf archlinux-aarch64.tar.xz
+          sudo mkdir -p $GITHUB_WORKSPACE/archlinux/dev
+          sudo mkdir -p $GITHUB_WORKSPACE/archlinux/proc
+          sudo mkdir -p $GITHUB_WORKSPACE/archlinux/sys
+          sudo mkdir -p $GITHUB_WORKSPACE/archlinux/tmp
+          sudo chmod -R 755 $GITHUB_WORKSPACE/archlinux
+          sudo chmod -R 1777 $GITHUB_WORKSPACE/archlinux/tmp
+          sudo mount --bind /dev $GITHUB_WORKSPACE/archlinux/dev
+          sudo mount --bind /proc $GITHUB_WORKSPACE/archlinux/proc
+          sudo mount --bind /sys $GITHUB_WORKSPACE/archlinux/sys
+          sudo chroot $GITHUB_WORKSPACE/archlinux /bin/sh -c "pacman -Syu && pacman -S wget && wget https://raw.githubusercontent.com/arfshl/proot-distro-desktop/refs/heads/main/archlinux/kde/install.sh && sh install.sh && rm install.sh"
+          sudo umount -l $GITHUB_WORKSPACE/archlinux/dev
+          sudo umount -l $GITHUB_WORKSPACE/archlinux/proc
+          sudo umount -l $GITHUB_WORKSPACE/archlinux/sys
+          sudo tar --exclude=dev/* -cf - archlinux | xz -9 -T0 -c > archlinux-kde-aarch64.tar.xz
+          sudo rm -r archlinux
+          
+      - name: Build cinnamon
+        run: |
+          tar -xJf archlinux-aarch64.tar.xz
+          sudo mkdir -p $GITHUB_WORKSPACE/archlinux/dev
+          sudo mkdir -p $GITHUB_WORKSPACE/archlinux/proc
+          sudo mkdir -p $GITHUB_WORKSPACE/archlinux/sys
+          sudo mkdir -p $GITHUB_WORKSPACE/archlinux/tmp
+          sudo chmod -R 755 $GITHUB_WORKSPACE/archlinux
+          sudo chmod -R 1777 $GITHUB_WORKSPACE/archlinux/tmp
+          sudo mount --bind /dev $GITHUB_WORKSPACE/archlinux/dev
+          sudo mount --bind /proc $GITHUB_WORKSPACE/archlinux/proc
+          sudo mount --bind /sys $GITHUB_WORKSPACE/archlinux/sys
+          sudo chroot $GITHUB_WORKSPACE/archlinux /bin/sh -c "pacman -Syu && pacman -S wget && wget https://raw.githubusercontent.com/arfshl/proot-distro-desktop/refs/heads/main/archlinux/cinnamon/install.sh && sh install.sh && rm install.sh"
+          sudo umount -l $GITHUB_WORKSPACE/archlinux/dev
+          sudo umount -l $GITHUB_WORKSPACE/archlinux/proc
+          sudo umount -l $GITHUB_WORKSPACE/archlinux/sys
+          sudo tar --exclude=dev/* -cf - archlinux | xz -9 -T0 -c > archlinux-cinnamon-aarch64.tar.xz
+          sudo rm -r archlinux
 
       - name: Push to Release
         uses: softprops/action-gh-release@v2
