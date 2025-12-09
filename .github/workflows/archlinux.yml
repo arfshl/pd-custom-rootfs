@@ -63,9 +63,7 @@ jobs:
           sudo mount --bind /proc $GITHUB_WORKSPACE/archlinux/proc
           sudo mount --bind /sys $GITHUB_WORKSPACE/archlinux/sys
           sudo chroot $GITHUB_WORKSPACE/archlinux /bin/sh -c "pacman -Syu && pacman -S --noconfirm wget && wget https://github.com/arfshl/proot-distro-desktop/raw/refs/heads/main/arch/xfce/install.sh && sh install.sh && rm install.sh"
-          sudo umount -l $GITHUB_WORKSPACE/archlinux/dev
-          sudo umount -l $GITHUB_WORKSPACE/archlinux/proc
-          sudo umount -l $GITHUB_WORKSPACE/archlinux/sys
+          sudo umount -R $GITHUB_WORKSPACE/archlinux
           
           sudo tar --exclude=dev/* -cf - archlinux | xz -9 -T0 -c > archlinux-xfce-aarch64.tar.xz
           sudo rm -r archlinux
