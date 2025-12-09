@@ -41,11 +41,10 @@ jobs:
           chroot "${WORKDIR}/archlinux" pacman-key --populate archlinuxarm
           chroot "${WORKDIR}/archlinux" pacman -Rnsc --noconfirm linux-aarch64
           chroot "${WORKDIR}/archlinux" pacman -Syu --noconfirm
+          chroot "${WORKDIR}/archlinux" rm -f /var/cache/pacman/pkg/*
           sed -i 's/#DisableSandbox/DisableSandbox/' "${WORKDIR}/archlinux/etc/pacman.conf"
           EOF
           
-
-          sudo rm -f "${WORKDIR:?}/archlinux/var/cache/pacman/pkg/*" || true
           cd $GITHUB_WORKSPACE/archlinux-dump
           sudo tar --exclude=dev/* -cf - archlinux | xz -9 -T0 -c > $GITHUB_WORKSPACE/archlinux-aarch64.tar.xz
 
