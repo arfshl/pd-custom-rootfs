@@ -39,7 +39,7 @@ jobs:
           mount --bind /sys "${WORKDIR}/archlinux/sys"
           chroot "${WORKDIR}/archlinux" pacman-key --init
           chroot "${WORKDIR}/archlinux" pacman-key --populate archlinuxarm
-          chroot "${WORKDIR}/archlinux" pacman -Rnsc --noconfirm linux-aarch64
+          chroot "${WORKDIR}/archlinux" pacman -Rnsc --noconfirm linux-aarch64 linux-firmware
           chroot "${WORKDIR}/archlinux" pacman -Syu --noconfirm
           chroot "${WORKDIR}/archlinux" rm -f /var/cache/pacman/pkg/*
           sed -i 's/#DisableSandbox/DisableSandbox/' "${WORKDIR}/archlinux/etc/pacman.conf"
