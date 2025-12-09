@@ -47,7 +47,7 @@ jobs:
           
           cd $GITHUB_WORKSPACE/archlinux-dump
           sudo tar --exclude=dev/* -cf - archlinux | xz -9 -T0 -c > $GITHUB_WORKSPACE/archlinux-aarch64.tar.xz
-          rm -r $GITHUB_WORKSPACE/archlinux-dump
+          sudo rm -r $GITHUB_WORKSPACE/archlinux-dump
 
       - name: Build XFCE
         run: |
