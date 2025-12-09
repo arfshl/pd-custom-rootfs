@@ -1,0 +1,63 @@
+name: "archlinux"
+
+on:
+  schedule:
+# Build Every Months
+    - cron: "0 0 1 * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write  
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04-arm
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - name: Start Build!
+        run: |
+          WORKDIR="$GITHUB_WORKSPACE/archlinux-dump"
+          curl --fail --location \
+          --output "${WORKDIR}/archlinux-aarch64.tar.gz" \
+          "http://os.archlinuxarm.org/os/ArchLinuxARM-aarch64-latest.tar.gz"
+          
+          sudo mkdir -m 755 "${WORKDIR}/archlinux
+          sudo tar -zxp --acls --xattrs --xattrs-include='*' \
+          -f "${WORKDIR}/archlinux-aarch64.tar.gz" \
+          -C "${WORKDIR}/archlinux
+
+          cat <<- EOF | sudo unshare -mpf bash -e -
+          rm -f "${WORKDIR}/archlinux/etc/resolv.conf"
+          echo "nameserver 1.1.1.1" > "${WORKDIR}/archlinux/etc/resolv.conf"
+          mount --bind "${WORKDIR}/archlinux/" "${WORKDIR}/archlinux/"
+          mount --bind /dev "${WORKDIR}/archlinux/dev"
+          mount --bind /proc "${WORKDIR}/archlinux/proc"
+          mount --bind /sys "${WORKDIR}/archlinux/sys"
+          chroot "${WORKDIR}/archlinux pacman-key --init
+          chroot "${WORKDIR}/archlinux pacman-key --populate archlinuxarm
+          chroot "${WORKDIR}/archlinux pacman -Rnsc --noconfirm linux-aarch64
+          chroot "${WORKDIR}/archlinux pacman -Syu --noconfirm
+          sed -i 's/#DisableSandbox/DisableSandbox/' "${WORKDIR}/archlinux/etc/pacman.conf"
+          EOF
+          
+          umount "${WORKDIR}/archlinux/dev"
+          umount "${WORKDIR}/archlinux/proc"
+          umount "${WORKDIR}/archlinux/sys"
+
+          sudo rm -f "${WORKDIR:?}/archlinux/var/cache/pacman/pkg/* || true
+          cd $GITHUB_WORKSPACE/archlinux-dump
+          sudo tar --exclude=dev/* -cf - archlinux | xz -9 -T0 -c > $GITHUB_WORKSPACE/archlinux-aarch64.tar.xz
+
+      - name: Push to Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: archlinux
+          name: Arch Linux (Rolling Release)
+          files: |
+            archlinux-aarch64.tar.xz
+            archlinux-*-aarch64.tar.xz
+          preserve_order: true
+          make_latest: true
