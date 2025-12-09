@@ -33,6 +33,7 @@ jobs:
           cat <<- EOF | sudo unshare -mpf bash -e -
           rm -f "${WORKDIR}/archlinux/etc/resolv.conf"
           echo "nameserver 1.1.1.1" > "${WORKDIR}/archlinux/etc/resolv.conf"
+          mount --bind "${WORKDIR}/archlinux" "${WORKDIR}/archlinux"
           mount --bind /dev "${WORKDIR}/archlinux/dev"
           mount --bind /proc "${WORKDIR}/archlinux/proc"
           mount --bind /sys "${WORKDIR}/archlinux/sys"
@@ -43,9 +44,6 @@ jobs:
           sed -i 's/#DisableSandbox/DisableSandbox/' "${WORKDIR}/archlinux/etc/pacman.conf"
           EOF
           
-          umount "${WORKDIR}/archlinux/dev"
-          umount "${WORKDIR}/archlinux/proc"
-          umount "${WORKDIR}/archlinux/sys"
 
           sudo rm -f "${WORKDIR:?}/archlinux/var/cache/pacman/pkg/*" || true
           cd $GITHUB_WORKSPACE/archlinux-dump
