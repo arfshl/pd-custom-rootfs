@@ -61,7 +61,7 @@ jobs:
           sudo mount --bind /dev $GITHUB_WORKSPACE/archlinux/dev
           sudo mount --bind /proc $GITHUB_WORKSPACE/archlinux/proc
           sudo mount --bind /sys $GITHUB_WORKSPACE/archlinux/sys
-          sudo chroot $GITHUB_WORKSPACE/archlinux /bin/sh -c "pacman -Syu && pacman -Sy wget && wget https://raw.githubusercontent.com/arfshl/proot-distro-desktop/refs/heads/main/archlinux/xfce/install.sh && sh install.sh && rm install.sh"
+          sudo chroot $GITHUB_WORKSPACE/archlinux /bin/sh -c "pacman -Syu && pacman -S --noconfirm wget && wget https://raw.githubusercontent.com/arfshl/proot-distro-desktop/refs/heads/main/archlinux/xfce/install.sh && sh install.sh && rm install.sh"
           sudo umount -l $GITHUB_WORKSPACE/archlinux/dev
           sudo umount -l $GITHUB_WORKSPACE/archlinux/proc
           sudo umount -l $GITHUB_WORKSPACE/archlinux/sys
@@ -80,7 +80,7 @@ jobs:
           sudo mount --bind /dev $GITHUB_WORKSPACE/archlinux/dev
           sudo mount --bind /proc $GITHUB_WORKSPACE/archlinux/proc
           sudo mount --bind /sys $GITHUB_WORKSPACE/archlinux/sys
-          sudo chroot $GITHUB_WORKSPACE/archlinux /bin/sh -c "pacman -Syu && pacman -Sy wget && wget https://raw.githubusercontent.com/arfshl/proot-distro-desktop/refs/heads/main/archlinux/lxqt/install.sh && sh install.sh && rm install.sh"
+          sudo chroot $GITHUB_WORKSPACE/archlinux /bin/sh -c "pacman -Syu && pacman -S --noconfirm wget && wget https://raw.githubusercontent.com/arfshl/proot-distro-desktop/refs/heads/main/archlinux/lxqt/install.sh && sh install.sh && rm install.sh"
           sudo umount -l $GITHUB_WORKSPACE/archlinux/dev
           sudo umount -l $GITHUB_WORKSPACE/archlinux/proc
           sudo umount -l $GITHUB_WORKSPACE/archlinux/sys
@@ -99,7 +99,7 @@ jobs:
           sudo mount --bind /dev $GITHUB_WORKSPACE/archlinux/dev
           sudo mount --bind /proc $GITHUB_WORKSPACE/archlinux/proc
           sudo mount --bind /sys $GITHUB_WORKSPACE/archlinux/sys
-          sudo chroot $GITHUB_WORKSPACE/archlinux /bin/sh -c "pacman -Syu && pacman -Sy wget && wget https://raw.githubusercontent.com/arfshl/proot-distro-desktop/refs/heads/main/archlinux/mate/install.sh && sh install.sh && rm install.sh"
+          sudo chroot $GITHUB_WORKSPACE/archlinux /bin/sh -c "pacman -Syu && pacman -S --noconfirm wget && wget https://raw.githubusercontent.com/arfshl/proot-distro-desktop/refs/heads/main/archlinux/mate/install.sh && sh install.sh && rm install.sh"
           sudo umount -l $GITHUB_WORKSPACE/archlinux/dev
           sudo umount -l $GITHUB_WORKSPACE/archlinux/proc
           sudo umount -l $GITHUB_WORKSPACE/archlinux/sys
@@ -118,7 +118,7 @@ jobs:
           sudo mount --bind /dev $GITHUB_WORKSPACE/archlinux/dev
           sudo mount --bind /proc $GITHUB_WORKSPACE/archlinux/proc
           sudo mount --bind /sys $GITHUB_WORKSPACE/archlinux/sys
-          sudo chroot $GITHUB_WORKSPACE/archlinux /bin/sh -c "pacman -Syu && pacman -Sy wget && wget https://raw.githubusercontent.com/arfshl/proot-distro-desktop/refs/heads/main/archlinux/lxde/install.sh && sh install.sh && rm install.sh"
+          sudo chroot $GITHUB_WORKSPACE/archlinux /bin/sh -c "pacman -Syu && pacman -S --noconfirm wget && wget https://raw.githubusercontent.com/arfshl/proot-distro-desktop/refs/heads/main/archlinux/lxde/install.sh && sh install.sh && rm install.sh"
           sudo umount -l $GITHUB_WORKSPACE/archlinux/dev
           sudo umount -l $GITHUB_WORKSPACE/archlinux/proc
           sudo umount -l $GITHUB_WORKSPACE/archlinux/sys
@@ -137,7 +137,7 @@ jobs:
           sudo mount --bind /dev $GITHUB_WORKSPACE/archlinux/dev
           sudo mount --bind /proc $GITHUB_WORKSPACE/archlinux/proc
           sudo mount --bind /sys $GITHUB_WORKSPACE/archlinux/sys
-          sudo chroot $GITHUB_WORKSPACE/archlinux /bin/sh -c "pacman -Syu && pacman -Sy wget && wget https://raw.githubusercontent.com/arfshl/proot-distro-desktop/refs/heads/main/archlinux/kde/install.sh && sh install.sh && rm install.sh"
+          sudo chroot $GITHUB_WORKSPACE/archlinux /bin/sh -c "pacman -Syu && pacman -S --noconfirm wget && wget https://raw.githubusercontent.com/arfshl/proot-distro-desktop/refs/heads/main/archlinux/kde/install.sh && sh install.sh && rm install.sh"
           sudo umount -l $GITHUB_WORKSPACE/archlinux/dev
           sudo umount -l $GITHUB_WORKSPACE/archlinux/proc
           sudo umount -l $GITHUB_WORKSPACE/archlinux/sys
@@ -156,7 +156,7 @@ jobs:
           sudo mount --bind /dev $GITHUB_WORKSPACE/archlinux/dev
           sudo mount --bind /proc $GITHUB_WORKSPACE/archlinux/proc
           sudo mount --bind /sys $GITHUB_WORKSPACE/archlinux/sys
-          sudo chroot $GITHUB_WORKSPACE/archlinux /bin/sh -c "pacman -Syu && pacman -Sy wget && wget https://raw.githubusercontent.com/arfshl/proot-distro-desktop/refs/heads/main/archlinux/cinnamon/install.sh && sh install.sh && rm install.sh"
+          sudo chroot $GITHUB_WORKSPACE/archlinux /bin/sh -c "pacman -Syu && pacman -S --noconfirm wget && wget https://raw.githubusercontent.com/arfshl/proot-distro-desktop/refs/heads/main/archlinux/cinnamon/install.sh && sh install.sh && rm install.sh"
           sudo umount -l $GITHUB_WORKSPACE/archlinux/dev
           sudo umount -l $GITHUB_WORKSPACE/archlinux/proc
           sudo umount -l $GITHUB_WORKSPACE/archlinux/sys
