@@ -1,7 +1,9 @@
 ## Custom rootfs created here:
-Note that only ARM64/aarch64 arch supported here.
+Note that only ARM64/aarch64 arch supported here. All rootfs are built once a months.
 
+- Arch Linux
+- Debian Stable
+- Debian Sid 
+- Debian Testing 
+- OpenSUSE Tumbleweed
 - Ubuntu LTS
-- Debian Sid (Build once per months)
-- Debian Testing (Build once per months)
-- OpenSUSE Tumbleweed (Build once per months)
