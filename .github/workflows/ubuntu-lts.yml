@@ -154,17 +154,6 @@ jobs:
           sudo umount -l $GITHUB_WORKSPACE/ubuntu/sys
           sudo tar --exclude=dev/* -cf - ubuntu | xz -9 -T0 -c > ubuntu-lts-kde-aarch64.tar.xz
           sudo rm -r ubuntu
-          
-      - name: Push to release
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: ubuntu-lts-noble
-          name: Ubuntu LTS
-          files: |
-            ubuntu-lts-aarch64.tar.xz
-            ubuntu-lts-*-aarch64.tar.xz
-          preserve_order: true
-          make_latest: true
 
       - name: Deploy to proot-distro-desktop
         uses: softprops/action-gh-release@v2
