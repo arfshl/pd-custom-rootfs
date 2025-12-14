@@ -165,16 +165,3 @@ jobs:
           preserve_order: true
           make_latest: true
           
-      - name: Push to Release
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: debian-trixie
-          name: Debian Stable
-          files: |
-            debian-stable-aarch64.tar.xz
-            debian-stable-*-aarch64.tar.xz
-          preserve_order: true
-          make_latest: true
-          
-env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
