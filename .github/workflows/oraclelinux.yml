@@ -27,15 +27,14 @@ jobs:
           tar --exclude=dev/* -xpJvf $GITHUB_WORKSPACE/rootfs/oraclelinux-aarch64.tar.xz -C $GITHUB_WORKSPACE/rootfs/oraclelinux-aarch64
           rm $GITHUB_WORKSPACE/rootfs/oraclelinux-aarch64.tar.xz
           cd $GITHUB_WORKSPACE/rootfs
-          sudo tar -cpJvf $GITHUB_WORKSPACE/rootfs/oraclelinux-${dist_version}-aarch64.tar.xz oraclelinux-aarch64
-          cp oraclelinux-${dist_version}-aarch64.tar.xz oraclelinux-aarch64.tar.xz
+          sudo tar -cpJvf $GITHUB_WORKSPACE/rootfs/oraclelinux-aarch64.tar.xz oraclelinux-aarch64
       - name: Push to release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: oraclelinux
           name: Oracle Linux
           files: |
-             rootfs/oraclelinux*aarch64.tar.xz
+             rootfs/oraclelinux-aarch64.tar.xz
           preserve_order: true
           make_latest: false
 
