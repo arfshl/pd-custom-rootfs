@@ -24,10 +24,10 @@ jobs:
           mkdir -p $GITHUB_WORKSPACE/rootfs
           curl --fail --location --output "$GITHUB_WORKSPACE/rootfs/oraclelinux-aarch64.tar.xz" "https://github.com/oracle/container-images/raw/dist-arm64v8/${dist_version}/oraclelinux-${dist_version}-arm64v8-rootfs.tar.xz"
           mkdir -p $GITHUB_WORKSPACE/rootfs/oraclelinux-aarch64
-          tar --exclude=dev/* -xpJf $GITHUB_WORKSPACE/rootfs/oraclelinux-aarch64.tar.xz -C $GITHUB_WORKSPACE/rootfs/oraclelinux-aarch64
+          tar --exclude=dev/* -xpJvf $GITHUB_WORKSPACE/rootfs/oraclelinux-aarch64.tar.xz -C $GITHUB_WORKSPACE/rootfs/oraclelinux-aarch64
           rm $GITHUB_WORKSPACE/rootfs/oraclelinux-aarch64.tar.xz
           cd $GITHUB_WORKSPACE/rootfs
-          sudo tar -cpJf $GITHUB_WORKSPACE/rootfs/oraclelinux-${dist_version}-aarch64.tar.xz oraclelinux-aarch64
+          sudo tar -cpJvf $GITHUB_WORKSPACE/rootfs/oraclelinux-${dist_version}-aarch64.tar.xz oraclelinux-aarch64
           cp oraclelinux-${dist_version}-aarch64.tar.xz oraclelinux-aarch64.tar.xz
       - name: Push to release
         uses: softprops/action-gh-release@v2
