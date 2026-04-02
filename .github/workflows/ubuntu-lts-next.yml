@@ -49,7 +49,7 @@ jobs:
           sudo chroot $GITHUB_WORKSPACE/ubuntu apt clean
           sudo rm -rf $GITHUB_WORKSPACE/ubuntu/var/lib/apt/lists/*
           EOF
-          tar --exclude=dev/* -cvf - ubuntu | xz -9 -T0 -c > ubuntu-lts-aarch64.tar.xz
+          sudo tar --exclude=dev/* -cvpf - ubuntu | xz -9 -T0 -c > ubuntu-lts-aarch64.tar.xz
           
       - name: Push to release
         uses: softprops/action-gh-release@v2
