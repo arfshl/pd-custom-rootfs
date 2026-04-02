@@ -1,8 +1,11 @@
 name: "Ubuntu LTS next"
 
 on:
+  push:
+    branches: [ 'main' ]
+    paths:
+      - ".github/workflows/ubuntu-lts-next.yml"
   workflow_dispatch:
-
 permissions:
   contents: write  
 
