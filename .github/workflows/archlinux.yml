@@ -1,4 +1,4 @@
-name: "archlinux"
+name: "Arch Linux"
 
 on:
   schedule:
