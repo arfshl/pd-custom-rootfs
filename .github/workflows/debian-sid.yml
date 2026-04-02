@@ -2,8 +2,8 @@ name: "Debian Sid"
 
 on:
   schedule:
-# Build Every Months
-    - cron: "0 0 1 * *"
+# Build Every Week
+    - cron: "0 0 * * 0"
   workflow_dispatch:
 
 permissions:
