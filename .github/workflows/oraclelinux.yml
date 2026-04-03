@@ -50,7 +50,7 @@ jobs:
           sudo umount -l $GITHUB_WORKSPACE/oraclelinux-aarch64/dev
           sudo umount -l $GITHUB_WORKSPACE/oraclelinux-aarch64/proc
           sudo umount -l $GITHUB_WORKSPACE/oraclelinux-aarch64/sys
-          sudo tar --exclude=dev/* -cf - oraclelinux-aarch64 | xz -9 -T0 -c > oraclelinux-aarch64-xfce-aarch64.tar.xz
+          sudo tar --exclude=dev/* -cvpf - oraclelinux-aarch64 | xz -9 -T0 -c > oraclelinux-aarch64-xfce-aarch64.tar.xz
           sudo rm -r oraclelinux-aarch64
           
           
@@ -70,7 +70,7 @@ jobs:
           sudo umount -l $GITHUB_WORKSPACE/oraclelinux-aarch64/dev
           sudo umount -l $GITHUB_WORKSPACE/oraclelinux-aarch64/proc
           sudo umount -l $GITHUB_WORKSPACE/oraclelinux-aarch64/sys
-          sudo tar --exclude=dev/* -cf - oraclelinux-aarch64 | xz -9 -T0 -c > oraclelinux-aarch64-mate-aarch64.tar.xz
+          sudo tar --exclude=dev/* -cvpf - oraclelinux-aarch64 | xz -9 -T0 -c > oraclelinux-aarch64-mate-aarch64.tar.xz
           sudo rm -r oraclelinux-aarch64
           
       - name: Build KDE
@@ -89,7 +89,7 @@ jobs:
           sudo umount -l $GITHUB_WORKSPACE/oraclelinux-aarch64/dev
           sudo umount -l $GITHUB_WORKSPACE/oraclelinux-aarch64/proc
           sudo umount -l $GITHUB_WORKSPACE/oraclelinux-aarch64/sys
-          sudo tar --exclude=dev/* -cf - oraclelinux-aarch64 | xz -9 -T0 -c > oraclelinux-aarch64-kde-aarch64.tar.xz
+          sudo tar --exclude=dev/* -cvpf - oraclelinux-aarch64 | xz -9 -T0 -c > oraclelinux-aarch64-kde-aarch64.tar.xz
           sudo rm -r oraclelinux-aarch64
           
       - name: Push to release
