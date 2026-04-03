@@ -36,7 +36,7 @@ jobs:
           
       - name: Build XFCE
         run: |
-          tar -xJf oraclelinux-aarch64.tar.xz
+          tar -xJpf $GITHUB_WORKSPACE/rootfs/oraclelinux-aarch64.tar.xz
           sudo mkdir -p $GITHUB_WORKSPACE/oraclelinux-aarch64/dev
           sudo mkdir -p $GITHUB_WORKSPACE/oraclelinux-aarch64/proc
           sudo mkdir -p $GITHUB_WORKSPACE/oraclelinux-aarch64/sys
@@ -56,7 +56,7 @@ jobs:
           
       - name: Build MATE
         run: |
-          tar -xJf oraclelinux-aarch64.tar.xz
+          tar -xJpf $GITHUB_WORKSPACE/rootfs/oraclelinux-aarch64.tar.xz
           sudo mkdir -p $GITHUB_WORKSPACE/oraclelinux-aarch64/dev
           sudo mkdir -p $GITHUB_WORKSPACE/oraclelinux-aarch64/proc
           sudo mkdir -p $GITHUB_WORKSPACE/oraclelinux-aarch64/sys
@@ -75,7 +75,7 @@ jobs:
           
       - name: Build KDE
         run: |
-          tar -xJf oraclelinux-aarch64.tar.xz
+          tar -xJpf $GITHUB_WORKSPACE/rootfs/oraclelinux-aarch64.tar.xz
           sudo mkdir -p $GITHUB_WORKSPACE/oraclelinux-aarch64/dev
           sudo mkdir -p $GITHUB_WORKSPACE/oraclelinux-aarch64/proc
           sudo mkdir -p $GITHUB_WORKSPACE/oraclelinux-aarch64/sys
