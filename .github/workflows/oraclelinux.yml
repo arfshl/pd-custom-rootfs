@@ -46,10 +46,12 @@ jobs:
           sudo mount --bind /dev $GITHUB_WORKSPACE/oraclelinux-aarch64/dev
           sudo mount --bind /proc $GITHUB_WORKSPACE/oraclelinux-aarch64/proc
           sudo mount --bind /sys $GITHUB_WORKSPACE/oraclelinux-aarch64/sys
+          sudo mount --bind /etc/resolv.conf $GITHUB_WORKSPACE/oraclelinux-aarch64/etc/resolv.conf
           sudo chroot $GITHUB_WORKSPACE/oraclelinux-aarch64 /bin/sh -c "dnf install -y wget && wget https://github.com/arfshl/proot-distro-desktop/raw/refs/heads/main/el/install-xfce.sh && sh install-xfce.sh && rm install-xfce.sh"
           sudo umount -l $GITHUB_WORKSPACE/oraclelinux-aarch64/dev
           sudo umount -l $GITHUB_WORKSPACE/oraclelinux-aarch64/proc
           sudo umount -l $GITHUB_WORKSPACE/oraclelinux-aarch64/sys
+          sudo umount -l /etc/resolv.conf $GITHUB_WORKSPACE/oraclelinux-aarch64/etc/resolv.conf
           sudo tar --exclude=dev/* -cvpf - oraclelinux-aarch64 | xz -9 -T0 -c > oraclelinux-aarch64-xfce-aarch64.tar.xz
           sudo rm -r oraclelinux-aarch64
           
@@ -66,10 +68,12 @@ jobs:
           sudo mount --bind /dev $GITHUB_WORKSPACE/oraclelinux-aarch64/dev
           sudo mount --bind /proc $GITHUB_WORKSPACE/oraclelinux-aarch64/proc
           sudo mount --bind /sys $GITHUB_WORKSPACE/oraclelinux-aarch64/sys
+          sudo mount --bind /etc/resolv.conf $GITHUB_WORKSPACE/oraclelinux-aarch64/etc/resolv.conf
           sudo chroot $GITHUB_WORKSPACE/oraclelinux-aarch64 /bin/sh -c "dnf install -y wget && wget https://github.com/arfshl/proot-distro-desktop/raw/refs/heads/main/el/install-mate.sh && sh install-mate.sh && rm install-mate.sh"
           sudo umount -l $GITHUB_WORKSPACE/oraclelinux-aarch64/dev
           sudo umount -l $GITHUB_WORKSPACE/oraclelinux-aarch64/proc
           sudo umount -l $GITHUB_WORKSPACE/oraclelinux-aarch64/sys
+          sudo umount -l /etc/resolv.conf $GITHUB_WORKSPACE/oraclelinux-aarch64/etc/resolv.conf
           sudo tar --exclude=dev/* -cvpf - oraclelinux-aarch64 | xz -9 -T0 -c > oraclelinux-aarch64-mate-aarch64.tar.xz
           sudo rm -r oraclelinux-aarch64
           
@@ -85,10 +89,12 @@ jobs:
           sudo mount --bind /dev $GITHUB_WORKSPACE/oraclelinux-aarch64/dev
           sudo mount --bind /proc $GITHUB_WORKSPACE/oraclelinux-aarch64/proc
           sudo mount --bind /sys $GITHUB_WORKSPACE/oraclelinux-aarch64/sys
+          sudo mount --bind /etc/resolv.conf $GITHUB_WORKSPACE/oraclelinux-aarch64/etc/resolv.conf
           sudo chroot $GITHUB_WORKSPACE/oraclelinux-aarch64 /bin/sh -c "dnf install -y wget && wget https://github.com/arfshl/proot-distro-desktop/raw/refs/heads/main/el/install-kde.sh && sh install-kde.sh && rm install-kde.sh"
           sudo umount -l $GITHUB_WORKSPACE/oraclelinux-aarch64/dev
           sudo umount -l $GITHUB_WORKSPACE/oraclelinux-aarch64/proc
           sudo umount -l $GITHUB_WORKSPACE/oraclelinux-aarch64/sys
+          sudo umount -l /etc/resolv.conf $GITHUB_WORKSPACE/oraclelinux-aarch64/etc/resolv.conf
           sudo tar --exclude=dev/* -cvpf - oraclelinux-aarch64 | xz -9 -T0 -c > oraclelinux-aarch64-kde-aarch64.tar.xz
           sudo rm -r oraclelinux-aarch64
           
