@@ -35,45 +35,6 @@ jobs:
           sudo tar -cpJvf $GITHUB_WORKSPACE/rootfs/oraclelinux-aarch64.tar.xz oraclelinux-aarch64
           sudo rm -r oraclelinux-aarch64
           
-      - name: Build XFCE
-        run: |
-          tar -xJpf $GITHUB_WORKSPACE/rootfs/oraclelinux-aarch64.tar.xz
-          sudo mkdir -p $GITHUB_WORKSPACE/oraclelinux-aarch64/dev
-          sudo mkdir -p $GITHUB_WORKSPACE/oraclelinux-aarch64/proc
-          sudo mkdir -p $GITHUB_WORKSPACE/oraclelinux-aarch64/sys
-          sudo mkdir -p $GITHUB_WORKSPACE/oraclelinux-aarch64/tmp
-          sudo chmod -R 755 $GITHUB_WORKSPACE/oraclelinux-aarch64
-          sudo chmod -R 1777 $GITHUB_WORKSPACE/oraclelinux-aarch64/tmp
-          sudo mount --bind /dev $GITHUB_WORKSPACE/oraclelinux-aarch64/dev
-          sudo mount --bind /proc $GITHUB_WORKSPACE/oraclelinux-aarch64/proc
-          sudo mount --bind /sys $GITHUB_WORKSPACE/oraclelinux-aarch64/sys
-          sudo chroot $GITHUB_WORKSPACE/oraclelinux-aarch64 /bin/sh -c "dnf install -y wget && wget https://github.com/arfshl/proot-distro-desktop/raw/refs/heads/main/el/install-xfce-oracle.sh && sh install-xfce-oracle.sh && rm install-xfce-oracle.sh"
-          sudo umount -l $GITHUB_WORKSPACE/oraclelinux-aarch64/dev
-          sudo umount -l $GITHUB_WORKSPACE/oraclelinux-aarch64/proc
-          sudo umount -l $GITHUB_WORKSPACE/oraclelinux-aarch64/sys
-          sudo tar --exclude=dev/* -cvpf - oraclelinux-aarch64 | xz -9 -T0 -c > oraclelinux-aarch64-xfce-aarch64.tar.xz
-          sudo rm -r oraclelinux-aarch64
-          
-          
-      - name: Build MATE
-        run: |
-          tar -xJpf $GITHUB_WORKSPACE/rootfs/oraclelinux-aarch64.tar.xz
-          sudo mkdir -p $GITHUB_WORKSPACE/oraclelinux-aarch64/dev
-          sudo mkdir -p $GITHUB_WORKSPACE/oraclelinux-aarch64/proc
-          sudo mkdir -p $GITHUB_WORKSPACE/oraclelinux-aarch64/sys
-          sudo mkdir -p $GITHUB_WORKSPACE/oraclelinux-aarch64/tmp
-          sudo chmod -R 755 $GITHUB_WORKSPACE/oraclelinux-aarch64
-          sudo chmod -R 1777 $GITHUB_WORKSPACE/oraclelinux-aarch64/tmp
-          sudo mount --bind /dev $GITHUB_WORKSPACE/oraclelinux-aarch64/dev
-          sudo mount --bind /proc $GITHUB_WORKSPACE/oraclelinux-aarch64/proc
-          sudo mount --bind /sys $GITHUB_WORKSPACE/oraclelinux-aarch64/sys
-          sudo chroot $GITHUB_WORKSPACE/oraclelinux-aarch64 /bin/sh -c "dnf install -y wget && wget https://github.com/arfshl/proot-distro-desktop/raw/refs/heads/main/el/install-mate-oracle.sh && sh install-mate-oracle.sh && rm install-mate-oracle.sh"
-          sudo umount -l $GITHUB_WORKSPACE/oraclelinux-aarch64/dev
-          sudo umount -l $GITHUB_WORKSPACE/oraclelinux-aarch64/proc
-          sudo umount -l $GITHUB_WORKSPACE/oraclelinux-aarch64/sys
-          sudo tar --exclude=dev/* -cvpf - oraclelinux-aarch64 | xz -9 -T0 -c > oraclelinux-aarch64-mate-aarch64.tar.xz
-          sudo rm -r oraclelinux-aarch64
-          
       - name: Build KDE
         run: |
           tar -xJpf $GITHUB_WORKSPACE/rootfs/oraclelinux-aarch64.tar.xz
