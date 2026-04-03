@@ -32,6 +32,66 @@ jobs:
           rm $GITHUB_WORKSPACE/rootfs/oraclelinux-aarch64.tar.xz
           cd $GITHUB_WORKSPACE/rootfs
           sudo tar -cpJvf $GITHUB_WORKSPACE/rootfs/oraclelinux-aarch64.tar.xz oraclelinux-aarch64
+          sudo rm -r oraclelinux-aarch64
+          
+      - name: Build XFCE
+        run: |
+          tar -xJf oraclelinux-aarch64.tar.xz
+          sudo mkdir -p $GITHUB_WORKSPACE/oraclelinux-aarch64/dev
+          sudo mkdir -p $GITHUB_WORKSPACE/oraclelinux-aarch64/proc
+          sudo mkdir -p $GITHUB_WORKSPACE/oraclelinux-aarch64/sys
+          sudo mkdir -p $GITHUB_WORKSPACE/oraclelinux-aarch64/tmp
+          sudo chmod -R 755 $GITHUB_WORKSPACE/oraclelinux-aarch64
+          sudo chmod -R 1777 $GITHUB_WORKSPACE/oraclelinux-aarch64/tmp
+          sudo mount --bind /dev $GITHUB_WORKSPACE/oraclelinux-aarch64/dev
+          sudo mount --bind /proc $GITHUB_WORKSPACE/oraclelinux-aarch64/proc
+          sudo mount --bind /sys $GITHUB_WORKSPACE/oraclelinux-aarch64/sys
+          sudo chroot $GITHUB_WORKSPACE/oraclelinux-aarch64 /bin/sh -c "dnf install -y wget && wget https://github.com/arfshl/proot-distro-desktop/raw/refs/heads/main/el/install-xfce.sh && sh install-xfce.sh && rm install-xfce.sh"
+          sudo umount -l $GITHUB_WORKSPACE/oraclelinux-aarch64/dev
+          sudo umount -l $GITHUB_WORKSPACE/oraclelinux-aarch64/proc
+          sudo umount -l $GITHUB_WORKSPACE/oraclelinux-aarch64/sys
+          sudo tar --exclude=dev/* -cf - oraclelinux-aarch64 | xz -9 -T0 -c > oraclelinux-aarch64-xfce-aarch64.tar.xz
+          sudo rm -r oraclelinux-aarch64
+          
+          
+      - name: Build MATE
+        run: |
+          tar -xJf oraclelinux-aarch64.tar.xz
+          sudo mkdir -p $GITHUB_WORKSPACE/oraclelinux-aarch64/dev
+          sudo mkdir -p $GITHUB_WORKSPACE/oraclelinux-aarch64/proc
+          sudo mkdir -p $GITHUB_WORKSPACE/oraclelinux-aarch64/sys
+          sudo mkdir -p $GITHUB_WORKSPACE/oraclelinux-aarch64/tmp
+          sudo chmod -R 755 $GITHUB_WORKSPACE/oraclelinux-aarch64
+          sudo chmod -R 1777 $GITHUB_WORKSPACE/oraclelinux-aarch64/tmp
+          sudo mount --bind /dev $GITHUB_WORKSPACE/oraclelinux-aarch64/dev
+          sudo mount --bind /proc $GITHUB_WORKSPACE/oraclelinux-aarch64/proc
+          sudo mount --bind /sys $GITHUB_WORKSPACE/oraclelinux-aarch64/sys
+          sudo chroot $GITHUB_WORKSPACE/oraclelinux-aarch64 /bin/sh -c "dnf install -y wget && wget https://github.com/arfshl/proot-distro-desktop/raw/refs/heads/main/el/install-mate.sh && sh install-mate.sh && rm install-mate.sh"
+          sudo umount -l $GITHUB_WORKSPACE/oraclelinux-aarch64/dev
+          sudo umount -l $GITHUB_WORKSPACE/oraclelinux-aarch64/proc
+          sudo umount -l $GITHUB_WORKSPACE/oraclelinux-aarch64/sys
+          sudo tar --exclude=dev/* -cf - oraclelinux-aarch64 | xz -9 -T0 -c > oraclelinux-aarch64-mate-aarch64.tar.xz
+          sudo rm -r oraclelinux-aarch64
+          
+      - name: Build KDE
+        run: |
+          tar -xJf oraclelinux-aarch64.tar.xz
+          sudo mkdir -p $GITHUB_WORKSPACE/oraclelinux-aarch64/dev
+          sudo mkdir -p $GITHUB_WORKSPACE/oraclelinux-aarch64/proc
+          sudo mkdir -p $GITHUB_WORKSPACE/oraclelinux-aarch64/sys
+          sudo mkdir -p $GITHUB_WORKSPACE/oraclelinux-aarch64/tmp
+          sudo chmod -R 755 $GITHUB_WORKSPACE/oraclelinux-aarch64
+          sudo chmod -R 1777 $GITHUB_WORKSPACE/oraclelinux-aarch64/tmp
+          sudo mount --bind /dev $GITHUB_WORKSPACE/oraclelinux-aarch64/dev
+          sudo mount --bind /proc $GITHUB_WORKSPACE/oraclelinux-aarch64/proc
+          sudo mount --bind /sys $GITHUB_WORKSPACE/oraclelinux-aarch64/sys
+          sudo chroot $GITHUB_WORKSPACE/oraclelinux-aarch64 /bin/sh -c "dnf install -y wget && wget https://github.com/arfshl/proot-distro-desktop/raw/refs/heads/main/el/install-kde.sh && sh install-kde.sh && rm install-kde.sh"
+          sudo umount -l $GITHUB_WORKSPACE/oraclelinux-aarch64/dev
+          sudo umount -l $GITHUB_WORKSPACE/oraclelinux-aarch64/proc
+          sudo umount -l $GITHUB_WORKSPACE/oraclelinux-aarch64/sys
+          sudo tar --exclude=dev/* -cf - oraclelinux-aarch64 | xz -9 -T0 -c > oraclelinux-aarch64-kde-aarch64.tar.xz
+          sudo rm -r oraclelinux-aarch64
+          
       - name: Push to release
         uses: softprops/action-gh-release@v2
         with:
@@ -39,6 +99,7 @@ jobs:
           name: Oracle Linux
           files: |
              rootfs/oraclelinux-aarch64.tar.xz
+             oraclelinux-aarch64-*-.tar.xz
           preserve_order: true
           make_latest: false
 
