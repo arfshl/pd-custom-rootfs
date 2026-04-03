@@ -42,7 +42,7 @@ jobs:
           - \
           "deb http://deb.devuan.org/merged ${dist_version} main contrib non-free" \
           "deb http://deb.devuan.org/merged ${dist_version}-updates main contrib non-free" \
-          "deb http://deb.devuan.org/merged ${dist_version}-security main contrib non-free"
+          "deb http://deb.devuan.org/merged ${dist_version}-security main contrib non-free" \
           | xz -9 -T0 -c > tmprootfs.tar.xz
           mkdir $GITHUB_WORKSPACE/devuan
           tar  --exclude=dev/* -xJf tmprootfs.tar.xz -C devuan
