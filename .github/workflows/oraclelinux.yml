@@ -47,7 +47,7 @@ jobs:
           sudo mount --bind /dev $GITHUB_WORKSPACE/oraclelinux-aarch64/dev
           sudo mount --bind /proc $GITHUB_WORKSPACE/oraclelinux-aarch64/proc
           sudo mount --bind /sys $GITHUB_WORKSPACE/oraclelinux-aarch64/sys
-          sudo chroot $GITHUB_WORKSPACE/oraclelinux-aarch64 /bin/sh -c "dnf install -y wget && wget https://github.com/arfshl/proot-distro-desktop/raw/refs/heads/main/el/install-xfce.sh && sh install-xfce.sh && rm install-xfce.sh"
+          sudo chroot $GITHUB_WORKSPACE/oraclelinux-aarch64 /bin/sh -c "dnf install -y wget && wget https://github.com/arfshl/proot-distro-desktop/raw/refs/heads/main/el/install-xfce-oracle.sh && sh install-xfce-oracle.sh && rm install-xfce-oracle.sh"
           sudo umount -l $GITHUB_WORKSPACE/oraclelinux-aarch64/dev
           sudo umount -l $GITHUB_WORKSPACE/oraclelinux-aarch64/proc
           sudo umount -l $GITHUB_WORKSPACE/oraclelinux-aarch64/sys
@@ -67,7 +67,7 @@ jobs:
           sudo mount --bind /dev $GITHUB_WORKSPACE/oraclelinux-aarch64/dev
           sudo mount --bind /proc $GITHUB_WORKSPACE/oraclelinux-aarch64/proc
           sudo mount --bind /sys $GITHUB_WORKSPACE/oraclelinux-aarch64/sys
-          sudo chroot $GITHUB_WORKSPACE/oraclelinux-aarch64 /bin/sh -c "dnf install -y wget && wget https://github.com/arfshl/proot-distro-desktop/raw/refs/heads/main/el/install-mate.sh && sh install-mate.sh && rm install-mate.sh"
+          sudo chroot $GITHUB_WORKSPACE/oraclelinux-aarch64 /bin/sh -c "dnf install -y wget && wget https://github.com/arfshl/proot-distro-desktop/raw/refs/heads/main/el/install-mate-oracle.sh && sh install-mate-oracle.sh && rm install-mate-oracle.sh"
           sudo umount -l $GITHUB_WORKSPACE/oraclelinux-aarch64/dev
           sudo umount -l $GITHUB_WORKSPACE/oraclelinux-aarch64/proc
           sudo umount -l $GITHUB_WORKSPACE/oraclelinux-aarch64/sys
@@ -86,7 +86,7 @@ jobs:
           sudo mount --bind /dev $GITHUB_WORKSPACE/oraclelinux-aarch64/dev
           sudo mount --bind /proc $GITHUB_WORKSPACE/oraclelinux-aarch64/proc
           sudo mount --bind /sys $GITHUB_WORKSPACE/oraclelinux-aarch64/sys
-          sudo chroot $GITHUB_WORKSPACE/oraclelinux-aarch64 /bin/sh -c "dnf install -y wget && wget https://github.com/arfshl/proot-distro-desktop/raw/refs/heads/main/el/install-kde.sh && sh install-kde.sh && rm install-kde.sh"
+          sudo chroot $GITHUB_WORKSPACE/oraclelinux-aarch64 /bin/sh -c "dnf install -y wget && wget https://github.com/arfshl/proot-distro-desktop/raw/refs/heads/main/el/install-kde-oracle.sh && sh install-kde-oracle.sh && rm install-kde-oracle.sh"
           sudo umount -l $GITHUB_WORKSPACE/oraclelinux-aarch64/dev
           sudo umount -l $GITHUB_WORKSPACE/oraclelinux-aarch64/proc
           sudo umount -l $GITHUB_WORKSPACE/oraclelinux-aarch64/sys
