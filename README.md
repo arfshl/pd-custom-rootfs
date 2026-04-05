@@ -1,5 +1,5 @@
 ## Custom rootfs created here:
-Note that only ARM64/aarch64 arch supported here. All rootfs are built once a months.
+Note that only ARM64/aarch64 arch supported here. All rootfs are built once a weeks.
 
 - Arch Linux [![archlinux](https://github.com/arfshl/pd-custom-rootfs/actions/workflows/archlinux.yml/badge.svg)](https://github.com/arfshl/pd-custom-rootfs/actions/workflows/archlinux.yml)
 - Debian Stable [![Debian Stable](https://github.com/arfshl/pd-custom-rootfs/actions/workflows/debian-stable.yml/badge.svg)](https://github.com/arfshl/pd-custom-rootfs/actions/workflows/debian-stable.yml)
