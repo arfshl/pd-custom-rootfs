@@ -42,6 +42,7 @@ jobs:
           mount --bind /dev "${WORKDIR}/archlinux/dev"
           mount --bind /proc "${WORKDIR}/archlinux/proc"
           mount --bind /sys "${WORKDIR}/archlinux/sys"
+          chroot "${WORKDIR}/archlinux" useradd -r -s /usr/bin/nologin -d /var/lib/pacman alpm
           chroot "${WORKDIR}/archlinux" pacman-key --init
           chroot "${WORKDIR}/archlinux" pacman-key --populate archlinuxarm
           chroot "${WORKDIR}/archlinux" pacman -Rnsc --noconfirm linux-aarch64 linux-firmware
