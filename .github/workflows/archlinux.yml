@@ -38,7 +38,7 @@ jobs:
           rm -f "${WORKDIR}/archlinux/etc/resolv.conf"
           echo "nameserver 1.1.1.1" > "${WORKDIR}/archlinux/etc/resolv.conf"
           sed -i 's/^#DisableSandbox/DisableSandbox/' \
-		            	"${WORKDIR}/archlinux/etc/pacman.conf"
+		        "${WORKDIR}/archlinux/etc/pacman.conf"
           mount --bind "${WORKDIR}/archlinux" "${WORKDIR}/archlinux"
           mount --bind /dev "${WORKDIR}/archlinux/dev"
           mount --bind /proc "${WORKDIR}/archlinux/proc"
