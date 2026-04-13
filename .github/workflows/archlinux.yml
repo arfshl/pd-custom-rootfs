@@ -37,7 +37,8 @@ jobs:
           cat <<- EOF | sudo unshare -mpf bash -e -
           rm -f "${WORKDIR}/archlinux/etc/resolv.conf"
           echo "nameserver 1.1.1.1" > "${WORKDIR}/archlinux/etc/resolv.conf"
-          echo "DisableSandbox" > "${WORKDIR}/archlinux/etc/pacman.conf"
+          sed -i 's/^#DisableSandbox/DisableSandbox/' \
+		            	"${WORKDIR}/archlinux/etc/pacman.conf"
           mount --bind "${WORKDIR}/archlinux" "${WORKDIR}/archlinux"
           mount --bind /dev "${WORKDIR}/archlinux/dev"
           mount --bind /proc "${WORKDIR}/archlinux/proc"
