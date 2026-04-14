@@ -37,7 +37,7 @@ jobs:
           --include=ca-certificates,locales \
           --format=tar \
           --customize-hook='echo "deb http://deb.debian.org/debian ${dist_version}-backports main contrib non-free" > "$1/etc/apt/sources.list"' \
-          --customize-hook='chroot \$1 /bin/bash -c "apt-get update"' \
+          --customize-hook='chroot "$1" apt update' \
           ${dist_version} \
           - \
           | xz -9 -T0 -c > tmprootfs.tar.xz
