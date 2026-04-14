@@ -36,7 +36,7 @@ jobs:
           --components="main,contrib,non-free" \
           --include=ca-certificates,locales \
           --format=tar \
-          --customize-hook='echo "deb http://deb.debian.org/debian trixie-backports main contrib non-free" > "$1/etc/apt/sources.list"' \
+          --customize-hook='echo "deb http://deb.debian.org/debian trixie-backports main contrib non-free" >> "$1/etc/apt/sources.list"' \
           --customize-hook='chroot "$1" apt update' \
           ${dist_version} \
           - \
