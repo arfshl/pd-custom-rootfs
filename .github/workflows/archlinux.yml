@@ -30,7 +30,7 @@ jobs:
           "http://os.archlinuxarm.org/os/ArchLinuxARM-aarch64-latest.tar.gz"
           
           sudo mkdir -m 755 "${WORKDIR}/archlinux"
-          sudo tar -zxp --acls --xattrs --xattrs-include='*' \
+          sudo tar -zxvp \
           -f "${WORKDIR}/archlinux-aarch64.tar.gz" \
           -C "${WORKDIR}/archlinux"
 
@@ -42,7 +42,7 @@ jobs:
           mount --bind /dev "${WORKDIR}/archlinux/dev"
           mount --bind /proc "${WORKDIR}/archlinux/proc"
           mount --bind /sys "${WORKDIR}/archlinux/sys"
-          chroot "${WORKDIR}/archlinux" useradd -r -s /usr/bin/nologin -d /var/lib/pacman alpm
+          #chroot "${WORKDIR}/archlinux" useradd -r -s /usr/bin/nologin -d /var/lib/pacman alpm
           chroot "${WORKDIR}/archlinux" pacman-key --init
           chroot "${WORKDIR}/archlinux" pacman-key --populate archlinuxarm
           chroot "${WORKDIR}/archlinux" pacman -Rnsc --noconfirm linux-aarch64 linux-firmware
