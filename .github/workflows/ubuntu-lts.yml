@@ -30,7 +30,7 @@ jobs:
           
       - name: Start Building
         run: |
-          dist_version="noble"
+          dist_version="resolute"
           sudo mmdebstrap --arch=arm64 \
           --variant=apt \
           --components="main,universe,multiverse" \
