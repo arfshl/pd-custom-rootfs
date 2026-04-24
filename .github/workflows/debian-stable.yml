@@ -76,7 +76,7 @@ jobs:
         run: |
           tar -xJf debian-stable-${{ matrix.arch }}.tar.xz
           sudo mkdir -p $GITHUB_WORKSPACE/debian/dev
-          sudo mkdir -p $GITHUB_WORKSPACE/ubu5ntu/proc
+          sudo mkdir -p $GITHUB_WORKSPACE/debian/proc
           sudo mkdir -p $GITHUB_WORKSPACE/debian/sys
           sudo mkdir -p $GITHUB_WORKSPACE/debian/tmp
           sudo chmod -R 755 $GITHUB_WORKSPACE/debian
@@ -177,4 +177,5 @@ jobs:
             debian-stable-*-${{ matrix.arch }}.tar.xz
           preserve_order: true
           make_latest: true
+          fail_on_unmatched_files: false
           
