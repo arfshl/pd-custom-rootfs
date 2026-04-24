@@ -16,6 +16,9 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-24.04-arm
+    strategy:
+      matrix:
+        arch: [arm64, armhf]
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v6
@@ -27,11 +30,14 @@ jobs:
           sudo apt install -yq /tmp/mmdebstrap.deb
           curl -L -o /tmp/keyring.deb http://ftp.us.debian.org/debian/pool/main/d/debian-archive-keyring/debian-archive-keyring_2025.1_all.deb
           sudo apt install -yq /tmp/keyring.deb
+          sudo dpkg --add-architecture armhf
+          sudo apt update
+          sudo apt install -y libc6:armhf
       - name: Start Building
         run: |
           dist_version="trixie"
           sudo mmdebstrap \
-          --arch=arm64 \
+          --arch=${{ matrix.arch }} \
           --variant=minbase \
           --components="main,contrib,non-free" \
           --include=ca-certificates,locales \
@@ -44,12 +50,12 @@ jobs:
           | xz -9 -T0 -c > tmprootfs.tar.xz
           mkdir $GITHUB_WORKSPACE/debian
           tar  --exclude=dev/* -xJf tmprootfs.tar.xz -C debian
-          sudo tar -cf - debian | xz -9 -T0 -c > debian-stable-aarch64.tar.xz
+          sudo tar -cf - debian | xz -9 -T0 -c > debian-stable-${{ matrix.arch }}.tar.xz
           sudo rm -r debian
 
       - name: Build XFCE
         run: |
-          tar -xJf debian-stable-aarch64.tar.xz
+          tar -xJf debian-stable-${{ matrix.arch }}.tar.xz
           sudo mkdir -p $GITHUB_WORKSPACE/debian/dev
           sudo mkdir -p $GITHUB_WORKSPACE/debian/proc
           sudo mkdir -p $GITHUB_WORKSPACE/debian/sys
@@ -63,12 +69,12 @@ jobs:
           sudo umount -l $GITHUB_WORKSPACE/debian/dev
           sudo umount -l $GITHUB_WORKSPACE/debian/proc
           sudo umount -l $GITHUB_WORKSPACE/debian/sys
-          sudo tar --exclude=dev/* -cf - debian | xz -9 -T0 -c > debian-stable-xfce-aarch64.tar.xz
+          sudo tar --exclude=dev/* -cf - debian | xz -9 -T0 -c > debian-stable-xfce-${{ matrix.arch }}.tar.xz
           sudo rm -r debian
 
       - name: Build MATE
         run: |
-          tar -xJf debian-stable-aarch64.tar.xz
+          tar -xJf debian-stable-${{ matrix.arch }}.tar.xz
           sudo mkdir -p $GITHUB_WORKSPACE/debian/dev
           sudo mkdir -p $GITHUB_WORKSPACE/ubu5ntu/proc
           sudo mkdir -p $GITHUB_WORKSPACE/debian/sys
@@ -82,12 +88,12 @@ jobs:
           sudo umount -l $GITHUB_WORKSPACE/debian/dev
           sudo umount -l $GITHUB_WORKSPACE/debian/proc
           sudo umount -l $GITHUB_WORKSPACE/debian/sys
-          sudo tar --exclude=dev/* -cf - debian | xz -9 -T0 -c > debian-stable-mate-aarch64.tar.xz
+          sudo tar --exclude=dev/* -cf - debian | xz -9 -T0 -c > debian-stable-mate-${{ matrix.arch }}.tar.xz
           sudo rm -r debian
           
       - name: Build LXQt
         run: |
-          tar -xJf debian-stable-aarch64.tar.xz
+          tar -xJf debian-stable-${{ matrix.arch }}.tar.xz
           sudo mkdir -p $GITHUB_WORKSPACE/debian/dev
           sudo mkdir -p $GITHUB_WORKSPACE/debian/proc
           sudo mkdir -p $GITHUB_WORKSPACE/debian/sys
@@ -101,12 +107,12 @@ jobs:
           sudo umount -l $GITHUB_WORKSPACE/debian/dev
           sudo umount -l $GITHUB_WORKSPACE/debian/proc
           sudo umount -l $GITHUB_WORKSPACE/debian/sys
-          sudo tar --exclude=dev/* -cf - debian | xz -9 -T0 -c > debian-stable-lxqt-aarch64.tar.xz
+          sudo tar --exclude=dev/* -cf - debian | xz -9 -T0 -c > debian-stable-lxqt-${{ matrix.arch }}.tar.xz
           sudo rm -r debian
           
       - name: Build LXDE
         run: |
-          tar -xJf debian-stable-aarch64.tar.xz
+          tar -xJf debian-stable-${{ matrix.arch }}.tar.xz
           sudo mkdir -p $GITHUB_WORKSPACE/debian/dev
           sudo mkdir -p $GITHUB_WORKSPACE/debian/proc
           sudo mkdir -p $GITHUB_WORKSPACE/debian/sys
@@ -120,12 +126,12 @@ jobs:
           sudo umount -l $GITHUB_WORKSPACE/debian/dev
           sudo umount -l $GITHUB_WORKSPACE/debian/proc
           sudo umount -l $GITHUB_WORKSPACE/debian/sys
-          sudo tar --exclude=dev/* -cf - debian | xz -9 -T0 -c > debian-stable-lxde-aarch64.tar.xz
+          sudo tar --exclude=dev/* -cf - debian | xz -9 -T0 -c > debian-stable-lxde-${{ matrix.arch }}.tar.xz
           sudo rm -r debian
           
       - name: Build Cinnamon
         run: |
-          tar -xJf debian-stable-aarch64.tar.xz
+          tar -xJf debian-stable-${{ matrix.arch }}.tar.xz
           sudo mkdir -p $GITHUB_WORKSPACE/debian/dev
           sudo mkdir -p $GITHUB_WORKSPACE/debian/proc
           sudo mkdir -p $GITHUB_WORKSPACE/debian/sys
@@ -139,12 +145,12 @@ jobs:
           sudo umount -l $GITHUB_WORKSPACE/debian/dev
           sudo umount -l $GITHUB_WORKSPACE/debian/proc
           sudo umount -l $GITHUB_WORKSPACE/debian/sys
-          sudo tar --exclude=dev/* -cf - debian | xz -9 -T0 -c > debian-stable-cinnamon-aarch64.tar.xz
+          sudo tar --exclude=dev/* -cf - debian | xz -9 -T0 -c > debian-stable-cinnamon-${{ matrix.arch }}.tar.xz
           sudo rm -r debian
           
       - name: Build KDE
         run: |
-          tar -xJf debian-stable-aarch64.tar.xz
+          tar -xJf debian-stable-${{ matrix.arch }}.tar.xz
           sudo mkdir -p $GITHUB_WORKSPACE/debian/dev
           sudo mkdir -p $GITHUB_WORKSPACE/debian/proc
           sudo mkdir -p $GITHUB_WORKSPACE/debian/sys
@@ -158,7 +164,7 @@ jobs:
           sudo umount -l $GITHUB_WORKSPACE/debian/dev
           sudo umount -l $GITHUB_WORKSPACE/debian/proc
           sudo umount -l $GITHUB_WORKSPACE/debian/sys
-          sudo tar --exclude=dev/* -cf - debian | xz -9 -T0 -c > debian-stable-kde-aarch64.tar.xz
+          sudo tar --exclude=dev/* -cf - debian | xz -9 -T0 -c > debian-stable-kde-${{ matrix.arch }}.tar.xz
           sudo rm -r debian
           
       - name: Deploy to proot-distro-desktop
@@ -167,8 +173,8 @@ jobs:
           tag_name: debian-stable
           name: Debian Stable
           files: |
-            debian-stable-aarch64.tar.xz
-            debian-stable-*-aarch64.tar.xz
+            debian-stable-${{ matrix.arch }}.tar.xz
+            debian-stable-*-${{ matrix.arch }}.tar.xz
           preserve_order: true
           make_latest: true
           
