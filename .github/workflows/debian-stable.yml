@@ -36,9 +36,9 @@ jobs:
           sudo apt install -y libc6:armhf
       - name: Start Building
         run: |
-          dist_version="${{ matrix.arch }}"
+          dist_version="${{ matrix.release }}"
           sudo mmdebstrap \
-          --arch=${{ matrix.arch }} \
+          --arch=${{ matrix.release }} \
           --variant=minbase \
           --components="main,contrib,non-free" \
           --include=ca-certificates,locales \
@@ -179,6 +179,7 @@ jobs:
           preserve_order: true
           make_latest: true
           fail_on_unmatched_files: false
+          
   build-amd:
     runs-on: ubuntu-latest
     strategy:
@@ -198,9 +199,9 @@ jobs:
           sudo apt install -yq /tmp/keyring.deb
       - name: Start Building
         run: |
-          dist_version="${{ matrix.arch }}"
+          dist_version="${{ matrix.release }}"
           sudo mmdebstrap \
-          --arch=${{ matrix.arch }} \
+          --arch=${{ matrix.release }} \
           --variant=minbase \
           --components="main,contrib,non-free" \
           --include=ca-certificates,locales \
