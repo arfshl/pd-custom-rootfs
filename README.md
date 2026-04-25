@@ -1,5 +1,6 @@
-## Custom rootfs created here:
-Note that only ARM64/aarch64 arch supported here. All rootfs are built once a weeks.
+### Forked from termux/proot-distro/distro-build
+
+### Custom rootfs created here:
 
 - Arch Linux [![archlinux](https://github.com/arfshl/pd-custom-rootfs/actions/workflows/archlinux.yml/badge.svg)](https://github.com/arfshl/pd-custom-rootfs/actions/workflows/archlinux.yml)
 - Debian Stable [![Debian Stable](https://github.com/arfshl/pd-custom-rootfs/actions/workflows/debian-stable.yml/badge.svg)](https://github.com/arfshl/pd-custom-rootfs/actions/workflows/debian-stable.yml)
@@ -9,3 +10,9 @@ Note that only ARM64/aarch64 arch supported here. All rootfs are built once a we
 - OpenSUSE Tumbleweed [![OpenSUSE Tumbleweed](https://github.com/arfshl/pd-custom-rootfs/actions/workflows/opensuse-tumbleweed.yml/badge.svg)](https://github.com/arfshl/pd-custom-rootfs/actions/workflows/opensuse-tumbleweed.yml)
 - Ubuntu LTS [![Ubuntu LTS](https://github.com/arfshl/pd-custom-rootfs/actions/workflows/ubuntu-lts.yml/badge.svg)](https://github.com/arfshl/pd-custom-rootfs/actions/workflows/ubuntu-lts.yml)
 - Oracle Linux [![Oracle Linux](https://github.com/arfshl/pd-custom-rootfs/actions/workflows/oraclelinux.yml/badge.svg)](https://github.com/arfshl/pd-custom-rootfs/actions/workflows/oraclelinux.yml)
+
+Supported Architecture:
+
+- aarch64/arm64
+- arm/armhf/armv7l
+- x86_64/amd64
