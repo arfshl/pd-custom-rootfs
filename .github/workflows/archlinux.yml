@@ -83,7 +83,7 @@ jobs:
           sudo mount --bind /dev $GITHUB_WORKSPACE/archlinux/dev
           sudo mount --bind /proc $GITHUB_WORKSPACE/archlinux/proc
           sudo mount --bind /sys $GITHUB_WORKSPACE/archlinux/sys
-          sudo chroot $GITHUB_WORKSPACE/archlinux /bin/sh -c "pacman -Syu && pacman -S --noconfirm wget && wget https://github.com/arfshl/proot-distro-desktop/raw/refs/heads/main/arch/xfce/install.sh && sh install.sh && rm install.sh"
+          sudo chroot $GITHUB_WORKSPACE/archlinux /bin/sh -c "pacman -Syu --noconfirm && pacman -S --noconfirm wget && wget https://github.com/arfshl/proot-distro-desktop/raw/refs/heads/main/arch/xfce/install.sh && sh install.sh && rm install.sh"
           sudo umount -R $GITHUB_WORKSPACE/archlinux
           
           sudo tar --exclude=dev/* -cpf - archlinux | xz -9 -T0 -c > archlinux-xfce-${{ matrix.arch }}.tar.xz
@@ -102,7 +102,7 @@ jobs:
           sudo mount --bind /dev $GITHUB_WORKSPACE/archlinux/dev
           sudo mount --bind /proc $GITHUB_WORKSPACE/archlinux/proc
           sudo mount --bind /sys $GITHUB_WORKSPACE/archlinux/sys
-          sudo chroot $GITHUB_WORKSPACE/archlinux /bin/sh -c "pacman -Syu && pacman -S --noconfirm wget && wget https://github.com/arfshl/proot-distro-desktop/raw/refs/heads/main/arch/lxqt/install.sh && sh install.sh && rm install.sh"
+          sudo chroot $GITHUB_WORKSPACE/archlinux /bin/sh -c "pacman -Syu --noconfirm && pacman -S --noconfirm wget && wget https://github.com/arfshl/proot-distro-desktop/raw/refs/heads/main/arch/lxqt/install.sh && sh install.sh && rm install.sh"
           sudo umount -R $GITHUB_WORKSPACE/archlinux/
          
           sudo tar --exclude=dev/* -cpf - archlinux | xz -9 -T0 -c > archlinux-lxqt-${{ matrix.arch }}.tar.xz
@@ -121,7 +121,7 @@ jobs:
           sudo mount --bind /dev $GITHUB_WORKSPACE/archlinux/dev
           sudo mount --bind /proc $GITHUB_WORKSPACE/archlinux/proc
           sudo mount --bind /sys $GITHUB_WORKSPACE/archlinux/sys
-          sudo chroot $GITHUB_WORKSPACE/archlinux /bin/sh -c "pacman -Syu && pacman -S --noconfirm wget && wget https://github.com/arfshl/proot-distro-desktop/raw/refs/heads/main/arch/mate/install.sh && sh install.sh && rm install.sh"
+          sudo chroot $GITHUB_WORKSPACE/archlinux /bin/sh -c "pacman -Syu --noconfirm && pacman -S --noconfirm wget && wget https://github.com/arfshl/proot-distro-desktop/raw/refs/heads/main/arch/mate/install.sh && sh install.sh && rm install.sh"
           sudo umount -R $GITHUB_WORKSPACE/archlinux/
           
           sudo tar --exclude=dev/* -cpf - archlinux | xz -9 -T0 -c > archlinux-mate-${{ matrix.arch }}.tar.xz
@@ -140,7 +140,7 @@ jobs:
           sudo mount --bind /dev $GITHUB_WORKSPACE/archlinux/dev
           sudo mount --bind /proc $GITHUB_WORKSPACE/archlinux/proc
           sudo mount --bind /sys $GITHUB_WORKSPACE/archlinux/sys
-          sudo chroot $GITHUB_WORKSPACE/archlinux /bin/sh -c "pacman -Syu && pacman -S --noconfirm wget && wget https://github.com/arfshl/proot-distro-desktop/raw/refs/heads/main/arch/lxde/install.sh && sh install.sh && rm install.sh"
+          sudo chroot $GITHUB_WORKSPACE/archlinux /bin/sh -c "pacman -Syu --noconfirm && pacman -S --noconfirm wget && wget https://github.com/arfshl/proot-distro-desktop/raw/refs/heads/main/arch/lxde/install.sh && sh install.sh && rm install.sh"
           sudo umount -R $GITHUB_WORKSPACE/archlinux/
           
           sudo tar --exclude=dev/* -cpf - archlinux | xz -9 -T0 -c > archlinux-lxde-${{ matrix.arch }}.tar.xz
@@ -159,7 +159,7 @@ jobs:
           sudo mount --bind /dev $GITHUB_WORKSPACE/archlinux/dev
           sudo mount --bind /proc $GITHUB_WORKSPACE/archlinux/proc
           sudo mount --bind /sys $GITHUB_WORKSPACE/archlinux/sys
-          sudo chroot $GITHUB_WORKSPACE/archlinux /bin/sh -c "pacman -Syu && pacman -S --noconfirm wget && wget https://github.com/arfshl/proot-distro-desktop/raw/refs/heads/main/arch/kde/install.sh && sh install.sh && rm install.sh"
+          sudo chroot $GITHUB_WORKSPACE/archlinux /bin/sh -c "pacman -Syu --noconfirm && pacman -S --noconfirm wget && wget https://github.com/arfshl/proot-distro-desktop/raw/refs/heads/main/arch/kde/install.sh && sh install.sh && rm install.sh"
           sudo umount -R $GITHUB_WORKSPACE/archlinux/
           
           sudo tar --exclude=dev/* -cpf - archlinux | xz -9 -T0 -c > archlinux-kde-${{ matrix.arch }}.tar.xz
@@ -178,7 +178,7 @@ jobs:
           sudo mount --bind /dev $GITHUB_WORKSPACE/archlinux/dev
           sudo mount --bind /proc $GITHUB_WORKSPACE/archlinux/proc
           sudo mount --bind /sys $GITHUB_WORKSPACE/archlinux/sys
-          sudo chroot $GITHUB_WORKSPACE/archlinux /bin/sh -c "pacman -Syu && pacman -S --noconfirm wget && wget https://github.com/arfshl/proot-distro-desktop/raw/refs/heads/main/arch/cinnamon/install.sh && sh install.sh && rm install.sh"
+          sudo chroot $GITHUB_WORKSPACE/archlinux /bin/sh -c "pacman -Syu --noconfirm && pacman -S --noconfirm wget && wget https://github.com/arfshl/proot-distro-desktop/raw/refs/heads/main/arch/cinnamon/install.sh && sh install.sh && rm install.sh"
           sudo umount -R $GITHUB_WORKSPACE/archlinux/
           
           sudo tar --exclude=dev/* -cpf - archlinux | xz -9 -T0 -c > archlinux-cinnamon-${{ matrix.arch }}.tar.xz
@@ -256,7 +256,7 @@ jobs:
           sudo mount --bind /dev $GITHUB_WORKSPACE/archlinux/dev
           sudo mount --bind /proc $GITHUB_WORKSPACE/archlinux/proc
           sudo mount --bind /sys $GITHUB_WORKSPACE/archlinux/sys
-          sudo chroot $GITHUB_WORKSPACE/archlinux /bin/sh -c "pacman -Syu && pacman -S --noconfirm wget && wget https://github.com/arfshl/proot-distro-desktop/raw/refs/heads/main/arch/xfce/install.sh && sh install.sh && rm install.sh"
+          sudo chroot $GITHUB_WORKSPACE/archlinux /bin/sh -c "pacman -Syu --noconfirm && pacman -S --noconfirm wget && wget https://github.com/arfshl/proot-distro-desktop/raw/refs/heads/main/arch/xfce/install.sh && sh install.sh && rm install.sh"
           sudo umount -R $GITHUB_WORKSPACE/archlinux
           
           sudo tar --exclude=dev/* -cpf - archlinux | xz -9 -T0 -c > archlinux-xfce-${{ matrix.arch }}.tar.xz
@@ -275,7 +275,7 @@ jobs:
           sudo mount --bind /dev $GITHUB_WORKSPACE/archlinux/dev
           sudo mount --bind /proc $GITHUB_WORKSPACE/archlinux/proc
           sudo mount --bind /sys $GITHUB_WORKSPACE/archlinux/sys
-          sudo chroot $GITHUB_WORKSPACE/archlinux /bin/sh -c "pacman -Syu && pacman -S --noconfirm wget && wget https://github.com/arfshl/proot-distro-desktop/raw/refs/heads/main/arch/lxqt/install.sh && sh install.sh && rm install.sh"
+          sudo chroot $GITHUB_WORKSPACE/archlinux /bin/sh -c "pacman -Syu --noconfirm && pacman -S --noconfirm wget && wget https://github.com/arfshl/proot-distro-desktop/raw/refs/heads/main/arch/lxqt/install.sh && sh install.sh && rm install.sh"
           sudo umount -R $GITHUB_WORKSPACE/archlinux/
          
           sudo tar --exclude=dev/* -cpf - archlinux | xz -9 -T0 -c > archlinux-lxqt-${{ matrix.arch }}.tar.xz
@@ -294,7 +294,7 @@ jobs:
           sudo mount --bind /dev $GITHUB_WORKSPACE/archlinux/dev
           sudo mount --bind /proc $GITHUB_WORKSPACE/archlinux/proc
           sudo mount --bind /sys $GITHUB_WORKSPACE/archlinux/sys
-          sudo chroot $GITHUB_WORKSPACE/archlinux /bin/sh -c "pacman -Syu && pacman -S --noconfirm wget && wget https://github.com/arfshl/proot-distro-desktop/raw/refs/heads/main/arch/mate/install.sh && sh install.sh && rm install.sh"
+          sudo chroot $GITHUB_WORKSPACE/archlinux /bin/sh -c "pacman -Syu --noconfirm && pacman -S --noconfirm wget && wget https://github.com/arfshl/proot-distro-desktop/raw/refs/heads/main/arch/mate/install.sh && sh install.sh && rm install.sh"
           sudo umount -R $GITHUB_WORKSPACE/archlinux/
           
           sudo tar --exclude=dev/* -cpf - archlinux | xz -9 -T0 -c > archlinux-mate-${{ matrix.arch }}.tar.xz
@@ -313,7 +313,7 @@ jobs:
           sudo mount --bind /dev $GITHUB_WORKSPACE/archlinux/dev
           sudo mount --bind /proc $GITHUB_WORKSPACE/archlinux/proc
           sudo mount --bind /sys $GITHUB_WORKSPACE/archlinux/sys
-          sudo chroot $GITHUB_WORKSPACE/archlinux /bin/sh -c "pacman -Syu && pacman -S --noconfirm wget && wget https://github.com/arfshl/proot-distro-desktop/raw/refs/heads/main/arch/lxde/install.sh && sh install.sh && rm install.sh"
+          sudo chroot $GITHUB_WORKSPACE/archlinux /bin/sh -c "pacman -Syu --noconfirm && pacman -S --noconfirm wget && wget https://github.com/arfshl/proot-distro-desktop/raw/refs/heads/main/arch/lxde/install.sh && sh install.sh && rm install.sh"
           sudo umount -R $GITHUB_WORKSPACE/archlinux/
           
           sudo tar --exclude=dev/* -cpf - archlinux | xz -9 -T0 -c > archlinux-lxde-${{ matrix.arch }}.tar.xz
@@ -332,7 +332,7 @@ jobs:
           sudo mount --bind /dev $GITHUB_WORKSPACE/archlinux/dev
           sudo mount --bind /proc $GITHUB_WORKSPACE/archlinux/proc
           sudo mount --bind /sys $GITHUB_WORKSPACE/archlinux/sys
-          sudo chroot $GITHUB_WORKSPACE/archlinux /bin/sh -c "pacman -Syu && pacman -S --noconfirm wget && wget https://github.com/arfshl/proot-distro-desktop/raw/refs/heads/main/arch/kde/install.sh && sh install.sh && rm install.sh"
+          sudo chroot $GITHUB_WORKSPACE/archlinux /bin/sh -c "pacman -Syu --noconfirm && pacman -S --noconfirm wget && wget https://github.com/arfshl/proot-distro-desktop/raw/refs/heads/main/arch/kde/install.sh && sh install.sh && rm install.sh"
           sudo umount -R $GITHUB_WORKSPACE/archlinux/
           
           sudo tar --exclude=dev/* -cpf - archlinux | xz -9 -T0 -c > archlinux-kde-${{ matrix.arch }}.tar.xz
@@ -351,7 +351,7 @@ jobs:
           sudo mount --bind /dev $GITHUB_WORKSPACE/archlinux/dev
           sudo mount --bind /proc $GITHUB_WORKSPACE/archlinux/proc
           sudo mount --bind /sys $GITHUB_WORKSPACE/archlinux/sys
-          sudo chroot $GITHUB_WORKSPACE/archlinux /bin/sh -c "pacman -Syu && pacman -S --noconfirm wget && wget https://github.com/arfshl/proot-distro-desktop/raw/refs/heads/main/arch/cinnamon/install.sh && sh install.sh && rm install.sh"
+          sudo chroot $GITHUB_WORKSPACE/archlinux /bin/sh -c "pacman -Syu --noconfirm && pacman -S --noconfirm wget && wget https://github.com/arfshl/proot-distro-desktop/raw/refs/heads/main/arch/cinnamon/install.sh && sh install.sh && rm install.sh"
           sudo umount -R $GITHUB_WORKSPACE/archlinux/
           
           sudo tar --exclude=dev/* -cpf - archlinux | xz -9 -T0 -c > archlinux-cinnamon-${{ matrix.arch }}.tar.xz
