@@ -14,8 +14,183 @@ permissions:
   contents: write  
 
 jobs:
-  build:
+  build-arm:
     runs-on: ubuntu-24.04-arm
+    strategy:
+      matrix:
+        arch: [arm64, armhf]
+        release: [ excalibur ]
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - name: Install Needed Dependencies
+        run: |
+          curl -L -o /tmp/mmdebstrap.deb http://ftp.us.debian.org/debian/pool/main/m/mmdebstrap/mmdebstrap_1.5.7-3_all.deb
+          sudo apt install -yq /tmp/mmdebstrap.deb
+          curl -L -o /tmp/keyring.deb http://ftp.us.debian.org/debian/pool/main/d/debian-archive-keyring/debian-archive-keyring_2025.1_all.deb
+          sudo apt install -yq /tmp/keyring.deb
+          curl -L -o /tmp/devuankey.deb http://deb.devuan.org/merged/pool/DEVUAN/main/d/devuan-keyring/devuan-keyring_2025.08.09_all.deb
+          sudo apt install -yq /tmp/devuankey.deb
+          sudo dpkg --add-architecture armhf
+          sudo apt update
+          sudo apt install -y libc6:armhf
+      - name: Start Building
+        run: |
+          dist_version=${{ matrix.release }}
+          sudo mmdebstrap \
+          --arch=${{ matrix.arch }} \
+          --variant=minbase \
+          --components="main,contrib,non-free" \
+          --include=ca-certificates,locales,devuan-keyring \
+          --format=tar \
+          --customize-hook="chroot \$1 sed -i 's/^# \(en_US.UTF-8\)/\1/' /etc/locale.gen" \
+          --customize-hook="chroot \$1 /bin/bash -c 'DEBIAN_FRONTEND=noninteractive dpkg-reconfigure locales'" \
+          --customize-hook='chroot \$1 /bin/bash -c "echo LANG=en_US.UTF-8 > /etc/default/locale"' \
+          ${dist_version} \
+          - \
+          "deb http://deb.devuan.org/merged ${dist_version} main contrib non-free" \
+          "deb http://deb.devuan.org/merged ${dist_version}-updates main contrib non-free" \
+          "deb http://deb.devuan.org/merged ${dist_version}-security main contrib non-free" \
+          "deb http://deb.devuan.org/merged ${dist_version}-backports main contrib non-free" \
+          | xz -9 -T0 -c > tmprootfs.tar.xz
+          mkdir $GITHUB_WORKSPACE/devuan
+          tar  --exclude=dev/* -xJf tmprootfs.tar.xz -C devuan
+          sudo tar -cf - devuan | xz -9 -T0 -c > devuan-stable-${{ matrix.arch }}.tar.xz
+          sudo rm -r devuan
+
+      - name: Build XFCE
+        run: |
+          tar -xJf devuan-stable-${{ matrix.arch }}.tar.xz
+          sudo mkdir -p $GITHUB_WORKSPACE/devuan/dev
+          sudo mkdir -p $GITHUB_WORKSPACE/devuan/proc
+          sudo mkdir -p $GITHUB_WORKSPACE/devuan/sys
+          sudo mkdir -p $GITHUB_WORKSPACE/devuan/tmp
+          sudo chmod -R 755 $GITHUB_WORKSPACE/devuan
+          sudo chmod -R 1777 $GITHUB_WORKSPACE/devuan/tmp
+          sudo mount --bind /dev $GITHUB_WORKSPACE/devuan/dev
+          sudo mount --bind /proc $GITHUB_WORKSPACE/devuan/proc
+          sudo mount --bind /sys $GITHUB_WORKSPACE/devuan/sys
+          sudo chroot $GITHUB_WORKSPACE/devuan /bin/sh -c "apt update && apt install wget -y && wget https://raw.githubusercontent.com/arfshl/proot-distro-desktop/refs/heads/main/devuan/xfce/install.sh && sh install.sh && rm install.sh"
+          sudo umount -l $GITHUB_WORKSPACE/devuan/dev
+          sudo umount -l $GITHUB_WORKSPACE/devuan/proc
+          sudo umount -l $GITHUB_WORKSPACE/devuan/sys
+          sudo tar --exclude=dev/* -cf - devuan | xz -9 -T0 -c > devuan-stable-xfce-${{ matrix.arch }}.tar.xz
+          sudo rm -r devuan
+
+      - name: Build MATE
+        run: |
+          tar -xJf devuan-stable-${{ matrix.arch }}.tar.xz
+          sudo mkdir -p $GITHUB_WORKSPACE/devuan/dev
+          sudo mkdir -p $GITHUB_WORKSPACE/ubu5ntu/proc
+          sudo mkdir -p $GITHUB_WORKSPACE/devuan/sys
+          sudo mkdir -p $GITHUB_WORKSPACE/devuan/tmp
+          sudo chmod -R 755 $GITHUB_WORKSPACE/devuan
+          sudo chmod -R 1777 $GITHUB_WORKSPACE/devuan/tmp
+          sudo mount --bind /dev $GITHUB_WORKSPACE/devuan/dev
+          sudo mount --bind /proc $GITHUB_WORKSPACE/devuan/proc
+          sudo mount --bind /sys $GITHUB_WORKSPACE/devuan/sys
+          sudo chroot $GITHUB_WORKSPACE/devuan /bin/sh -c "apt update && apt install wget -y && wget https://raw.githubusercontent.com/arfshl/proot-distro-desktop/refs/heads/main/devuan/mate/install.sh && sh install.sh && rm install.sh"
+          sudo umount -l $GITHUB_WORKSPACE/devuan/dev
+          sudo umount -l $GITHUB_WORKSPACE/devuan/proc
+          sudo umount -l $GITHUB_WORKSPACE/devuan/sys
+          sudo tar --exclude=dev/* -cf - devuan | xz -9 -T0 -c > devuan-stable-mate-${{ matrix.arch }}.tar.xz
+          sudo rm -r devuan
+          
+      - name: Build LXQt
+        run: |
+          tar -xJf devuan-stable-${{ matrix.arch }}.tar.xz
+          sudo mkdir -p $GITHUB_WORKSPACE/devuan/dev
+          sudo mkdir -p $GITHUB_WORKSPACE/devuan/proc
+          sudo mkdir -p $GITHUB_WORKSPACE/devuan/sys
+          sudo mkdir -p $GITHUB_WORKSPACE/devuan/tmp
+          sudo chmod -R 755 $GITHUB_WORKSPACE/devuan
+          sudo chmod -R 1777 $GITHUB_WORKSPACE/devuan/tmp
+          sudo mount --bind /dev $GITHUB_WORKSPACE/devuan/dev
+          sudo mount --bind /proc $GITHUB_WORKSPACE/devuan/proc
+          sudo mount --bind /sys $GITHUB_WORKSPACE/devuan/sys
+          sudo chroot $GITHUB_WORKSPACE/devuan /bin/sh -c "apt update && apt install wget -y && wget https://raw.githubusercontent.com/arfshl/proot-distro-desktop/refs/heads/main/devuan/lxqt/install.sh && sh install.sh && rm install.sh"
+          sudo umount -l $GITHUB_WORKSPACE/devuan/dev
+          sudo umount -l $GITHUB_WORKSPACE/devuan/proc
+          sudo umount -l $GITHUB_WORKSPACE/devuan/sys
+          sudo tar --exclude=dev/* -cf - devuan | xz -9 -T0 -c > devuan-stable-lxqt-${{ matrix.arch }}.tar.xz
+          sudo rm -r devuan
+          
+      - name: Build LXDE
+        run: |
+          tar -xJf devuan-stable-${{ matrix.arch }}.tar.xz
+          sudo mkdir -p $GITHUB_WORKSPACE/devuan/dev
+          sudo mkdir -p $GITHUB_WORKSPACE/devuan/proc
+          sudo mkdir -p $GITHUB_WORKSPACE/devuan/sys
+          sudo mkdir -p $GITHUB_WORKSPACE/devuan/tmp
+          sudo chmod -R 755 $GITHUB_WORKSPACE/devuan
+          sudo chmod -R 1777 $GITHUB_WORKSPACE/devuan/tmp
+          sudo mount --bind /dev $GITHUB_WORKSPACE/devuan/dev
+          sudo mount --bind /proc $GITHUB_WORKSPACE/devuan/proc
+          sudo mount --bind /sys $GITHUB_WORKSPACE/devuan/sys
+          sudo chroot $GITHUB_WORKSPACE/devuan /bin/sh -c "apt update && apt install wget -y && wget https://raw.githubusercontent.com/arfshl/proot-distro-desktop/refs/heads/main/devuan/lxde/install.sh && sh install.sh && rm install.sh"
+          sudo umount -l $GITHUB_WORKSPACE/devuan/dev
+          sudo umount -l $GITHUB_WORKSPACE/devuan/proc
+          sudo umount -l $GITHUB_WORKSPACE/devuan/sys
+          sudo tar --exclude=dev/* -cf - devuan | xz -9 -T0 -c > devuan-stable-lxde-${{ matrix.arch }}.tar.xz
+          sudo rm -r devuan
+          
+      - name: Build Cinnamon
+        run: |
+          tar -xJf devuan-stable-${{ matrix.arch }}.tar.xz
+          sudo mkdir -p $GITHUB_WORKSPACE/devuan/dev
+          sudo mkdir -p $GITHUB_WORKSPACE/devuan/proc
+          sudo mkdir -p $GITHUB_WORKSPACE/devuan/sys
+          sudo mkdir -p $GITHUB_WORKSPACE/devuan/tmp
+          sudo chmod -R 755 $GITHUB_WORKSPACE/devuan
+          sudo chmod -R 1777 $GITHUB_WORKSPACE/devuan/tmp
+          sudo mount --bind /dev $GITHUB_WORKSPACE/devuan/dev
+          sudo mount --bind /proc $GITHUB_WORKSPACE/devuan/proc
+          sudo mount --bind /sys $GITHUB_WORKSPACE/devuan/sys
+          sudo chroot $GITHUB_WORKSPACE/devuan /bin/sh -c "apt update && apt install wget -y && wget https://raw.githubusercontent.com/arfshl/proot-distro-desktop/refs/heads/main/devuan/cinnamon/install.sh && sh install.sh && rm install.sh"
+          sudo umount -l $GITHUB_WORKSPACE/devuan/dev
+          sudo umount -l $GITHUB_WORKSPACE/devuan/proc
+          sudo umount -l $GITHUB_WORKSPACE/devuan/sys
+          sudo tar --exclude=dev/* -cf - devuan | xz -9 -T0 -c > devuan-stable-cinnamon-${{ matrix.arch }}.tar.xz
+          sudo rm -r devuan
+          
+      - name: Build KDE
+        run: |
+          tar -xJf devuan-stable-${{ matrix.arch }}.tar.xz
+          sudo mkdir -p $GITHUB_WORKSPACE/devuan/dev
+          sudo mkdir -p $GITHUB_WORKSPACE/devuan/proc
+          sudo mkdir -p $GITHUB_WORKSPACE/devuan/sys
+          sudo mkdir -p $GITHUB_WORKSPACE/devuan/tmp
+          sudo chmod -R 755 $GITHUB_WORKSPACE/devuan
+          sudo chmod -R 1777 $GITHUB_WORKSPACE/devuan/tmp
+          sudo mount --bind /dev $GITHUB_WORKSPACE/devuan/dev
+          sudo mount --bind /proc $GITHUB_WORKSPACE/devuan/proc
+          sudo mount --bind /sys $GITHUB_WORKSPACE/devuan/sys
+          sudo chroot $GITHUB_WORKSPACE/devuan /bin/sh -c "apt update && apt install wget -y && wget https://raw.githubusercontent.com/arfshl/proot-distro-desktop/refs/heads/main/devuan/kde/install.sh && sh install.sh && rm install.sh"
+          sudo umount -l $GITHUB_WORKSPACE/devuan/dev
+          sudo umount -l $GITHUB_WORKSPACE/devuan/proc
+          sudo umount -l $GITHUB_WORKSPACE/devuan/sys
+          sudo tar --exclude=dev/* -cf - devuan | xz -9 -T0 -c > devuan-stable-kde-${{ matrix.arch }}.tar.xz
+          sudo rm -r devuan
+          
+      - name: Deploy to proot-distro-desktop
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: devuan-stable
+          name: Devuan Stable
+          files: |
+            devuan-stable-${{ matrix.arch }}.tar.xz
+            devuan-stable-*-${{ matrix.arch }}.tar.xz
+          preserve_order: true
+          make_latest: true
+
+  build-amd:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        arch: [ amd64 ]
+        release: [ excalibur ]
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v6
@@ -31,29 +206,31 @@ jobs:
           sudo apt install -yq /tmp/devuankey.deb
       - name: Start Building
         run: |
-          dist_version="excalibur"
+          dist_version=${{ matrix.release }}
           sudo mmdebstrap \
-          --arch=arm64 \
+          --arch=${{ matrix.arch }} \
           --variant=minbase \
           --components="main,contrib,non-free" \
           --include=ca-certificates,locales,devuan-keyring \
           --format=tar \
           --customize-hook="chroot \$1 sed -i 's/^# \(en_US.UTF-8\)/\1/' /etc/locale.gen" \
           --customize-hook="chroot \$1 /bin/bash -c 'DEBIAN_FRONTEND=noninteractive dpkg-reconfigure locales'" \
+          --customize-hook='chroot \$1 /bin/bash -c "echo LANG=en_US.UTF-8 > /etc/default/locale"' \
           ${dist_version} \
           - \
           "deb http://deb.devuan.org/merged ${dist_version} main contrib non-free" \
           "deb http://deb.devuan.org/merged ${dist_version}-updates main contrib non-free" \
           "deb http://deb.devuan.org/merged ${dist_version}-security main contrib non-free" \
+          "deb http://deb.devuan.org/merged ${dist_version}-backports main contrib non-free" \
           | xz -9 -T0 -c > tmprootfs.tar.xz
           mkdir $GITHUB_WORKSPACE/devuan
           tar  --exclude=dev/* -xJf tmprootfs.tar.xz -C devuan
-          sudo tar -cf - devuan | xz -9 -T0 -c > devuan-stable-aarch64.tar.xz
+          sudo tar -cf - devuan | xz -9 -T0 -c > devuan-stable-${{ matrix.arch }}.tar.xz
           sudo rm -r devuan
 
       - name: Build XFCE
         run: |
-          tar -xJf devuan-stable-aarch64.tar.xz
+          tar -xJf devuan-stable-${{ matrix.arch }}.tar.xz
           sudo mkdir -p $GITHUB_WORKSPACE/devuan/dev
           sudo mkdir -p $GITHUB_WORKSPACE/devuan/proc
           sudo mkdir -p $GITHUB_WORKSPACE/devuan/sys
@@ -67,12 +244,12 @@ jobs:
           sudo umount -l $GITHUB_WORKSPACE/devuan/dev
           sudo umount -l $GITHUB_WORKSPACE/devuan/proc
           sudo umount -l $GITHUB_WORKSPACE/devuan/sys
-          sudo tar --exclude=dev/* -cf - devuan | xz -9 -T0 -c > devuan-stable-xfce-aarch64.tar.xz
+          sudo tar --exclude=dev/* -cf - devuan | xz -9 -T0 -c > devuan-stable-xfce-${{ matrix.arch }}.tar.xz
           sudo rm -r devuan
 
       - name: Build MATE
         run: |
-          tar -xJf devuan-stable-aarch64.tar.xz
+          tar -xJf devuan-stable-${{ matrix.arch }}.tar.xz
           sudo mkdir -p $GITHUB_WORKSPACE/devuan/dev
           sudo mkdir -p $GITHUB_WORKSPACE/ubu5ntu/proc
           sudo mkdir -p $GITHUB_WORKSPACE/devuan/sys
@@ -86,12 +263,12 @@ jobs:
           sudo umount -l $GITHUB_WORKSPACE/devuan/dev
           sudo umount -l $GITHUB_WORKSPACE/devuan/proc
           sudo umount -l $GITHUB_WORKSPACE/devuan/sys
-          sudo tar --exclude=dev/* -cf - devuan | xz -9 -T0 -c > devuan-stable-mate-aarch64.tar.xz
+          sudo tar --exclude=dev/* -cf - devuan | xz -9 -T0 -c > devuan-stable-mate-${{ matrix.arch }}.tar.xz
           sudo rm -r devuan
           
       - name: Build LXQt
         run: |
-          tar -xJf devuan-stable-aarch64.tar.xz
+          tar -xJf devuan-stable-${{ matrix.arch }}.tar.xz
           sudo mkdir -p $GITHUB_WORKSPACE/devuan/dev
           sudo mkdir -p $GITHUB_WORKSPACE/devuan/proc
           sudo mkdir -p $GITHUB_WORKSPACE/devuan/sys
@@ -105,12 +282,12 @@ jobs:
           sudo umount -l $GITHUB_WORKSPACE/devuan/dev
           sudo umount -l $GITHUB_WORKSPACE/devuan/proc
           sudo umount -l $GITHUB_WORKSPACE/devuan/sys
-          sudo tar --exclude=dev/* -cf - devuan | xz -9 -T0 -c > devuan-stable-lxqt-aarch64.tar.xz
+          sudo tar --exclude=dev/* -cf - devuan | xz -9 -T0 -c > devuan-stable-lxqt-${{ matrix.arch }}.tar.xz
           sudo rm -r devuan
           
       - name: Build LXDE
         run: |
-          tar -xJf devuan-stable-aarch64.tar.xz
+          tar -xJf devuan-stable-${{ matrix.arch }}.tar.xz
           sudo mkdir -p $GITHUB_WORKSPACE/devuan/dev
           sudo mkdir -p $GITHUB_WORKSPACE/devuan/proc
           sudo mkdir -p $GITHUB_WORKSPACE/devuan/sys
@@ -124,12 +301,12 @@ jobs:
           sudo umount -l $GITHUB_WORKSPACE/devuan/dev
           sudo umount -l $GITHUB_WORKSPACE/devuan/proc
           sudo umount -l $GITHUB_WORKSPACE/devuan/sys
-          sudo tar --exclude=dev/* -cf - devuan | xz -9 -T0 -c > devuan-stable-lxde-aarch64.tar.xz
+          sudo tar --exclude=dev/* -cf - devuan | xz -9 -T0 -c > devuan-stable-lxde-${{ matrix.arch }}.tar.xz
           sudo rm -r devuan
           
       - name: Build Cinnamon
         run: |
-          tar -xJf devuan-stable-aarch64.tar.xz
+          tar -xJf devuan-stable-${{ matrix.arch }}.tar.xz
           sudo mkdir -p $GITHUB_WORKSPACE/devuan/dev
           sudo mkdir -p $GITHUB_WORKSPACE/devuan/proc
           sudo mkdir -p $GITHUB_WORKSPACE/devuan/sys
@@ -143,12 +320,12 @@ jobs:
           sudo umount -l $GITHUB_WORKSPACE/devuan/dev
           sudo umount -l $GITHUB_WORKSPACE/devuan/proc
           sudo umount -l $GITHUB_WORKSPACE/devuan/sys
-          sudo tar --exclude=dev/* -cf - devuan | xz -9 -T0 -c > devuan-stable-cinnamon-aarch64.tar.xz
+          sudo tar --exclude=dev/* -cf - devuan | xz -9 -T0 -c > devuan-stable-cinnamon-${{ matrix.arch }}.tar.xz
           sudo rm -r devuan
           
       - name: Build KDE
         run: |
-          tar -xJf devuan-stable-aarch64.tar.xz
+          tar -xJf devuan-stable-${{ matrix.arch }}.tar.xz
           sudo mkdir -p $GITHUB_WORKSPACE/devuan/dev
           sudo mkdir -p $GITHUB_WORKSPACE/devuan/proc
           sudo mkdir -p $GITHUB_WORKSPACE/devuan/sys
@@ -162,7 +339,7 @@ jobs:
           sudo umount -l $GITHUB_WORKSPACE/devuan/dev
           sudo umount -l $GITHUB_WORKSPACE/devuan/proc
           sudo umount -l $GITHUB_WORKSPACE/devuan/sys
-          sudo tar --exclude=dev/* -cf - devuan | xz -9 -T0 -c > devuan-stable-kde-aarch64.tar.xz
+          sudo tar --exclude=dev/* -cf - devuan | xz -9 -T0 -c > devuan-stable-kde-${{ matrix.arch }}.tar.xz
           sudo rm -r devuan
           
       - name: Deploy to proot-distro-desktop
@@ -171,8 +348,8 @@ jobs:
           tag_name: devuan-stable
           name: Devuan Stable
           files: |
-            devuan-stable-aarch64.tar.xz
-            devuan-stable-*-aarch64.tar.xz
+            devuan-stable-${{ matrix.arch }}.tar.xz
+            devuan-stable-*-${{ matrix.arch }}.tar.xz
           preserve_order: true
           make_latest: true
           

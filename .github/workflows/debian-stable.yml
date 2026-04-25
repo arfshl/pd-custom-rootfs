@@ -46,6 +46,9 @@ jobs:
           --customize-hook='echo "deb http://deb.debian.org/debian trixie-backports main contrib non-free" >> "$1/etc/apt/sources.list"' \
           --customize-hook='sed -i "s|main contrib|main contrib non-free|" /etc/apt/sources.list' \
           --customize-hook='chroot "$1" apt update' \
+          --customize-hook="chroot \$1 sed -i 's/^# \(en_US.UTF-8\)/\1/' /etc/locale.gen" \
+          --customize-hook="chroot \$1 /bin/bash -c 'DEBIAN_FRONTEND=noninteractive dpkg-reconfigure locales'" \
+          --customize-hook='chroot \$1 /bin/bash -c "echo LANG=en_US.UTF-8 > /etc/default/locale"' \
           ${dist_version} \
           - \
           | xz -9 -T0 -c > tmprootfs.tar.xz
@@ -209,6 +212,9 @@ jobs:
           --customize-hook='echo "deb http://deb.debian.org/debian trixie-backports main contrib non-free" >> "$1/etc/apt/sources.list"' \
           --customize-hook='sed -i "s|main contrib|main contrib non-free|" /etc/apt/sources.list' \
           --customize-hook='chroot "$1" apt update' \
+          --customize-hook="chroot \$1 sed -i 's/^# \(en_US.UTF-8\)/\1/' /etc/locale.gen" \
+          --customize-hook="chroot \$1 /bin/bash -c 'DEBIAN_FRONTEND=noninteractive dpkg-reconfigure locales'" \
+          --customize-hook='chroot \$1 /bin/bash -c "echo LANG=en_US.UTF-8 > /etc/default/locale"' \
           ${dist_version} \
           - \
           | xz -9 -T0 -c > tmprootfs.tar.xz
