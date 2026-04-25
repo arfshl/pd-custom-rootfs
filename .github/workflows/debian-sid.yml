@@ -43,6 +43,7 @@ jobs:
           aarch64)
           ARCH="arm64"
           ;;
+          esac
           sudo mmdebstrap \
           --arch=$ARCH \
           --variant=minbase \
@@ -208,6 +209,7 @@ jobs:
           x86_64)
           ARCH="amd64"
           ;;
+          esac
           sudo mmdebstrap \
           --arch=$ARCH \
           --variant=minbase \

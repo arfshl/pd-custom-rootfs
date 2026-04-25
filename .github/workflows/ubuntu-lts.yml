@@ -225,7 +225,7 @@ jobs:
           dist_version="${{ matrix.release }}"
           mkdir -p $GITHUB_WORKSPACE/ubuntu-lts-${dist_version}-${{ matrix.arch }}
           sudo mmdebstrap \
-          --arch="${{ matrix.arch }}" \
+          --arch="$ARCH" \
           --variant=apt \
           --components="main,universe,multiverse" \
           --include=locales,passwd,software-properties-common,ca-certificates \

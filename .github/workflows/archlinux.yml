@@ -45,7 +45,7 @@ jobs:
           "http://os.archlinuxarm.org/os/ArchLinuxARM-$ARCH-latest.tar.gz"
           
           sudo mkdir -m 755 "${WORKDIR}/archlinux"
-          sudo tar -zxvp \
+          sudo tar -zxp \
           -f "${WORKDIR}/archlinux-${{ matrix.arch }}.tar.gz" \
           -C "${WORKDIR}/archlinux"
 
@@ -60,7 +60,7 @@ jobs:
           #chroot "${WORKDIR}/archlinux" useradd -r -s /usr/bin/nologin -d /var/lib/pacman alpm
           chroot "${WORKDIR}/archlinux" pacman-key --init
           chroot "${WORKDIR}/archlinux" pacman-key --populate archlinuxarm
-          chroot "${WORKDIR}/archlinux" pacman -Rnsc --noconfirm linux-${{ matrix.arch }} linux-firmware
+          chroot "${WORKDIR}/archlinux" pacman -Rnsc --noconfirm linux-$ARCH linux-firmware
           chroot "${WORKDIR}/archlinux" pacman -Syu --noconfirm
           chroot "${WORKDIR}/archlinux" rm -f /var/cache/pacman/pkg/*
           sed -i 's/#DisableSandbox/DisableSandbox/' "${WORKDIR}/archlinux/etc/pacman.conf"
@@ -200,7 +200,6 @@ jobs:
     strategy:
       matrix:
         arch: [ x86_64 ]
-        release: [ 2026.02.01 ]
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v6
@@ -212,7 +211,7 @@ jobs:
           WORKDIR="$GITHUB_WORKSPACE/archlinux-dump"
           curl --fail --location \
           --output "${WORKDIR}/archlinux-${{ matrix.arch }}.tar.zst" \
-          "https://mirror.rackspace.com/archlinux/iso/${dist_version}/archlinux-bootstrap-${dist_version}-${{ matrix.arch }}.tar.zst"
+          "https://mirror.rackspace.com/archlinux/iso/latest/archlinux-bootstrap-${{ matrix.arch }}.tar.zst"
 
           sudo mkdir -m 755 "${WORKDIR}/archlinux-bootstrap"
           sudo tar -xp --strip-components=1 --acls --xattrs --xattrs-include='*' \

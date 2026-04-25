@@ -44,6 +44,7 @@ jobs:
           aarch64)
           ARCH="arm64"
           ;;
+          esac
           dist_version="${{ matrix.release }}"
           sudo mmdebstrap \
           --arch=$ARCH \
@@ -215,6 +216,7 @@ jobs:
           x86_64)
           ARCH="amd64"
           ;;
+          esac
           dist_version="${{ matrix.release }}"
           sudo mmdebstrap \
           --arch=$ARCH \
