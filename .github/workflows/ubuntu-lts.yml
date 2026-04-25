@@ -79,7 +79,7 @@ jobs:
           sudo umount -l $GITHUB_WORKSPACE/ubuntu/dev
           sudo umount -l $GITHUB_WORKSPACE/ubuntu/proc
           sudo umount -l $GITHUB_WORKSPACE/ubuntu/sys
-          sudo tar --exclude=dev/* -cf - ubuntu | xz -9 -T0 -c > ubuntu-lts-xfce-${{ matrix.arch }}.tar.xz
+          sudo tar --exclude=dev/* -cpf - ubuntu | xz -9 -T0 -c > ubuntu-lts-xfce-${{ matrix.arch }}.tar.xz
           sudo rm -r ubuntu
 
       - name: Build MATE
@@ -98,7 +98,7 @@ jobs:
           sudo umount -l $GITHUB_WORKSPACE/ubuntu/dev
           sudo umount -l $GITHUB_WORKSPACE/ubuntu/proc
           sudo umount -l $GITHUB_WORKSPACE/ubuntu/sys
-          sudo tar --exclude=dev/* -cf - ubuntu | xz -9 -T0 -c > ubuntu-lts-mate-${{ matrix.arch }}.tar.xz
+          sudo tar --exclude=dev/* -cpf - ubuntu | xz -9 -T0 -c > ubuntu-lts-mate-${{ matrix.arch }}.tar.xz
           sudo rm -r ubuntu
           
       - name: Build LXQt
@@ -117,7 +117,7 @@ jobs:
           sudo umount -l $GITHUB_WORKSPACE/ubuntu/dev
           sudo umount -l $GITHUB_WORKSPACE/ubuntu/proc
           sudo umount -l $GITHUB_WORKSPACE/ubuntu/sys
-          sudo tar --exclude=dev/* -cf - ubuntu | xz -9 -T0 -c > ubuntu-lts-lxqt-${{ matrix.arch }}.tar.xz
+          sudo tar --exclude=dev/* -cpf - ubuntu | xz -9 -T0 -c > ubuntu-lts-lxqt-${{ matrix.arch }}.tar.xz
           sudo rm -r ubuntu
           
       - name: Build LXDE
@@ -136,7 +136,7 @@ jobs:
           sudo umount -l $GITHUB_WORKSPACE/ubuntu/dev
           sudo umount -l $GITHUB_WORKSPACE/ubuntu/proc
           sudo umount -l $GITHUB_WORKSPACE/ubuntu/sys
-          sudo tar --exclude=dev/* -cf - ubuntu | xz -9 -T0 -c > ubuntu-lts-lxde-${{ matrix.arch }}.tar.xz
+          sudo tar --exclude=dev/* -cpf - ubuntu | xz -9 -T0 -c > ubuntu-lts-lxde-${{ matrix.arch }}.tar.xz
           sudo rm -r ubuntu
           
       - name: Build Cinnamon
@@ -155,7 +155,7 @@ jobs:
           sudo umount -l $GITHUB_WORKSPACE/ubuntu/dev
           sudo umount -l $GITHUB_WORKSPACE/ubuntu/proc
           sudo umount -l $GITHUB_WORKSPACE/ubuntu/sys
-          sudo tar --exclude=dev/* -cf - ubuntu | xz -9 -T0 -c > ubuntu-lts-cinnamon-${{ matrix.arch }}.tar.xz
+          sudo tar --exclude=dev/* -cpf - ubuntu | xz -9 -T0 -c > ubuntu-lts-cinnamon-${{ matrix.arch }}.tar.xz
           sudo rm -r ubuntu
           
       - name: Build KDE
@@ -174,7 +174,7 @@ jobs:
           sudo umount -l $GITHUB_WORKSPACE/ubuntu/dev
           sudo umount -l $GITHUB_WORKSPACE/ubuntu/proc
           sudo umount -l $GITHUB_WORKSPACE/ubuntu/sys
-          sudo tar --exclude=dev/* -cf - ubuntu | xz -9 -T0 -c > ubuntu-lts-kde-${{ matrix.arch }}.tar.xz
+          sudo tar --exclude=dev/* -cpf - ubuntu | xz -9 -T0 -c > ubuntu-lts-kde-${{ matrix.arch }}.tar.xz
           sudo rm -r ubuntu
 
       - name: Deploy to proot-distro-desktop
@@ -250,7 +250,7 @@ jobs:
           sudo umount -l $GITHUB_WORKSPACE/ubuntu/dev
           sudo umount -l $GITHUB_WORKSPACE/ubuntu/proc
           sudo umount -l $GITHUB_WORKSPACE/ubuntu/sys
-          sudo tar --exclude=dev/* -cf - ubuntu | xz -9 -T0 -c > ubuntu-lts-xfce-${{ matrix.arch }}.tar.xz
+          sudo tar --exclude=dev/* -cpf - ubuntu | xz -9 -T0 -c > ubuntu-lts-xfce-${{ matrix.arch }}.tar.xz
           sudo rm -r ubuntu
 
       - name: Build MATE
@@ -269,7 +269,7 @@ jobs:
           sudo umount -l $GITHUB_WORKSPACE/ubuntu/dev
           sudo umount -l $GITHUB_WORKSPACE/ubuntu/proc
           sudo umount -l $GITHUB_WORKSPACE/ubuntu/sys
-          sudo tar --exclude=dev/* -cf - ubuntu | xz -9 -T0 -c > ubuntu-lts-mate-${{ matrix.arch }}.tar.xz
+          sudo tar --exclude=dev/* -cpf - ubuntu | xz -9 -T0 -c > ubuntu-lts-mate-${{ matrix.arch }}.tar.xz
           sudo rm -r ubuntu
           
       - name: Build LXQt
@@ -288,7 +288,7 @@ jobs:
           sudo umount -l $GITHUB_WORKSPACE/ubuntu/dev
           sudo umount -l $GITHUB_WORKSPACE/ubuntu/proc
           sudo umount -l $GITHUB_WORKSPACE/ubuntu/sys
-          sudo tar --exclude=dev/* -cf - ubuntu | xz -9 -T0 -c > ubuntu-lts-lxqt-${{ matrix.arch }}.tar.xz
+          sudo tar --exclude=dev/* -cpf - ubuntu | xz -9 -T0 -c > ubuntu-lts-lxqt-${{ matrix.arch }}.tar.xz
           sudo rm -r ubuntu
           
       - name: Build LXDE
@@ -307,7 +307,7 @@ jobs:
           sudo umount -l $GITHUB_WORKSPACE/ubuntu/dev
           sudo umount -l $GITHUB_WORKSPACE/ubuntu/proc
           sudo umount -l $GITHUB_WORKSPACE/ubuntu/sys
-          sudo tar --exclude=dev/* -cf - ubuntu | xz -9 -T0 -c > ubuntu-lts-lxde-${{ matrix.arch }}.tar.xz
+          sudo tar --exclude=dev/* -cpf - ubuntu | xz -9 -T0 -c > ubuntu-lts-lxde-${{ matrix.arch }}.tar.xz
           sudo rm -r ubuntu
           
       - name: Build Cinnamon
@@ -326,7 +326,7 @@ jobs:
           sudo umount -l $GITHUB_WORKSPACE/ubuntu/dev
           sudo umount -l $GITHUB_WORKSPACE/ubuntu/proc
           sudo umount -l $GITHUB_WORKSPACE/ubuntu/sys
-          sudo tar --exclude=dev/* -cf - ubuntu | xz -9 -T0 -c > ubuntu-lts-cinnamon-${{ matrix.arch }}.tar.xz
+          sudo tar --exclude=dev/* -cpf - ubuntu | xz -9 -T0 -c > ubuntu-lts-cinnamon-${{ matrix.arch }}.tar.xz
           sudo rm -r ubuntu
           
       - name: Build KDE
@@ -345,7 +345,7 @@ jobs:
           sudo umount -l $GITHUB_WORKSPACE/ubuntu/dev
           sudo umount -l $GITHUB_WORKSPACE/ubuntu/proc
           sudo umount -l $GITHUB_WORKSPACE/ubuntu/sys
-          sudo tar --exclude=dev/* -cf - ubuntu | xz -9 -T0 -c > ubuntu-lts-kde-${{ matrix.arch }}.tar.xz
+          sudo tar --exclude=dev/* -cpf - ubuntu | xz -9 -T0 -c > ubuntu-lts-kde-${{ matrix.arch }}.tar.xz
           sudo rm -r ubuntu
 
       - name: Deploy to proot-distro-desktop

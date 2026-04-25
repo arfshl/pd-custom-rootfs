@@ -57,7 +57,7 @@ jobs:
           | xz -9 -T0 -c > tmprootfs.tar.xz
           mkdir $GITHUB_WORKSPACE/devuan
           tar  --exclude=dev/* -xJf tmprootfs.tar.xz -C devuan
-          sudo tar -cf - devuan | xz -9 -T0 -c > devuan-stable-${{ matrix.arch }}.tar.xz
+          sudo tar -cpf - devuan | xz -9 -T0 -c > devuan-stable-${{ matrix.arch }}.tar.xz
           sudo rm -r devuan
 
       - name: Build XFCE
@@ -76,7 +76,7 @@ jobs:
           sudo umount -l $GITHUB_WORKSPACE/devuan/dev
           sudo umount -l $GITHUB_WORKSPACE/devuan/proc
           sudo umount -l $GITHUB_WORKSPACE/devuan/sys
-          sudo tar --exclude=dev/* -cf - devuan | xz -9 -T0 -c > devuan-stable-xfce-${{ matrix.arch }}.tar.xz
+          sudo tar --exclude=dev/* -cpf - devuan | xz -9 -T0 -c > devuan-stable-xfce-${{ matrix.arch }}.tar.xz
           sudo rm -r devuan
 
       - name: Build MATE
@@ -95,7 +95,7 @@ jobs:
           sudo umount -l $GITHUB_WORKSPACE/devuan/dev
           sudo umount -l $GITHUB_WORKSPACE/devuan/proc
           sudo umount -l $GITHUB_WORKSPACE/devuan/sys
-          sudo tar --exclude=dev/* -cf - devuan | xz -9 -T0 -c > devuan-stable-mate-${{ matrix.arch }}.tar.xz
+          sudo tar --exclude=dev/* -cpf - devuan | xz -9 -T0 -c > devuan-stable-mate-${{ matrix.arch }}.tar.xz
           sudo rm -r devuan
           
       - name: Build LXQt
@@ -114,7 +114,7 @@ jobs:
           sudo umount -l $GITHUB_WORKSPACE/devuan/dev
           sudo umount -l $GITHUB_WORKSPACE/devuan/proc
           sudo umount -l $GITHUB_WORKSPACE/devuan/sys
-          sudo tar --exclude=dev/* -cf - devuan | xz -9 -T0 -c > devuan-stable-lxqt-${{ matrix.arch }}.tar.xz
+          sudo tar --exclude=dev/* -cpf - devuan | xz -9 -T0 -c > devuan-stable-lxqt-${{ matrix.arch }}.tar.xz
           sudo rm -r devuan
           
       - name: Build LXDE
@@ -133,7 +133,7 @@ jobs:
           sudo umount -l $GITHUB_WORKSPACE/devuan/dev
           sudo umount -l $GITHUB_WORKSPACE/devuan/proc
           sudo umount -l $GITHUB_WORKSPACE/devuan/sys
-          sudo tar --exclude=dev/* -cf - devuan | xz -9 -T0 -c > devuan-stable-lxde-${{ matrix.arch }}.tar.xz
+          sudo tar --exclude=dev/* -cpf - devuan | xz -9 -T0 -c > devuan-stable-lxde-${{ matrix.arch }}.tar.xz
           sudo rm -r devuan
           
       - name: Build Cinnamon
@@ -152,7 +152,7 @@ jobs:
           sudo umount -l $GITHUB_WORKSPACE/devuan/dev
           sudo umount -l $GITHUB_WORKSPACE/devuan/proc
           sudo umount -l $GITHUB_WORKSPACE/devuan/sys
-          sudo tar --exclude=dev/* -cf - devuan | xz -9 -T0 -c > devuan-stable-cinnamon-${{ matrix.arch }}.tar.xz
+          sudo tar --exclude=dev/* -cpf - devuan | xz -9 -T0 -c > devuan-stable-cinnamon-${{ matrix.arch }}.tar.xz
           sudo rm -r devuan
           
       - name: Build KDE
@@ -171,7 +171,7 @@ jobs:
           sudo umount -l $GITHUB_WORKSPACE/devuan/dev
           sudo umount -l $GITHUB_WORKSPACE/devuan/proc
           sudo umount -l $GITHUB_WORKSPACE/devuan/sys
-          sudo tar --exclude=dev/* -cf - devuan | xz -9 -T0 -c > devuan-stable-kde-${{ matrix.arch }}.tar.xz
+          sudo tar --exclude=dev/* -cpf - devuan | xz -9 -T0 -c > devuan-stable-kde-${{ matrix.arch }}.tar.xz
           sudo rm -r devuan
           
       - name: Deploy to proot-distro-desktop
@@ -225,7 +225,7 @@ jobs:
           | xz -9 -T0 -c > tmprootfs.tar.xz
           mkdir $GITHUB_WORKSPACE/devuan
           tar  --exclude=dev/* -xJf tmprootfs.tar.xz -C devuan
-          sudo tar -cf - devuan | xz -9 -T0 -c > devuan-stable-${{ matrix.arch }}.tar.xz
+          sudo tar -cpf - devuan | xz -9 -T0 -c > devuan-stable-${{ matrix.arch }}.tar.xz
           sudo rm -r devuan
 
       - name: Build XFCE
@@ -244,7 +244,7 @@ jobs:
           sudo umount -l $GITHUB_WORKSPACE/devuan/dev
           sudo umount -l $GITHUB_WORKSPACE/devuan/proc
           sudo umount -l $GITHUB_WORKSPACE/devuan/sys
-          sudo tar --exclude=dev/* -cf - devuan | xz -9 -T0 -c > devuan-stable-xfce-${{ matrix.arch }}.tar.xz
+          sudo tar --exclude=dev/* -cpf - devuan | xz -9 -T0 -c > devuan-stable-xfce-${{ matrix.arch }}.tar.xz
           sudo rm -r devuan
 
       - name: Build MATE
@@ -263,7 +263,7 @@ jobs:
           sudo umount -l $GITHUB_WORKSPACE/devuan/dev
           sudo umount -l $GITHUB_WORKSPACE/devuan/proc
           sudo umount -l $GITHUB_WORKSPACE/devuan/sys
-          sudo tar --exclude=dev/* -cf - devuan | xz -9 -T0 -c > devuan-stable-mate-${{ matrix.arch }}.tar.xz
+          sudo tar --exclude=dev/* -cpf - devuan | xz -9 -T0 -c > devuan-stable-mate-${{ matrix.arch }}.tar.xz
           sudo rm -r devuan
           
       - name: Build LXQt
@@ -282,7 +282,7 @@ jobs:
           sudo umount -l $GITHUB_WORKSPACE/devuan/dev
           sudo umount -l $GITHUB_WORKSPACE/devuan/proc
           sudo umount -l $GITHUB_WORKSPACE/devuan/sys
-          sudo tar --exclude=dev/* -cf - devuan | xz -9 -T0 -c > devuan-stable-lxqt-${{ matrix.arch }}.tar.xz
+          sudo tar --exclude=dev/* -cpf - devuan | xz -9 -T0 -c > devuan-stable-lxqt-${{ matrix.arch }}.tar.xz
           sudo rm -r devuan
           
       - name: Build LXDE
@@ -301,7 +301,7 @@ jobs:
           sudo umount -l $GITHUB_WORKSPACE/devuan/dev
           sudo umount -l $GITHUB_WORKSPACE/devuan/proc
           sudo umount -l $GITHUB_WORKSPACE/devuan/sys
-          sudo tar --exclude=dev/* -cf - devuan | xz -9 -T0 -c > devuan-stable-lxde-${{ matrix.arch }}.tar.xz
+          sudo tar --exclude=dev/* -cpf - devuan | xz -9 -T0 -c > devuan-stable-lxde-${{ matrix.arch }}.tar.xz
           sudo rm -r devuan
           
       - name: Build Cinnamon
@@ -320,7 +320,7 @@ jobs:
           sudo umount -l $GITHUB_WORKSPACE/devuan/dev
           sudo umount -l $GITHUB_WORKSPACE/devuan/proc
           sudo umount -l $GITHUB_WORKSPACE/devuan/sys
-          sudo tar --exclude=dev/* -cf - devuan | xz -9 -T0 -c > devuan-stable-cinnamon-${{ matrix.arch }}.tar.xz
+          sudo tar --exclude=dev/* -cpf - devuan | xz -9 -T0 -c > devuan-stable-cinnamon-${{ matrix.arch }}.tar.xz
           sudo rm -r devuan
           
       - name: Build KDE
@@ -339,7 +339,7 @@ jobs:
           sudo umount -l $GITHUB_WORKSPACE/devuan/dev
           sudo umount -l $GITHUB_WORKSPACE/devuan/proc
           sudo umount -l $GITHUB_WORKSPACE/devuan/sys
-          sudo tar --exclude=dev/* -cf - devuan | xz -9 -T0 -c > devuan-stable-kde-${{ matrix.arch }}.tar.xz
+          sudo tar --exclude=dev/* -cpf - devuan | xz -9 -T0 -c > devuan-stable-kde-${{ matrix.arch }}.tar.xz
           sudo rm -r devuan
           
       - name: Deploy to proot-distro-desktop

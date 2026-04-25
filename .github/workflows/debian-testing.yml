@@ -50,7 +50,7 @@ jobs:
           | xz -9 -T0 -c > tmprootfs.tar.xz
           mkdir $GITHUB_WORKSPACE/debian
           tar  --exclude=dev/* -xJf tmprootfs.tar.xz -C debian
-          sudo tar -cf - debian | xz -9 -T0 -c > debian-testing-${{ matrix.arch }}.tar.xz
+          sudo tar -cpf - debian | xz -9 -T0 -c > debian-testing-${{ matrix.arch }}.tar.xz
           sudo rm -r debian
 
       - name: Build XFCE
@@ -69,7 +69,7 @@ jobs:
           sudo umount -l $GITHUB_WORKSPACE/debian/dev
           sudo umount -l $GITHUB_WORKSPACE/debian/proc
           sudo umount -l $GITHUB_WORKSPACE/debian/sys
-          sudo tar --exclude=dev/* -cf - debian | xz -9 -T0 -c > debian-testing-xfce-${{ matrix.arch }}.tar.xz
+          sudo tar --exclude=dev/* -cpf - debian | xz -9 -T0 -c > debian-testing-xfce-${{ matrix.arch }}.tar.xz
           sudo rm -r debian
 
       - name: Build MATE
@@ -88,7 +88,7 @@ jobs:
           sudo umount -l $GITHUB_WORKSPACE/debian/dev
           sudo umount -l $GITHUB_WORKSPACE/debian/proc
           sudo umount -l $GITHUB_WORKSPACE/debian/sys
-          sudo tar --exclude=dev/* -cf - debian | xz -9 -T0 -c > debian-testing-mate-${{ matrix.arch }}.tar.xz
+          sudo tar --exclude=dev/* -cpf - debian | xz -9 -T0 -c > debian-testing-mate-${{ matrix.arch }}.tar.xz
           sudo rm -r debian
           
       - name: Build LXQt
@@ -107,7 +107,7 @@ jobs:
           sudo umount -l $GITHUB_WORKSPACE/debian/dev
           sudo umount -l $GITHUB_WORKSPACE/debian/proc
           sudo umount -l $GITHUB_WORKSPACE/debian/sys
-          sudo tar --exclude=dev/* -cf - debian | xz -9 -T0 -c > debian-testing-lxqt-${{ matrix.arch }}.tar.xz
+          sudo tar --exclude=dev/* -cpf - debian | xz -9 -T0 -c > debian-testing-lxqt-${{ matrix.arch }}.tar.xz
           sudo rm -r debian
           
       - name: Build LXDE
@@ -126,7 +126,7 @@ jobs:
           sudo umount -l $GITHUB_WORKSPACE/debian/dev
           sudo umount -l $GITHUB_WORKSPACE/debian/proc
           sudo umount -l $GITHUB_WORKSPACE/debian/sys
-          sudo tar --exclude=dev/* -cf - debian | xz -9 -T0 -c > debian-testing-lxde-${{ matrix.arch }}.tar.xz
+          sudo tar --exclude=dev/* -cpf - debian | xz -9 -T0 -c > debian-testing-lxde-${{ matrix.arch }}.tar.xz
           sudo rm -r debian
           
       - name: Build Cinnamon
@@ -145,7 +145,7 @@ jobs:
           sudo umount -l $GITHUB_WORKSPACE/debian/dev
           sudo umount -l $GITHUB_WORKSPACE/debian/proc
           sudo umount -l $GITHUB_WORKSPACE/debian/sys
-          sudo tar --exclude=dev/* -cf - debian | xz -9 -T0 -c > debian-testing-cinnamon-${{ matrix.arch }}.tar.xz
+          sudo tar --exclude=dev/* -cpf - debian | xz -9 -T0 -c > debian-testing-cinnamon-${{ matrix.arch }}.tar.xz
           sudo rm -r debian
           
       - name: Build KDE
@@ -164,7 +164,7 @@ jobs:
           sudo umount -l $GITHUB_WORKSPACE/debian/dev
           sudo umount -l $GITHUB_WORKSPACE/debian/proc
           sudo umount -l $GITHUB_WORKSPACE/debian/sys
-          sudo tar --exclude=dev/* -cf - debian | xz -9 -T0 -c > debian-testing-kde-${{ matrix.arch }}.tar.xz
+          sudo tar --exclude=dev/* -cpf - debian | xz -9 -T0 -c > debian-testing-kde-${{ matrix.arch }}.tar.xz
           sudo rm -r debian
 
       - name: Push to Release
@@ -211,7 +211,7 @@ jobs:
           | xz -9 -T0 -c > tmprootfs.tar.xz
           mkdir $GITHUB_WORKSPACE/debian
           tar  --exclude=dev/* -xJf tmprootfs.tar.xz -C debian
-          sudo tar -cf - debian | xz -9 -T0 -c > debian-testing-${{ matrix.arch }}.tar.xz
+          sudo tar -cpf - debian | xz -9 -T0 -c > debian-testing-${{ matrix.arch }}.tar.xz
           sudo rm -r debian
 
       - name: Build XFCE
@@ -230,7 +230,7 @@ jobs:
           sudo umount -l $GITHUB_WORKSPACE/debian/dev
           sudo umount -l $GITHUB_WORKSPACE/debian/proc
           sudo umount -l $GITHUB_WORKSPACE/debian/sys
-          sudo tar --exclude=dev/* -cf - debian | xz -9 -T0 -c > debian-testing-xfce-${{ matrix.arch }}.tar.xz
+          sudo tar --exclude=dev/* -cpf - debian | xz -9 -T0 -c > debian-testing-xfce-${{ matrix.arch }}.tar.xz
           sudo rm -r debian
 
       - name: Build MATE
@@ -249,7 +249,7 @@ jobs:
           sudo umount -l $GITHUB_WORKSPACE/debian/dev
           sudo umount -l $GITHUB_WORKSPACE/debian/proc
           sudo umount -l $GITHUB_WORKSPACE/debian/sys
-          sudo tar --exclude=dev/* -cf - debian | xz -9 -T0 -c > debian-testing-mate-${{ matrix.arch }}.tar.xz
+          sudo tar --exclude=dev/* -cpf - debian | xz -9 -T0 -c > debian-testing-mate-${{ matrix.arch }}.tar.xz
           sudo rm -r debian
           
       - name: Build LXQt
@@ -268,7 +268,7 @@ jobs:
           sudo umount -l $GITHUB_WORKSPACE/debian/dev
           sudo umount -l $GITHUB_WORKSPACE/debian/proc
           sudo umount -l $GITHUB_WORKSPACE/debian/sys
-          sudo tar --exclude=dev/* -cf - debian | xz -9 -T0 -c > debian-testing-lxqt-${{ matrix.arch }}.tar.xz
+          sudo tar --exclude=dev/* -cpf - debian | xz -9 -T0 -c > debian-testing-lxqt-${{ matrix.arch }}.tar.xz
           sudo rm -r debian
           
       - name: Build LXDE
@@ -287,7 +287,7 @@ jobs:
           sudo umount -l $GITHUB_WORKSPACE/debian/dev
           sudo umount -l $GITHUB_WORKSPACE/debian/proc
           sudo umount -l $GITHUB_WORKSPACE/debian/sys
-          sudo tar --exclude=dev/* -cf - debian | xz -9 -T0 -c > debian-testing-lxde-${{ matrix.arch }}.tar.xz
+          sudo tar --exclude=dev/* -cpf - debian | xz -9 -T0 -c > debian-testing-lxde-${{ matrix.arch }}.tar.xz
           sudo rm -r debian
           
       - name: Build Cinnamon
@@ -306,7 +306,7 @@ jobs:
           sudo umount -l $GITHUB_WORKSPACE/debian/dev
           sudo umount -l $GITHUB_WORKSPACE/debian/proc
           sudo umount -l $GITHUB_WORKSPACE/debian/sys
-          sudo tar --exclude=dev/* -cf - debian | xz -9 -T0 -c > debian-testing-cinnamon-${{ matrix.arch }}.tar.xz
+          sudo tar --exclude=dev/* -cpf - debian | xz -9 -T0 -c > debian-testing-cinnamon-${{ matrix.arch }}.tar.xz
           sudo rm -r debian
           
       - name: Build KDE
@@ -325,7 +325,7 @@ jobs:
           sudo umount -l $GITHUB_WORKSPACE/debian/dev
           sudo umount -l $GITHUB_WORKSPACE/debian/proc
           sudo umount -l $GITHUB_WORKSPACE/debian/sys
-          sudo tar --exclude=dev/* -cf - debian | xz -9 -T0 -c > debian-testing-kde-${{ matrix.arch }}.tar.xz
+          sudo tar --exclude=dev/* -cpf - debian | xz -9 -T0 -c > debian-testing-kde-${{ matrix.arch }}.tar.xz
           sudo rm -r debian
 
       - name: Push to Release
