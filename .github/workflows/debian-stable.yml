@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-24.04-arm
     strategy:
       matrix:
-        arch: [arm64, armhf]
+        arch: [aarch64, arm]
         release: [ trixie ]
     steps:
       - name: Checkout Repository
@@ -36,9 +36,17 @@ jobs:
           sudo apt install -y libc6:armhf
       - name: Start Building
         run: |
+          ARCH=${{ matrix.arch }}
+          case "$ARCH" in
+          arm)
+          ARCH="armhf"
+          ;;
+          aarch64)
+          ARCH="arm64"
+          ;;
           dist_version="${{ matrix.release }}"
           sudo mmdebstrap \
-          --arch=${{ matrix.arch }} \
+          --arch=$ARCH \
           --variant=minbase \
           --components="main,contrib,non-free" \
           --include=ca-certificates,locales \
@@ -59,7 +67,7 @@ jobs:
 
       - name: Build XFCE
         run: |
-          tar -xJf debian-stable-${{ matrix.arch }}.tar.xz
+          tar -xJpf debian-stable-${{ matrix.arch }}.tar.xz
           sudo mkdir -p $GITHUB_WORKSPACE/debian/dev
           sudo mkdir -p $GITHUB_WORKSPACE/debian/proc
           sudo mkdir -p $GITHUB_WORKSPACE/debian/sys
@@ -78,7 +86,7 @@ jobs:
 
       - name: Build MATE
         run: |
-          tar -xJf debian-stable-${{ matrix.arch }}.tar.xz
+          tar -xJpf debian-stable-${{ matrix.arch }}.tar.xz
           sudo mkdir -p $GITHUB_WORKSPACE/debian/dev
           sudo mkdir -p $GITHUB_WORKSPACE/debian/proc
           sudo mkdir -p $GITHUB_WORKSPACE/debian/sys
@@ -97,7 +105,7 @@ jobs:
           
       - name: Build LXQt
         run: |
-          tar -xJf debian-stable-${{ matrix.arch }}.tar.xz
+          tar -xJpf debian-stable-${{ matrix.arch }}.tar.xz
           sudo mkdir -p $GITHUB_WORKSPACE/debian/dev
           sudo mkdir -p $GITHUB_WORKSPACE/debian/proc
           sudo mkdir -p $GITHUB_WORKSPACE/debian/sys
@@ -116,7 +124,7 @@ jobs:
           
       - name: Build LXDE
         run: |
-          tar -xJf debian-stable-${{ matrix.arch }}.tar.xz
+          tar -xJpf debian-stable-${{ matrix.arch }}.tar.xz
           sudo mkdir -p $GITHUB_WORKSPACE/debian/dev
           sudo mkdir -p $GITHUB_WORKSPACE/debian/proc
           sudo mkdir -p $GITHUB_WORKSPACE/debian/sys
@@ -135,7 +143,7 @@ jobs:
           
       - name: Build Cinnamon
         run: |
-          tar -xJf debian-stable-${{ matrix.arch }}.tar.xz
+          tar -xJpf debian-stable-${{ matrix.arch }}.tar.xz
           sudo mkdir -p $GITHUB_WORKSPACE/debian/dev
           sudo mkdir -p $GITHUB_WORKSPACE/debian/proc
           sudo mkdir -p $GITHUB_WORKSPACE/debian/sys
@@ -154,7 +162,7 @@ jobs:
           
       - name: Build KDE
         run: |
-          tar -xJf debian-stable-${{ matrix.arch }}.tar.xz
+          tar -xJpf debian-stable-${{ matrix.arch }}.tar.xz
           sudo mkdir -p $GITHUB_WORKSPACE/debian/dev
           sudo mkdir -p $GITHUB_WORKSPACE/debian/proc
           sudo mkdir -p $GITHUB_WORKSPACE/debian/sys
@@ -187,7 +195,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        arch: [ amd64 ]
+        arch: [ x86_64 ]
         release: [ trixie ]
     steps:
       - name: Checkout Repository
@@ -202,9 +210,14 @@ jobs:
           sudo apt install -yq /tmp/keyring.deb
       - name: Start Building
         run: |
+          ARCH=${{ matrix.arch }}
+          case "$ARCH" in
+          x86_64)
+          ARCH="amd64"
+          ;;
           dist_version="${{ matrix.release }}"
           sudo mmdebstrap \
-          --arch=${{ matrix.arch }} \
+          --arch=$ARCH \
           --variant=minbase \
           --components="main,contrib,non-free" \
           --include=ca-certificates,locales \
@@ -225,7 +238,7 @@ jobs:
 
       - name: Build XFCE
         run: |
-          tar -xJf debian-stable-${{ matrix.arch }}.tar.xz
+          tar -xJpf debian-stable-${{ matrix.arch }}.tar.xz
           sudo mkdir -p $GITHUB_WORKSPACE/debian/dev
           sudo mkdir -p $GITHUB_WORKSPACE/debian/proc
           sudo mkdir -p $GITHUB_WORKSPACE/debian/sys
@@ -244,7 +257,7 @@ jobs:
 
       - name: Build MATE
         run: |
-          tar -xJf debian-stable-${{ matrix.arch }}.tar.xz
+          tar -xJpf debian-stable-${{ matrix.arch }}.tar.xz
           sudo mkdir -p $GITHUB_WORKSPACE/debian/dev
           sudo mkdir -p $GITHUB_WORKSPACE/debian/proc
           sudo mkdir -p $GITHUB_WORKSPACE/debian/sys
@@ -263,7 +276,7 @@ jobs:
           
       - name: Build LXQt
         run: |
-          tar -xJf debian-stable-${{ matrix.arch }}.tar.xz
+          tar -xJpf debian-stable-${{ matrix.arch }}.tar.xz
           sudo mkdir -p $GITHUB_WORKSPACE/debian/dev
           sudo mkdir -p $GITHUB_WORKSPACE/debian/proc
           sudo mkdir -p $GITHUB_WORKSPACE/debian/sys
@@ -282,7 +295,7 @@ jobs:
           
       - name: Build LXDE
         run: |
-          tar -xJf debian-stable-${{ matrix.arch }}.tar.xz
+          tar -xJpf debian-stable-${{ matrix.arch }}.tar.xz
           sudo mkdir -p $GITHUB_WORKSPACE/debian/dev
           sudo mkdir -p $GITHUB_WORKSPACE/debian/proc
           sudo mkdir -p $GITHUB_WORKSPACE/debian/sys
@@ -301,7 +314,7 @@ jobs:
           
       - name: Build Cinnamon
         run: |
-          tar -xJf debian-stable-${{ matrix.arch }}.tar.xz
+          tar -xJpf debian-stable-${{ matrix.arch }}.tar.xz
           sudo mkdir -p $GITHUB_WORKSPACE/debian/dev
           sudo mkdir -p $GITHUB_WORKSPACE/debian/proc
           sudo mkdir -p $GITHUB_WORKSPACE/debian/sys
@@ -320,7 +333,7 @@ jobs:
           
       - name: Build KDE
         run: |
-          tar -xJf debian-stable-${{ matrix.arch }}.tar.xz
+          tar -xJpf debian-stable-${{ matrix.arch }}.tar.xz
           sudo mkdir -p $GITHUB_WORKSPACE/debian/dev
           sudo mkdir -p $GITHUB_WORKSPACE/debian/proc
           sudo mkdir -p $GITHUB_WORKSPACE/debian/sys

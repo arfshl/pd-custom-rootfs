@@ -14,8 +14,11 @@ permissions:
   contents: write  
 
 jobs:
-  build:
+  build-arm:
     runs-on: ubuntu-24.04-arm
+    strategy:
+      matrix:
+        arch: [aarch64, arm]
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v6
@@ -23,15 +26,27 @@ jobs:
           fetch-depth: 0
       - name: Start Build!
         run: |
+          sudo dpkg --add-architecture armhf
+          sudo apt update
+          sudo apt install -y libc6:armhf
+          ARCH=${{ matrix.arch }}
+          case "$ARCH" in
+          arm)
+          ARCH="armv7"
+          ;;
+          aarch64)
+          ARCH="aarch64"
+          ;;
+          esac
           mkdir -p "$GITHUB_WORKSPACE/archlinux-dump/"
           WORKDIR="$GITHUB_WORKSPACE/archlinux-dump"
           curl --fail --location \
-          --output "${WORKDIR}/archlinux-aarch64.tar.gz" \
-          "http://os.archlinuxarm.org/os/ArchLinuxARM-aarch64-latest.tar.gz"
+          --output "${WORKDIR}/archlinux-${{ matrix.arch }}.tar.gz" \
+          "http://os.archlinuxarm.org/os/ArchLinuxARM-$ARCH-latest.tar.gz"
           
           sudo mkdir -m 755 "${WORKDIR}/archlinux"
           sudo tar -zxvp \
-          -f "${WORKDIR}/archlinux-aarch64.tar.gz" \
+          -f "${WORKDIR}/archlinux-${{ matrix.arch }}.tar.gz" \
           -C "${WORKDIR}/archlinux"
 
           cat <<- EOF | sudo unshare -mpf bash -e -
@@ -45,19 +60,19 @@ jobs:
           #chroot "${WORKDIR}/archlinux" useradd -r -s /usr/bin/nologin -d /var/lib/pacman alpm
           chroot "${WORKDIR}/archlinux" pacman-key --init
           chroot "${WORKDIR}/archlinux" pacman-key --populate archlinuxarm
-          chroot "${WORKDIR}/archlinux" pacman -Rnsc --noconfirm linux-aarch64 linux-firmware
+          chroot "${WORKDIR}/archlinux" pacman -Rnsc --noconfirm linux-${{ matrix.arch }} linux-firmware
           chroot "${WORKDIR}/archlinux" pacman -Syu --noconfirm
           chroot "${WORKDIR}/archlinux" rm -f /var/cache/pacman/pkg/*
           sed -i 's/#DisableSandbox/DisableSandbox/' "${WORKDIR}/archlinux/etc/pacman.conf"
           EOF
           
           cd $GITHUB_WORKSPACE/archlinux-dump
-          sudo tar --exclude=dev/* -cf - archlinux | xz -9 -T0 -c > $GITHUB_WORKSPACE/archlinux-aarch64.tar.xz
+          sudo tar --exclude=dev/* -cpf - archlinux | xz -9 -T0 -c > $GITHUB_WORKSPACE/archlinux-${{ matrix.arch }}.tar.xz
           sudo rm -r $GITHUB_WORKSPACE/archlinux-dump
 
       - name: Build XFCE
         run: |
-          tar -xJf archlinux-aarch64.tar.xz
+          tar -xJpf archlinux-${{ matrix.arch }}.tar.xz
           sudo mkdir -p $GITHUB_WORKSPACE/archlinux/dev
           sudo mkdir -p $GITHUB_WORKSPACE/archlinux/proc
           sudo mkdir -p $GITHUB_WORKSPACE/archlinux/sys
@@ -71,12 +86,12 @@ jobs:
           sudo chroot $GITHUB_WORKSPACE/archlinux /bin/sh -c "pacman -Syu && pacman -S --noconfirm wget && wget https://github.com/arfshl/proot-distro-desktop/raw/refs/heads/main/arch/xfce/install.sh && sh install.sh && rm install.sh"
           sudo umount -R $GITHUB_WORKSPACE/archlinux
           
-          sudo tar --exclude=dev/* -cf - archlinux | xz -9 -T0 -c > archlinux-xfce-aarch64.tar.xz
+          sudo tar --exclude=dev/* -cpf - archlinux | xz -9 -T0 -c > archlinux-xfce-${{ matrix.arch }}.tar.xz
           sudo rm -r archlinux
           
       - name: Build lxqt
         run: |
-          tar -xJf archlinux-aarch64.tar.xz
+          tar -xJpf archlinux-${{ matrix.arch }}.tar.xz
           sudo mkdir -p $GITHUB_WORKSPACE/archlinux/dev
           sudo mkdir -p $GITHUB_WORKSPACE/archlinux/proc
           sudo mkdir -p $GITHUB_WORKSPACE/archlinux/sys
@@ -90,12 +105,12 @@ jobs:
           sudo chroot $GITHUB_WORKSPACE/archlinux /bin/sh -c "pacman -Syu && pacman -S --noconfirm wget && wget https://github.com/arfshl/proot-distro-desktop/raw/refs/heads/main/arch/lxqt/install.sh && sh install.sh && rm install.sh"
           sudo umount -R $GITHUB_WORKSPACE/archlinux/
          
-          sudo tar --exclude=dev/* -cf - archlinux | xz -9 -T0 -c > archlinux-lxqt-aarch64.tar.xz
+          sudo tar --exclude=dev/* -cpf - archlinux | xz -9 -T0 -c > archlinux-lxqt-${{ matrix.arch }}.tar.xz
           sudo rm -r archlinux
           
       - name: Build mate
         run: |
-          tar -xJf archlinux-aarch64.tar.xz
+          tar -xJpf archlinux-${{ matrix.arch }}.tar.xz
           sudo mkdir -p $GITHUB_WORKSPACE/archlinux/dev
           sudo mkdir -p $GITHUB_WORKSPACE/archlinux/proc
           sudo mkdir -p $GITHUB_WORKSPACE/archlinux/sys
@@ -109,12 +124,12 @@ jobs:
           sudo chroot $GITHUB_WORKSPACE/archlinux /bin/sh -c "pacman -Syu && pacman -S --noconfirm wget && wget https://github.com/arfshl/proot-distro-desktop/raw/refs/heads/main/arch/mate/install.sh && sh install.sh && rm install.sh"
           sudo umount -R $GITHUB_WORKSPACE/archlinux/
           
-          sudo tar --exclude=dev/* -cf - archlinux | xz -9 -T0 -c > archlinux-mate-aarch64.tar.xz
+          sudo tar --exclude=dev/* -cpf - archlinux | xz -9 -T0 -c > archlinux-mate-${{ matrix.arch }}.tar.xz
           sudo rm -r archlinux
           
       - name: Build lxde
         run: |
-          tar -xJf archlinux-aarch64.tar.xz
+          tar -xJpf archlinux-${{ matrix.arch }}.tar.xz
           sudo mkdir -p $GITHUB_WORKSPACE/archlinux/dev
           sudo mkdir -p $GITHUB_WORKSPACE/archlinux/proc
           sudo mkdir -p $GITHUB_WORKSPACE/archlinux/sys
@@ -128,12 +143,12 @@ jobs:
           sudo chroot $GITHUB_WORKSPACE/archlinux /bin/sh -c "pacman -Syu && pacman -S --noconfirm wget && wget https://github.com/arfshl/proot-distro-desktop/raw/refs/heads/main/arch/lxde/install.sh && sh install.sh && rm install.sh"
           sudo umount -R $GITHUB_WORKSPACE/archlinux/
           
-          sudo tar --exclude=dev/* -cf - archlinux | xz -9 -T0 -c > archlinux-lxde-aarch64.tar.xz
+          sudo tar --exclude=dev/* -cpf - archlinux | xz -9 -T0 -c > archlinux-lxde-${{ matrix.arch }}.tar.xz
           sudo rm -r archlinux
           
       - name: Build kde
         run: |
-          tar -xJf archlinux-aarch64.tar.xz
+          tar -xJpf archlinux-${{ matrix.arch }}.tar.xz
           sudo mkdir -p $GITHUB_WORKSPACE/archlinux/dev
           sudo mkdir -p $GITHUB_WORKSPACE/archlinux/proc
           sudo mkdir -p $GITHUB_WORKSPACE/archlinux/sys
@@ -147,12 +162,12 @@ jobs:
           sudo chroot $GITHUB_WORKSPACE/archlinux /bin/sh -c "pacman -Syu && pacman -S --noconfirm wget && wget https://github.com/arfshl/proot-distro-desktop/raw/refs/heads/main/arch/kde/install.sh && sh install.sh && rm install.sh"
           sudo umount -R $GITHUB_WORKSPACE/archlinux/
           
-          sudo tar --exclude=dev/* -cf - archlinux | xz -9 -T0 -c > archlinux-kde-aarch64.tar.xz
+          sudo tar --exclude=dev/* -cpf - archlinux | xz -9 -T0 -c > archlinux-kde-${{ matrix.arch }}.tar.xz
           sudo rm -r archlinux
           
       - name: Build cinnamon
         run: |
-          tar -xJf archlinux-aarch64.tar.xz
+          tar -xJpf archlinux-${{ matrix.arch }}.tar.xz
           sudo mkdir -p $GITHUB_WORKSPACE/archlinux/dev
           sudo mkdir -p $GITHUB_WORKSPACE/archlinux/proc
           sudo mkdir -p $GITHUB_WORKSPACE/archlinux/sys
@@ -166,7 +181,7 @@ jobs:
           sudo chroot $GITHUB_WORKSPACE/archlinux /bin/sh -c "pacman -Syu && pacman -S --noconfirm wget && wget https://github.com/arfshl/proot-distro-desktop/raw/refs/heads/main/arch/cinnamon/install.sh && sh install.sh && rm install.sh"
           sudo umount -R $GITHUB_WORKSPACE/archlinux/
           
-          sudo tar --exclude=dev/* -cf - archlinux | xz -9 -T0 -c > archlinux-cinnamon-aarch64.tar.xz
+          sudo tar --exclude=dev/* -cpf - archlinux | xz -9 -T0 -c > archlinux-cinnamon-${{ matrix.arch }}.tar.xz
           sudo rm -r archlinux
 
       - name: Push to Release
@@ -175,7 +190,181 @@ jobs:
           tag_name: archlinux
           name: Arch Linux (Rolling Release)
           files: |
-            archlinux-aarch64.tar.xz
-            archlinux-*-aarch64.tar.xz
+            archlinux-${{ matrix.arch }}.tar.xz
+            archlinux-*-${{ matrix.arch }}.tar.xz
+          preserve_order: true
+          make_latest: true
+
+  build-amd:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        arch: [ x86_64 ]
+        release: [ 2026.02.01 ]
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - name: Start Build!
+        run: |
+          mkdir -p "$GITHUB_WORKSPACE/archlinux-dump/"
+          WORKDIR="$GITHUB_WORKSPACE/archlinux-dump"
+          curl --fail --location \
+          --output "${WORKDIR}/archlinux-${{ matrix.arch }}.tar.zst" \
+          "https://mirror.rackspace.com/archlinux/iso/${dist_version}/archlinux-bootstrap-${dist_version}-${{ matrix.arch }}.tar.zst"
+
+          sudo mkdir -m 755 "${WORKDIR}/archlinux-bootstrap"
+          sudo tar -xp --strip-components=1 --acls --xattrs --xattrs-include='*' \
+          -f "${WORKDIR}/archlinux-${{ matrix.arch }}.tar.zst" \
+          -C "${WORKDIR}/archlinux-bootstrap"
+
+          cat <<- EOF | sudo unshare -mpf bash -e -
+          rm -f "${WORKDIR}/archlinux-bootstrap/etc/resolv.conf"
+          echo "nameserver 1.1.1.1" > "${WORKDIR}/archlinux-bootstrap/etc/resolv.conf"
+          mount --bind "${WORKDIR}/archlinux-bootstrap/" "${WORKDIR}/archlinux-bootstrap/"
+          mount --bind /dev "${WORKDIR}/archlinux-bootstrap/dev"
+          mount --bind /proc "${WORKDIR}/archlinux-bootstrap/proc"
+          mount --bind /sys "${WORKDIR}/archlinux-bootstrap/sys"
+          mkdir "${WORKDIR}/archlinux-bootstrap/archlinux-${{ matrix.arch }}"
+          echo 'Server = http://mirror.rackspace.com/archlinux/\$repo/os/\$arch' > \
+          "${WORKDIR}/archlinux-bootstrap/etc/pacman.d/mirrorlist"
+          sed -i 's/^#DisableSandbox/DisableSandbox/' \
+          "${WORKDIR}/archlinux-bootstrap/etc/pacman.conf"
+          chroot "${WORKDIR}/archlinux-bootstrap" pacman-key --init
+          chroot "${WORKDIR}/archlinux-bootstrap" pacman-key --populate
+          chroot "${WORKDIR}/archlinux-bootstrap" pacstrap -K /archlinux-${{ matrix.arch }} base
+          # chroot "${WORKDIR}/archlinux-bootstrap" pacman -Scc --noconfirm
+          EOF
+
+          sudo mv $GITHUB_WORKSPACE/archlinux-dump/archlinux-bootstrap $GITHUB_WORKSPACE/archlinux-dump/archlinux
+          sudo rm -rf "${WORKDIR:?}/archlinux"/var/cache/pacman/pkg
+          sudo sed -i 's/#DisableSandbox/DisableSandbox/' "${WORKDIR}/archlinux/etc/pacman.conf"
+          cd $GITHUB_WORKSPACE/archlinux-dump
+          sudo tar --exclude=dev/* -cpf - archlinux | xz -9 -T0 -c > $GITHUB_WORKSPACE/archlinux-${{ matrix.arch }}.tar.xz
+          sudo rm -r $GITHUB_WORKSPACE/archlinux-dump
+
+      - name: Build XFCE
+        run: |
+          tar -xJpf archlinux-${{ matrix.arch }}.tar.xz
+          sudo mkdir -p $GITHUB_WORKSPACE/archlinux/dev
+          sudo mkdir -p $GITHUB_WORKSPACE/archlinux/proc
+          sudo mkdir -p $GITHUB_WORKSPACE/archlinux/sys
+          sudo mkdir -p $GITHUB_WORKSPACE/archlinux/tmp
+          sudo chmod -R 755 $GITHUB_WORKSPACE/archlinux
+          sudo chmod -R 1777 $GITHUB_WORKSPACE/archlinux/tmp
+          sudo mount --bind $GITHUB_WORKSPACE/archlinux $GITHUB_WORKSPACE/archlinux
+          sudo mount --bind /dev $GITHUB_WORKSPACE/archlinux/dev
+          sudo mount --bind /proc $GITHUB_WORKSPACE/archlinux/proc
+          sudo mount --bind /sys $GITHUB_WORKSPACE/archlinux/sys
+          sudo chroot $GITHUB_WORKSPACE/archlinux /bin/sh -c "pacman -Syu && pacman -S --noconfirm wget && wget https://github.com/arfshl/proot-distro-desktop/raw/refs/heads/main/arch/xfce/install.sh && sh install.sh && rm install.sh"
+          sudo umount -R $GITHUB_WORKSPACE/archlinux
+          
+          sudo tar --exclude=dev/* -cpf - archlinux | xz -9 -T0 -c > archlinux-xfce-${{ matrix.arch }}.tar.xz
+          sudo rm -r archlinux
+          
+      - name: Build lxqt
+        run: |
+          tar -xJpf archlinux-${{ matrix.arch }}.tar.xz
+          sudo mkdir -p $GITHUB_WORKSPACE/archlinux/dev
+          sudo mkdir -p $GITHUB_WORKSPACE/archlinux/proc
+          sudo mkdir -p $GITHUB_WORKSPACE/archlinux/sys
+          sudo mkdir -p $GITHUB_WORKSPACE/archlinux/tmp
+          sudo chmod -R 755 $GITHUB_WORKSPACE/archlinux
+          sudo chmod -R 1777 $GITHUB_WORKSPACE/archlinux/tmp
+          sudo mount --bind $GITHUB_WORKSPACE/archlinux $GITHUB_WORKSPACE/archlinux
+          sudo mount --bind /dev $GITHUB_WORKSPACE/archlinux/dev
+          sudo mount --bind /proc $GITHUB_WORKSPACE/archlinux/proc
+          sudo mount --bind /sys $GITHUB_WORKSPACE/archlinux/sys
+          sudo chroot $GITHUB_WORKSPACE/archlinux /bin/sh -c "pacman -Syu && pacman -S --noconfirm wget && wget https://github.com/arfshl/proot-distro-desktop/raw/refs/heads/main/arch/lxqt/install.sh && sh install.sh && rm install.sh"
+          sudo umount -R $GITHUB_WORKSPACE/archlinux/
+         
+          sudo tar --exclude=dev/* -cpf - archlinux | xz -9 -T0 -c > archlinux-lxqt-${{ matrix.arch }}.tar.xz
+          sudo rm -r archlinux
+          
+      - name: Build mate
+        run: |
+          tar -xJpf archlinux-${{ matrix.arch }}.tar.xz
+          sudo mkdir -p $GITHUB_WORKSPACE/archlinux/dev
+          sudo mkdir -p $GITHUB_WORKSPACE/archlinux/proc
+          sudo mkdir -p $GITHUB_WORKSPACE/archlinux/sys
+          sudo mkdir -p $GITHUB_WORKSPACE/archlinux/tmp
+          sudo chmod -R 755 $GITHUB_WORKSPACE/archlinux
+          sudo chmod -R 1777 $GITHUB_WORKSPACE/archlinux/tmp
+          sudo mount --bind $GITHUB_WORKSPACE/archlinux $GITHUB_WORKSPACE/archlinux
+          sudo mount --bind /dev $GITHUB_WORKSPACE/archlinux/dev
+          sudo mount --bind /proc $GITHUB_WORKSPACE/archlinux/proc
+          sudo mount --bind /sys $GITHUB_WORKSPACE/archlinux/sys
+          sudo chroot $GITHUB_WORKSPACE/archlinux /bin/sh -c "pacman -Syu && pacman -S --noconfirm wget && wget https://github.com/arfshl/proot-distro-desktop/raw/refs/heads/main/arch/mate/install.sh && sh install.sh && rm install.sh"
+          sudo umount -R $GITHUB_WORKSPACE/archlinux/
+          
+          sudo tar --exclude=dev/* -cpf - archlinux | xz -9 -T0 -c > archlinux-mate-${{ matrix.arch }}.tar.xz
+          sudo rm -r archlinux
+          
+      - name: Build lxde
+        run: |
+          tar -xJpf archlinux-${{ matrix.arch }}.tar.xz
+          sudo mkdir -p $GITHUB_WORKSPACE/archlinux/dev
+          sudo mkdir -p $GITHUB_WORKSPACE/archlinux/proc
+          sudo mkdir -p $GITHUB_WORKSPACE/archlinux/sys
+          sudo mkdir -p $GITHUB_WORKSPACE/archlinux/tmp
+          sudo chmod -R 755 $GITHUB_WORKSPACE/archlinux
+          sudo chmod -R 1777 $GITHUB_WORKSPACE/archlinux/tmp
+          sudo mount --bind $GITHUB_WORKSPACE/archlinux $GITHUB_WORKSPACE/archlinux
+          sudo mount --bind /dev $GITHUB_WORKSPACE/archlinux/dev
+          sudo mount --bind /proc $GITHUB_WORKSPACE/archlinux/proc
+          sudo mount --bind /sys $GITHUB_WORKSPACE/archlinux/sys
+          sudo chroot $GITHUB_WORKSPACE/archlinux /bin/sh -c "pacman -Syu && pacman -S --noconfirm wget && wget https://github.com/arfshl/proot-distro-desktop/raw/refs/heads/main/arch/lxde/install.sh && sh install.sh && rm install.sh"
+          sudo umount -R $GITHUB_WORKSPACE/archlinux/
+          
+          sudo tar --exclude=dev/* -cpf - archlinux | xz -9 -T0 -c > archlinux-lxde-${{ matrix.arch }}.tar.xz
+          sudo rm -r archlinux
+          
+      - name: Build kde
+        run: |
+          tar -xJpf archlinux-${{ matrix.arch }}.tar.xz
+          sudo mkdir -p $GITHUB_WORKSPACE/archlinux/dev
+          sudo mkdir -p $GITHUB_WORKSPACE/archlinux/proc
+          sudo mkdir -p $GITHUB_WORKSPACE/archlinux/sys
+          sudo mkdir -p $GITHUB_WORKSPACE/archlinux/tmp
+          sudo chmod -R 755 $GITHUB_WORKSPACE/archlinux
+          sudo chmod -R 1777 $GITHUB_WORKSPACE/archlinux/tmp
+          sudo mount --bind $GITHUB_WORKSPACE/archlinux $GITHUB_WORKSPACE/archlinux
+          sudo mount --bind /dev $GITHUB_WORKSPACE/archlinux/dev
+          sudo mount --bind /proc $GITHUB_WORKSPACE/archlinux/proc
+          sudo mount --bind /sys $GITHUB_WORKSPACE/archlinux/sys
+          sudo chroot $GITHUB_WORKSPACE/archlinux /bin/sh -c "pacman -Syu && pacman -S --noconfirm wget && wget https://github.com/arfshl/proot-distro-desktop/raw/refs/heads/main/arch/kde/install.sh && sh install.sh && rm install.sh"
+          sudo umount -R $GITHUB_WORKSPACE/archlinux/
+          
+          sudo tar --exclude=dev/* -cpf - archlinux | xz -9 -T0 -c > archlinux-kde-${{ matrix.arch }}.tar.xz
+          sudo rm -r archlinux
+          
+      - name: Build cinnamon
+        run: |
+          tar -xJpf archlinux-${{ matrix.arch }}.tar.xz
+          sudo mkdir -p $GITHUB_WORKSPACE/archlinux/dev
+          sudo mkdir -p $GITHUB_WORKSPACE/archlinux/proc
+          sudo mkdir -p $GITHUB_WORKSPACE/archlinux/sys
+          sudo mkdir -p $GITHUB_WORKSPACE/archlinux/tmp
+          sudo chmod -R 755 $GITHUB_WORKSPACE/archlinux
+          sudo chmod -R 1777 $GITHUB_WORKSPACE/archlinux/tmp
+          sudo mount --bind $GITHUB_WORKSPACE/archlinux $GITHUB_WORKSPACE/archlinux
+          sudo mount --bind /dev $GITHUB_WORKSPACE/archlinux/dev
+          sudo mount --bind /proc $GITHUB_WORKSPACE/archlinux/proc
+          sudo mount --bind /sys $GITHUB_WORKSPACE/archlinux/sys
+          sudo chroot $GITHUB_WORKSPACE/archlinux /bin/sh -c "pacman -Syu && pacman -S --noconfirm wget && wget https://github.com/arfshl/proot-distro-desktop/raw/refs/heads/main/arch/cinnamon/install.sh && sh install.sh && rm install.sh"
+          sudo umount -R $GITHUB_WORKSPACE/archlinux/
+          
+          sudo tar --exclude=dev/* -cpf - archlinux | xz -9 -T0 -c > archlinux-cinnamon-${{ matrix.arch }}.tar.xz
+          sudo rm -r archlinux
+
+      - name: Push to Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: archlinux
+          name: Arch Linux (Rolling Release)
+          files: |
+            archlinux-${{ matrix.arch }}.tar.xz
+            archlinux-*-${{ matrix.arch }}.tar.xz
           preserve_order: true
           make_latest: true
