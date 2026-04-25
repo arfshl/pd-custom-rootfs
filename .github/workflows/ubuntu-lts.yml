@@ -60,11 +60,12 @@ jobs:
           sudo chroot $GITHUB_WORKSPACE/ubuntu apt clean
           sudo rm -rf $GITHUB_WORKSPACE/ubuntu/var/lib/apt/lists/*
           EOF
-          sudo tar --exclude=dev/* -cvpf - ubuntu | xz -9 -T0 -c > ubuntu-lts-${{ matrix.arch }}.tar.xz
+          sudo tar --exclude=dev/* -cpf - ubuntu | xz -9 -T0 -c > ubuntu-lts-${{ matrix.arch }}.tar.xz
+          rm -r ubuntu
 
       - name: Build XFCE
         run: |
-          tar -xJf ubuntu-lts-${{ matrix.arch }}.tar.xz
+          tar -xJpf ubuntu-lts-${{ matrix.arch }}.tar.xz
           sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/dev
           sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/proc
           sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/sys
@@ -83,7 +84,7 @@ jobs:
 
       - name: Build MATE
         run: |
-          tar -xJf ubuntu-lts-${{ matrix.arch }}.tar.xz
+          tar -xJpf ubuntu-lts-${{ matrix.arch }}.tar.xz
           sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/dev
           sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/proc
           sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/sys
@@ -102,7 +103,7 @@ jobs:
           
       - name: Build LXQt
         run: |
-          tar -xJf ubuntu-lts-${{ matrix.arch }}.tar.xz
+          tar -xJpf ubuntu-lts-${{ matrix.arch }}.tar.xz
           sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/dev
           sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/proc
           sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/sys
@@ -121,7 +122,7 @@ jobs:
           
       - name: Build LXDE
         run: |
-          tar -xJf ubuntu-lts-${{ matrix.arch }}.tar.xz
+          tar -xJpf ubuntu-lts-${{ matrix.arch }}.tar.xz
           sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/dev
           sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/proc
           sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/sys
@@ -140,7 +141,7 @@ jobs:
           
       - name: Build Cinnamon
         run: |
-          tar -xJf ubuntu-lts-${{ matrix.arch }}.tar.xz
+          tar -xJpf ubuntu-lts-${{ matrix.arch }}.tar.xz
           sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/dev
           sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/proc
           sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/sys
@@ -159,7 +160,7 @@ jobs:
           
       - name: Build KDE
         run: |
-          tar -xJf ubuntu-lts-${{ matrix.arch }}.tar.xz
+          tar -xJpf ubuntu-lts-${{ matrix.arch }}.tar.xz
           sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/dev
           sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/proc
           sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/sys
@@ -234,7 +235,7 @@ jobs:
 
       - name: Build XFCE
         run: |
-          tar -xJf ubuntu-lts-${{ matrix.arch }}.tar.xz
+          tar -xJpf ubuntu-lts-${{ matrix.arch }}.tar.xz
           sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/dev
           sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/proc
           sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/sys
@@ -253,7 +254,7 @@ jobs:
 
       - name: Build MATE
         run: |
-          tar -xJf ubuntu-lts-${{ matrix.arch }}.tar.xz
+          tar -xJpf ubuntu-lts-${{ matrix.arch }}.tar.xz
           sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/dev
           sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/proc
           sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/sys
@@ -272,7 +273,7 @@ jobs:
           
       - name: Build LXQt
         run: |
-          tar -xJf ubuntu-lts-${{ matrix.arch }}.tar.xz
+          tar -xJpf ubuntu-lts-${{ matrix.arch }}.tar.xz
           sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/dev
           sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/proc
           sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/sys
@@ -291,7 +292,7 @@ jobs:
           
       - name: Build LXDE
         run: |
-          tar -xJf ubuntu-lts-${{ matrix.arch }}.tar.xz
+          tar -xJpf ubuntu-lts-${{ matrix.arch }}.tar.xz
           sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/dev
           sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/proc
           sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/sys
@@ -310,7 +311,7 @@ jobs:
           
       - name: Build Cinnamon
         run: |
-          tar -xJf ubuntu-lts-${{ matrix.arch }}.tar.xz
+          tar -xJpf ubuntu-lts-${{ matrix.arch }}.tar.xz
           sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/dev
           sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/proc
           sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/sys
@@ -329,7 +330,7 @@ jobs:
           
       - name: Build KDE
         run: |
-          tar -xJf ubuntu-lts-${{ matrix.arch }}.tar.xz
+          tar -xJpf ubuntu-lts-${{ matrix.arch }}.tar.xz
           sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/dev
           sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/proc
           sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/sys

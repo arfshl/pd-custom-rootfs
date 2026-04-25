@@ -45,9 +45,9 @@ jobs:
           --components="main,contrib,non-free" \
           --include=ca-certificates,locales,devuan-keyring \
           --format=tar \
-          --customize-hook="chroot \$1 sed -i 's/^# \(en_US.UTF-8\)/\1/' /etc/locale.gen" \
-          --customize-hook="chroot \$1 /bin/bash -c 'DEBIAN_FRONTEND=noninteractive dpkg-reconfigure locales'" \
-          --customize-hook='chroot \$1 /bin/bash -c "echo LANG=en_US.UTF-8 > /etc/default/locale"' \
+          --customize-hook='chroot $1 sed -i "s/^# \(en_US.UTF-8\)/\1/" /etc/locale.gen' \
+          --customize-hook='chroot $1 /bin/bash -c "DEBIAN_FRONTEND=noninteractive dpkg-reconfigure locales"' \
+          --customize-hook='chroot $1 /bin/bash -c "echo LANG=en_US.UTF-8 > /etc/default/locale"' \
           ${dist_version} \
           - \
           "deb http://deb.devuan.org/merged ${dist_version} main contrib non-free" \
@@ -213,9 +213,9 @@ jobs:
           --components="main,contrib,non-free" \
           --include=ca-certificates,locales,devuan-keyring \
           --format=tar \
-          --customize-hook="chroot \$1 sed -i 's/^# \(en_US.UTF-8\)/\1/' /etc/locale.gen" \
-          --customize-hook="chroot \$1 /bin/bash -c 'DEBIAN_FRONTEND=noninteractive dpkg-reconfigure locales'" \
-          --customize-hook='chroot \$1 /bin/bash -c "echo LANG=en_US.UTF-8 > /etc/default/locale"' \
+          --customize-hook='chroot $1 sed -i "s/^# \(en_US.UTF-8\)/\1/" /etc/locale.gen' \
+          --customize-hook='chroot $1 /bin/bash -c "DEBIAN_FRONTEND=noninteractive dpkg-reconfigure locales"' \
+          --customize-hook='chroot $1 /bin/bash -c "echo LANG=en_US.UTF-8 > /etc/default/locale"' \
           ${dist_version} \
           - \
           "deb http://deb.devuan.org/merged ${dist_version} main contrib non-free" \
