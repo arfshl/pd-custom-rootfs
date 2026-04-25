@@ -61,7 +61,7 @@ jobs:
           sudo rm -rf $GITHUB_WORKSPACE/ubuntu/var/lib/apt/lists/*
           EOF
           sudo tar --exclude=dev/* -cpf - ubuntu | xz -9 -T0 -c > ubuntu-lts-${{ matrix.arch }}.tar.xz
-          rm -r ubuntu
+          sudo rm -r ubuntu
 
       - name: Build XFCE
         run: |
