@@ -231,7 +231,7 @@ jobs:
           sudo chroot $GITHUB_WORKSPACE/ubuntu apt clean
           sudo rm -rf $GITHUB_WORKSPACE/ubuntu/var/lib/apt/lists/*
           EOF
-          sudo tar --exclude=dev/* -cvpf - ubuntu | xz -9 -T0 -c > ubuntu-lts-${{ matrix.arch }}.tar.xz
+          sudo tar --exclude=dev/* -cpf - ubuntu | xz -9 -T0 -c > ubuntu-lts-${{ matrix.arch }}.tar.xz
 
       - name: Build XFCE
         run: |

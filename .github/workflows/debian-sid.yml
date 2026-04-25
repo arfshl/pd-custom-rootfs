@@ -193,9 +193,6 @@ jobs:
           sudo apt install -yq /tmp/mmdebstrap.deb
           curl -L -o /tmp/keyring.deb http://ftp.us.debian.org/debian/pool/main/d/debian-archive-keyring/debian-archive-keyring_2025.1_all.deb
           sudo apt install -yq /tmp/keyring.deb
-          sudo dpkg --add-architecture armhf
-          sudo apt update
-          sudo apt install -y libc6:armhf
       - name: Start Building
         run: |
           sudo mmdebstrap \
