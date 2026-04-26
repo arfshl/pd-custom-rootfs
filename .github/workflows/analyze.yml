@@ -19,6 +19,6 @@ jobs:
           wget https://github.com/termux/proot-distro/releases/download/v4.31.0/fedora-aarch64-pd-v4.31.0.tar.xz
           
           tar -xvJf fedora-aarch64-pd-v4.31.0.tar.xz
-z
+
           tree -d $GITHUB_WORKSPACE
         continue-on-error: true
