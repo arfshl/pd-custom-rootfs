@@ -40,9 +40,9 @@ jobs:
               # Fetch image digest
               arch="$ARCH"
               if [ "$arch" = "arm" ]; then
-              digest=$(echo "$opensuse_manifest" | jq -r ".manifests[] | "select(.platform.architecture == \"${arch}\")" | "select(.platform.variant == \"v7\")" | .digest")
+              digest=$(echo "$opensuse_manifest" | jq -r ".manifests[] | select(.platform.architecture == \"$arch\") | select(.platform.variant == \"v7\") | .digest")
               else
-              digest=$(echo "$opensuse_manifest" | jq -r ".manifests[] | select(.platform.architecture == \"${arch}\") | .digest")
+              digest=$(echo "$opensuse_manifest" | jq -r ".manifests[] | select(.platform.architecture == \"$arch\") | .digest")
               fi
               # Pull and Export image
               mkdir --parent --mode 755 $GITHUB_WORKSPACE/opensuse-dump/opensuse
@@ -222,11 +222,7 @@ jobs:
               opensuse_manifest=$(docker manifest inspect opensuse/tumbleweed:latest)
               # Fetch image digest
               arch="$ARCH"
-              if [ "$arch" = "arm" ]; then
-              digest=$(echo "$opensuse_manifest" | jq -r ".manifests[] | "select(.platform.architecture == \"${arch}\")" | "select(.platform.variant == \"v7\")" | .digest")
-              else
-              digest=$(echo "$opensuse_manifest" | jq -r ".manifests[] | select(.platform.architecture == \"${arch}\") | .digest")
-              fi
+              digest=$(echo "$opensuse_manifest" | jq -r ".manifests[] | select(.platform.architecture == \"$arch\") | .digest")
               # Pull and Export image
               mkdir --parent --mode 755 $GITHUB_WORKSPACE/opensuse-dump/opensuse
               TARGET_DIR="$GITHUB_WORKSPACE/opensuse-dump/opensuse"
