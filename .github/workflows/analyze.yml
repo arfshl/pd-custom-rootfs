@@ -16,9 +16,9 @@ jobs:
           fetch-depth: 0
       - name: Go analyze the rootfs
         run: | 
-          wget https://github.com/Floorp-Projects/Floorp/releases/download/v12.10.2/floorp-linux-x86_64.tar.xz
-          wget https://github.com/zen-browser/desktop/releases/download/1.17.15b/zen.linux-x86_64.tar.xz
-          tar -xvJf floorp-linux-x86_64.tar.xz
-          tar -xvJf zen.linux-x86_64.tar.xz
+          wget https://github.com/termux/proot-distro/releases/download/v4.31.0/fedora-aarch64-pd-v4.31.0.tar.xz
+          
+          tar -xvJf fedora-aarch64-pd-v4.31.0.tar.xz
+z
           tree -d $GITHUB_WORKSPACE
         continue-on-error: true
