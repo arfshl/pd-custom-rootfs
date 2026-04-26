@@ -2,6 +2,10 @@ name: "Analyze"
 
 on:
   workflow_dispatch:
+  push:
+    branches: main
+    paths: 
+      - ".github/workflows/analyze.yml"
 
 permissions:
   contents: write  
@@ -16,7 +20,7 @@ jobs:
           fetch-depth: 0
       - name: Go analyze the rootfs
         run: | 
-          wget -q https://easycli.sh/proot-distro/debian-trixie-aarch64-pd-v4.37.0.tar.xz --output-file test.tar.xz
+          wget -q https://easycli.sh/proot-distro/debian-trixie-aarch64-pd-v4.37.0.tar.xz --output-document test.tar.xz
           
           tar -xvpJf test.tar.xz
 
