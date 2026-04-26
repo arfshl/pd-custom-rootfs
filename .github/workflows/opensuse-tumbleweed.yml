@@ -72,11 +72,11 @@ jobs:
               sudo rm -f /tmp/opensuse-pkgs.txt
               # Make rootfs archive
               cd $GITHUB_WORKSPACE/opensuse-dump
-              sudo tar --exclude=dev/* -cf - opensuse | xz -9 -T0 -c > $GITHUB_WORKSPACE/opensuse-tumbleweed-${{ matrix.arch }}.tar.xz
+              sudo tar --exclude=dev/* -cpf - opensuse | xz -9 -T0 -c > $GITHUB_WORKSPACE/opensuse-tumbleweed-${{ matrix.arch }}.tar.xz
 
       - name: Build XFCE
         run: |
-          tar -xJf opensuse-tumbleweed-${{ matrix.arch }}.tar.xz
+          tar -xpJf opensuse-tumbleweed-${{ matrix.arch }}.tar.xz
           sudo mkdir -p $GITHUB_WORKSPACE/opensuse/dev
           sudo mkdir -p $GITHUB_WORKSPACE/opensuse/proc
           sudo mkdir -p $GITHUB_WORKSPACE/opensuse/sys
@@ -90,12 +90,12 @@ jobs:
           sudo umount -l $GITHUB_WORKSPACE/opensuse/dev
           sudo umount -l $GITHUB_WORKSPACE/opensuse/proc
           sudo umount -l $GITHUB_WORKSPACE/opensuse/sys
-          sudo tar --exclude=dev/* -cf - opensuse | xz -9 -T0 -c > opensuse-tumbleweed-xfce-${{ matrix.arch }}.tar.xz
+          sudo tar --exclude=dev/* -cpf - opensuse | xz -9 -T0 -c > opensuse-tumbleweed-xfce-${{ matrix.arch }}.tar.xz
           sudo rm -r opensuse
           
       - name: Build lxqt
         run: |
-          tar -xJf opensuse-tumbleweed-${{ matrix.arch }}.tar.xz
+          tar -xpJf opensuse-tumbleweed-${{ matrix.arch }}.tar.xz
           sudo mkdir -p $GITHUB_WORKSPACE/opensuse/dev
           sudo mkdir -p $GITHUB_WORKSPACE/opensuse/proc
           sudo mkdir -p $GITHUB_WORKSPACE/opensuse/sys
@@ -109,12 +109,12 @@ jobs:
           sudo umount -l $GITHUB_WORKSPACE/opensuse/dev
           sudo umount -l $GITHUB_WORKSPACE/opensuse/proc
           sudo umount -l $GITHUB_WORKSPACE/opensuse/sys
-          sudo tar --exclude=dev/* -cf - opensuse | xz -9 -T0 -c > opensuse-tumbleweed-lxqt-${{ matrix.arch }}.tar.xz
+          sudo tar --exclude=dev/* -cpf - opensuse | xz -9 -T0 -c > opensuse-tumbleweed-lxqt-${{ matrix.arch }}.tar.xz
           sudo rm -r opensuse
           
       - name: Build mate
         run: |
-          tar -xJf opensuse-tumbleweed-${{ matrix.arch }}.tar.xz
+          tar -xpJf opensuse-tumbleweed-${{ matrix.arch }}.tar.xz
           sudo mkdir -p $GITHUB_WORKSPACE/opensuse/dev
           sudo mkdir -p $GITHUB_WORKSPACE/opensuse/proc
           sudo mkdir -p $GITHUB_WORKSPACE/opensuse/sys
@@ -128,12 +128,12 @@ jobs:
           sudo umount -l $GITHUB_WORKSPACE/opensuse/dev
           sudo umount -l $GITHUB_WORKSPACE/opensuse/proc
           sudo umount -l $GITHUB_WORKSPACE/opensuse/sys
-          sudo tar --exclude=dev/* -cf - opensuse | xz -9 -T0 -c > opensuse-tumbleweed-mate-${{ matrix.arch }}.tar.xz
+          sudo tar --exclude=dev/* -cpf - opensuse | xz -9 -T0 -c > opensuse-tumbleweed-mate-${{ matrix.arch }}.tar.xz
           sudo rm -r opensuse
           
       - name: Build lxde
         run: |
-          tar -xJf opensuse-tumbleweed-${{ matrix.arch }}.tar.xz
+          tar -xpJf opensuse-tumbleweed-${{ matrix.arch }}.tar.xz
           sudo mkdir -p $GITHUB_WORKSPACE/opensuse/dev
           sudo mkdir -p $GITHUB_WORKSPACE/opensuse/proc
           sudo mkdir -p $GITHUB_WORKSPACE/opensuse/sys
@@ -147,12 +147,12 @@ jobs:
           sudo umount -l $GITHUB_WORKSPACE/opensuse/dev
           sudo umount -l $GITHUB_WORKSPACE/opensuse/proc
           sudo umount -l $GITHUB_WORKSPACE/opensuse/sys
-          sudo tar --exclude=dev/* -cf - opensuse | xz -9 -T0 -c > opensuse-tumbleweed-lxde-${{ matrix.arch }}.tar.xz
+          sudo tar --exclude=dev/* -cpf - opensuse | xz -9 -T0 -c > opensuse-tumbleweed-lxde-${{ matrix.arch }}.tar.xz
           sudo rm -r opensuse
           
       - name: Build kde
         run: |
-          tar -xJf opensuse-tumbleweed-${{ matrix.arch }}.tar.xz
+          tar -xpJf opensuse-tumbleweed-${{ matrix.arch }}.tar.xz
           sudo mkdir -p $GITHUB_WORKSPACE/opensuse/dev
           sudo mkdir -p $GITHUB_WORKSPACE/opensuse/proc
           sudo mkdir -p $GITHUB_WORKSPACE/opensuse/sys
@@ -166,12 +166,12 @@ jobs:
           sudo umount -l $GITHUB_WORKSPACE/opensuse/dev
           sudo umount -l $GITHUB_WORKSPACE/opensuse/proc
           sudo umount -l $GITHUB_WORKSPACE/opensuse/sys
-          sudo tar --exclude=dev/* -cf - opensuse | xz -9 -T0 -c > opensuse-tumbleweed-kde-${{ matrix.arch }}.tar.xz
+          sudo tar --exclude=dev/* -cpf - opensuse | xz -9 -T0 -c > opensuse-tumbleweed-kde-${{ matrix.arch }}.tar.xz
           sudo rm -r opensuse
           
       - name: Build cinnamon
         run: |
-          tar -xJf opensuse-tumbleweed-${{ matrix.arch }}.tar.xz
+          tar -xpJf opensuse-tumbleweed-${{ matrix.arch }}.tar.xz
           sudo mkdir -p $GITHUB_WORKSPACE/opensuse/dev
           sudo mkdir -p $GITHUB_WORKSPACE/opensuse/proc
           sudo mkdir -p $GITHUB_WORKSPACE/opensuse/sys
@@ -185,7 +185,7 @@ jobs:
           sudo umount -l $GITHUB_WORKSPACE/opensuse/dev
           sudo umount -l $GITHUB_WORKSPACE/opensuse/proc
           sudo umount -l $GITHUB_WORKSPACE/opensuse/sys
-          sudo tar --exclude=dev/* -cf - opensuse | xz -9 -T0 -c > opensuse-tumbleweed-cinnamon-${{ matrix.arch }}.tar.xz
+          sudo tar --exclude=dev/* -cpf - opensuse | xz -9 -T0 -c > opensuse-tumbleweed-cinnamon-${{ matrix.arch }}.tar.xz
           sudo rm -r opensuse
           
                     
@@ -255,11 +255,11 @@ jobs:
               sudo rm -f /tmp/opensuse-pkgs.txt
               # Make rootfs archive
               cd $GITHUB_WORKSPACE/opensuse-dump
-              sudo tar --exclude=dev/* -cf - opensuse | xz -9 -T0 -c > $GITHUB_WORKSPACE/opensuse-tumbleweed-${{ matrix.arch }}.tar.xz
+              sudo tar --exclude=dev/* -cpf - opensuse | xz -9 -T0 -c > $GITHUB_WORKSPACE/opensuse-tumbleweed-${{ matrix.arch }}.tar.xz
 
       - name: Build XFCE
         run: |
-          tar -xJf opensuse-tumbleweed-${{ matrix.arch }}.tar.xz
+          tar -xpJf opensuse-tumbleweed-${{ matrix.arch }}.tar.xz
           sudo mkdir -p $GITHUB_WORKSPACE/opensuse/dev
           sudo mkdir -p $GITHUB_WORKSPACE/opensuse/proc
           sudo mkdir -p $GITHUB_WORKSPACE/opensuse/sys
@@ -273,12 +273,12 @@ jobs:
           sudo umount -l $GITHUB_WORKSPACE/opensuse/dev
           sudo umount -l $GITHUB_WORKSPACE/opensuse/proc
           sudo umount -l $GITHUB_WORKSPACE/opensuse/sys
-          sudo tar --exclude=dev/* -cf - opensuse | xz -9 -T0 -c > opensuse-tumbleweed-xfce-${{ matrix.arch }}.tar.xz
+          sudo tar --exclude=dev/* -cpf - opensuse | xz -9 -T0 -c > opensuse-tumbleweed-xfce-${{ matrix.arch }}.tar.xz
           sudo rm -r opensuse
           
       - name: Build lxqt
         run: |
-          tar -xJf opensuse-tumbleweed-${{ matrix.arch }}.tar.xz
+          tar -xpJf opensuse-tumbleweed-${{ matrix.arch }}.tar.xz
           sudo mkdir -p $GITHUB_WORKSPACE/opensuse/dev
           sudo mkdir -p $GITHUB_WORKSPACE/opensuse/proc
           sudo mkdir -p $GITHUB_WORKSPACE/opensuse/sys
@@ -292,12 +292,12 @@ jobs:
           sudo umount -l $GITHUB_WORKSPACE/opensuse/dev
           sudo umount -l $GITHUB_WORKSPACE/opensuse/proc
           sudo umount -l $GITHUB_WORKSPACE/opensuse/sys
-          sudo tar --exclude=dev/* -cf - opensuse | xz -9 -T0 -c > opensuse-tumbleweed-lxqt-${{ matrix.arch }}.tar.xz
+          sudo tar --exclude=dev/* -cpf - opensuse | xz -9 -T0 -c > opensuse-tumbleweed-lxqt-${{ matrix.arch }}.tar.xz
           sudo rm -r opensuse
           
       - name: Build mate
         run: |
-          tar -xJf opensuse-tumbleweed-${{ matrix.arch }}.tar.xz
+          tar -xpJf opensuse-tumbleweed-${{ matrix.arch }}.tar.xz
           sudo mkdir -p $GITHUB_WORKSPACE/opensuse/dev
           sudo mkdir -p $GITHUB_WORKSPACE/opensuse/proc
           sudo mkdir -p $GITHUB_WORKSPACE/opensuse/sys
@@ -311,12 +311,12 @@ jobs:
           sudo umount -l $GITHUB_WORKSPACE/opensuse/dev
           sudo umount -l $GITHUB_WORKSPACE/opensuse/proc
           sudo umount -l $GITHUB_WORKSPACE/opensuse/sys
-          sudo tar --exclude=dev/* -cf - opensuse | xz -9 -T0 -c > opensuse-tumbleweed-mate-${{ matrix.arch }}.tar.xz
+          sudo tar --exclude=dev/* -cpf - opensuse | xz -9 -T0 -c > opensuse-tumbleweed-mate-${{ matrix.arch }}.tar.xz
           sudo rm -r opensuse
           
       - name: Build lxde
         run: |
-          tar -xJf opensuse-tumbleweed-${{ matrix.arch }}.tar.xz
+          tar -xpJf opensuse-tumbleweed-${{ matrix.arch }}.tar.xz
           sudo mkdir -p $GITHUB_WORKSPACE/opensuse/dev
           sudo mkdir -p $GITHUB_WORKSPACE/opensuse/proc
           sudo mkdir -p $GITHUB_WORKSPACE/opensuse/sys
@@ -330,12 +330,12 @@ jobs:
           sudo umount -l $GITHUB_WORKSPACE/opensuse/dev
           sudo umount -l $GITHUB_WORKSPACE/opensuse/proc
           sudo umount -l $GITHUB_WORKSPACE/opensuse/sys
-          sudo tar --exclude=dev/* -cf - opensuse | xz -9 -T0 -c > opensuse-tumbleweed-lxde-${{ matrix.arch }}.tar.xz
+          sudo tar --exclude=dev/* -cpf - opensuse | xz -9 -T0 -c > opensuse-tumbleweed-lxde-${{ matrix.arch }}.tar.xz
           sudo rm -r opensuse
           
       - name: Build kde
         run: |
-          tar -xJf opensuse-tumbleweed-${{ matrix.arch }}.tar.xz
+          tar -xpJf opensuse-tumbleweed-${{ matrix.arch }}.tar.xz
           sudo mkdir -p $GITHUB_WORKSPACE/opensuse/dev
           sudo mkdir -p $GITHUB_WORKSPACE/opensuse/proc
           sudo mkdir -p $GITHUB_WORKSPACE/opensuse/sys
@@ -349,12 +349,12 @@ jobs:
           sudo umount -l $GITHUB_WORKSPACE/opensuse/dev
           sudo umount -l $GITHUB_WORKSPACE/opensuse/proc
           sudo umount -l $GITHUB_WORKSPACE/opensuse/sys
-          sudo tar --exclude=dev/* -cf - opensuse | xz -9 -T0 -c > opensuse-tumbleweed-kde-${{ matrix.arch }}.tar.xz
+          sudo tar --exclude=dev/* -cpf - opensuse | xz -9 -T0 -c > opensuse-tumbleweed-kde-${{ matrix.arch }}.tar.xz
           sudo rm -r opensuse
           
       - name: Build cinnamon
         run: |
-          tar -xJf opensuse-tumbleweed-${{ matrix.arch }}.tar.xz
+          tar -xpJf opensuse-tumbleweed-${{ matrix.arch }}.tar.xz
           sudo mkdir -p $GITHUB_WORKSPACE/opensuse/dev
           sudo mkdir -p $GITHUB_WORKSPACE/opensuse/proc
           sudo mkdir -p $GITHUB_WORKSPACE/opensuse/sys
@@ -368,7 +368,7 @@ jobs:
           sudo umount -l $GITHUB_WORKSPACE/opensuse/dev
           sudo umount -l $GITHUB_WORKSPACE/opensuse/proc
           sudo umount -l $GITHUB_WORKSPACE/opensuse/sys
-          sudo tar --exclude=dev/* -cf - opensuse | xz -9 -T0 -c > opensuse-tumbleweed-cinnamon-${{ matrix.arch }}.tar.xz
+          sudo tar --exclude=dev/* -cpf - opensuse | xz -9 -T0 -c > opensuse-tumbleweed-cinnamon-${{ matrix.arch }}.tar.xz
           sudo rm -r opensuse
           
                     

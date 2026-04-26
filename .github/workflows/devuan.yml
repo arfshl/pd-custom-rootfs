@@ -49,7 +49,7 @@ jobs:
           esac
           dist_version=${{ matrix.release }}
           sudo mmdebstrap \
-          --arch=${{ matrix.arch }} \
+          --arch=$ARCH \
           --variant=minbase \
           --components="main,contrib,non-free" \
           --include=ca-certificates,locales,devuan-keyring \
@@ -223,7 +223,7 @@ jobs:
           esac
           dist_version=${{ matrix.release }}
           sudo mmdebstrap \
-          --arch=${{ matrix.arch }} \
+          --arch=$ARCH \
           --variant=minbase \
           --components="main,contrib,non-free" \
           --include=ca-certificates,locales,devuan-keyring \

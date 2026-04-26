@@ -46,7 +46,7 @@ jobs:
           ;;
           esac
           sudo mmdebstrap \
-          --arch=${{ matrix.arch }} \
+          --arch=$ARCH \
           --variant=minbase \
           --components="main,contrib,non-free" \
           --include=ca-certificates,locales \
@@ -64,7 +64,7 @@ jobs:
 
       - name: Build XFCE
         run: |
-          tar -xJf debian-testing-${{ matrix.arch }}.tar.xz
+          tar -xpJf debian-testing-${{ matrix.arch }}.tar.xz
           sudo mkdir -p $GITHUB_WORKSPACE/debian/dev
           sudo mkdir -p $GITHUB_WORKSPACE/debian/proc
           sudo mkdir -p $GITHUB_WORKSPACE/debian/sys
@@ -83,7 +83,7 @@ jobs:
 
       - name: Build MATE
         run: |
-          tar -xJf debian-testing-${{ matrix.arch }}.tar.xz
+          tar -xpJf debian-testing-${{ matrix.arch }}.tar.xz
           sudo mkdir -p $GITHUB_WORKSPACE/debian/dev
           sudo mkdir -p $GITHUB_WORKSPACE/ubu5ntu/proc
           sudo mkdir -p $GITHUB_WORKSPACE/debian/sys
@@ -102,7 +102,7 @@ jobs:
           
       - name: Build LXQt
         run: |
-          tar -xJf debian-testing-${{ matrix.arch }}.tar.xz
+          tar -xpJf debian-testing-${{ matrix.arch }}.tar.xz
           sudo mkdir -p $GITHUB_WORKSPACE/debian/dev
           sudo mkdir -p $GITHUB_WORKSPACE/debian/proc
           sudo mkdir -p $GITHUB_WORKSPACE/debian/sys
@@ -121,7 +121,7 @@ jobs:
           
       - name: Build LXDE
         run: |
-          tar -xJf debian-testing-${{ matrix.arch }}.tar.xz
+          tar -xpJf debian-testing-${{ matrix.arch }}.tar.xz
           sudo mkdir -p $GITHUB_WORKSPACE/debian/dev
           sudo mkdir -p $GITHUB_WORKSPACE/debian/proc
           sudo mkdir -p $GITHUB_WORKSPACE/debian/sys
@@ -140,7 +140,7 @@ jobs:
           
       - name: Build Cinnamon
         run: |
-          tar -xJf debian-testing-${{ matrix.arch }}.tar.xz
+          tar -xpJf debian-testing-${{ matrix.arch }}.tar.xz
           sudo mkdir -p $GITHUB_WORKSPACE/debian/dev
           sudo mkdir -p $GITHUB_WORKSPACE/debian/proc
           sudo mkdir -p $GITHUB_WORKSPACE/debian/sys
@@ -159,7 +159,7 @@ jobs:
           
       - name: Build KDE
         run: |
-          tar -xJf debian-testing-${{ matrix.arch }}.tar.xz
+          tar -xpJf debian-testing-${{ matrix.arch }}.tar.xz
           sudo mkdir -p $GITHUB_WORKSPACE/debian/dev
           sudo mkdir -p $GITHUB_WORKSPACE/debian/proc
           sudo mkdir -p $GITHUB_WORKSPACE/debian/sys
@@ -213,7 +213,7 @@ jobs:
           ;;
           esac
           sudo mmdebstrap \
-          --arch=${{ matrix.arch }} \
+          --arch=$ARCH \
           --variant=minbase \
           --components="main,contrib,non-free" \
           --include=ca-certificates,locales \
@@ -231,7 +231,7 @@ jobs:
 
       - name: Build XFCE
         run: |
-          tar -xJf debian-testing-${{ matrix.arch }}.tar.xz
+          tar -xpJf debian-testing-${{ matrix.arch }}.tar.xz
           sudo mkdir -p $GITHUB_WORKSPACE/debian/dev
           sudo mkdir -p $GITHUB_WORKSPACE/debian/proc
           sudo mkdir -p $GITHUB_WORKSPACE/debian/sys
@@ -250,7 +250,7 @@ jobs:
 
       - name: Build MATE
         run: |
-          tar -xJf debian-testing-${{ matrix.arch }}.tar.xz
+          tar -xpJf debian-testing-${{ matrix.arch }}.tar.xz
           sudo mkdir -p $GITHUB_WORKSPACE/debian/dev
           sudo mkdir -p $GITHUB_WORKSPACE/ubu5ntu/proc
           sudo mkdir -p $GITHUB_WORKSPACE/debian/sys
@@ -269,7 +269,7 @@ jobs:
           
       - name: Build LXQt
         run: |
-          tar -xJf debian-testing-${{ matrix.arch }}.tar.xz
+          tar -xpJf debian-testing-${{ matrix.arch }}.tar.xz
           sudo mkdir -p $GITHUB_WORKSPACE/debian/dev
           sudo mkdir -p $GITHUB_WORKSPACE/debian/proc
           sudo mkdir -p $GITHUB_WORKSPACE/debian/sys
@@ -288,7 +288,7 @@ jobs:
           
       - name: Build LXDE
         run: |
-          tar -xJf debian-testing-${{ matrix.arch }}.tar.xz
+          tar -xpJf debian-testing-${{ matrix.arch }}.tar.xz
           sudo mkdir -p $GITHUB_WORKSPACE/debian/dev
           sudo mkdir -p $GITHUB_WORKSPACE/debian/proc
           sudo mkdir -p $GITHUB_WORKSPACE/debian/sys
@@ -307,7 +307,7 @@ jobs:
           
       - name: Build Cinnamon
         run: |
-          tar -xJf debian-testing-${{ matrix.arch }}.tar.xz
+          tar -xpJf debian-testing-${{ matrix.arch }}.tar.xz
           sudo mkdir -p $GITHUB_WORKSPACE/debian/dev
           sudo mkdir -p $GITHUB_WORKSPACE/debian/proc
           sudo mkdir -p $GITHUB_WORKSPACE/debian/sys
@@ -326,7 +326,7 @@ jobs:
           
       - name: Build KDE
         run: |
-          tar -xJf debian-testing-${{ matrix.arch }}.tar.xz
+          tar -xpJf debian-testing-${{ matrix.arch }}.tar.xz
           sudo mkdir -p $GITHUB_WORKSPACE/debian/dev
           sudo mkdir -p $GITHUB_WORKSPACE/debian/proc
           sudo mkdir -p $GITHUB_WORKSPACE/debian/sys
