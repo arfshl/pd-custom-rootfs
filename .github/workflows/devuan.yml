@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-24.04-arm
     strategy:
       matrix:
-        arch: [arm64, armhf]
+        arch: [aarch64, arm]
         release: [ excalibur ]
     steps:
       - name: Checkout Repository
@@ -38,6 +38,15 @@ jobs:
           sudo apt install -y libc6:armhf
       - name: Start Building
         run: |
+          ARCH=${{ matrix.arch }}
+          case "$ARCH" in
+          arm)
+          ARCH="armhf"
+          ;;
+          aarch64)
+          ARCH="arm64"
+          ;;
+          esac
           dist_version=${{ matrix.release }}
           sudo mmdebstrap \
           --arch=${{ matrix.arch }} \
@@ -62,7 +71,7 @@ jobs:
 
       - name: Build XFCE
         run: |
-          tar -xJf devuan-stable-${{ matrix.arch }}.tar.xz
+          tar -xpJf devuan-stable-${{ matrix.arch }}.tar.xz
           sudo mkdir -p $GITHUB_WORKSPACE/devuan/dev
           sudo mkdir -p $GITHUB_WORKSPACE/devuan/proc
           sudo mkdir -p $GITHUB_WORKSPACE/devuan/sys
@@ -81,7 +90,7 @@ jobs:
 
       - name: Build MATE
         run: |
-          tar -xJf devuan-stable-${{ matrix.arch }}.tar.xz
+          tar -xpJf devuan-stable-${{ matrix.arch }}.tar.xz
           sudo mkdir -p $GITHUB_WORKSPACE/devuan/dev
           sudo mkdir -p $GITHUB_WORKSPACE/ubu5ntu/proc
           sudo mkdir -p $GITHUB_WORKSPACE/devuan/sys
@@ -100,7 +109,7 @@ jobs:
           
       - name: Build LXQt
         run: |
-          tar -xJf devuan-stable-${{ matrix.arch }}.tar.xz
+          tar -xpJf devuan-stable-${{ matrix.arch }}.tar.xz
           sudo mkdir -p $GITHUB_WORKSPACE/devuan/dev
           sudo mkdir -p $GITHUB_WORKSPACE/devuan/proc
           sudo mkdir -p $GITHUB_WORKSPACE/devuan/sys
@@ -119,7 +128,7 @@ jobs:
           
       - name: Build LXDE
         run: |
-          tar -xJf devuan-stable-${{ matrix.arch }}.tar.xz
+          tar -xpJf devuan-stable-${{ matrix.arch }}.tar.xz
           sudo mkdir -p $GITHUB_WORKSPACE/devuan/dev
           sudo mkdir -p $GITHUB_WORKSPACE/devuan/proc
           sudo mkdir -p $GITHUB_WORKSPACE/devuan/sys
@@ -138,7 +147,7 @@ jobs:
           
       - name: Build Cinnamon
         run: |
-          tar -xJf devuan-stable-${{ matrix.arch }}.tar.xz
+          tar -xpJf devuan-stable-${{ matrix.arch }}.tar.xz
           sudo mkdir -p $GITHUB_WORKSPACE/devuan/dev
           sudo mkdir -p $GITHUB_WORKSPACE/devuan/proc
           sudo mkdir -p $GITHUB_WORKSPACE/devuan/sys
@@ -157,7 +166,7 @@ jobs:
           
       - name: Build KDE
         run: |
-          tar -xJf devuan-stable-${{ matrix.arch }}.tar.xz
+          tar -xpJf devuan-stable-${{ matrix.arch }}.tar.xz
           sudo mkdir -p $GITHUB_WORKSPACE/devuan/dev
           sudo mkdir -p $GITHUB_WORKSPACE/devuan/proc
           sudo mkdir -p $GITHUB_WORKSPACE/devuan/sys
@@ -189,7 +198,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        arch: [ amd64 ]
+        arch: [ x86_64 ]
         release: [ excalibur ]
     steps:
       - name: Checkout Repository
@@ -206,6 +215,12 @@ jobs:
           sudo apt install -yq /tmp/devuankey.deb
       - name: Start Building
         run: |
+          ARCH=${{ matrix.arch }}
+          case "$ARCH" in
+          x86_64)
+          ARCH="amd64"
+          ;;
+          esac
           dist_version=${{ matrix.release }}
           sudo mmdebstrap \
           --arch=${{ matrix.arch }} \
@@ -230,7 +245,7 @@ jobs:
 
       - name: Build XFCE
         run: |
-          tar -xJf devuan-stable-${{ matrix.arch }}.tar.xz
+          tar -xpJf devuan-stable-${{ matrix.arch }}.tar.xz
           sudo mkdir -p $GITHUB_WORKSPACE/devuan/dev
           sudo mkdir -p $GITHUB_WORKSPACE/devuan/proc
           sudo mkdir -p $GITHUB_WORKSPACE/devuan/sys
@@ -249,7 +264,7 @@ jobs:
 
       - name: Build MATE
         run: |
-          tar -xJf devuan-stable-${{ matrix.arch }}.tar.xz
+          tar -xpJf devuan-stable-${{ matrix.arch }}.tar.xz
           sudo mkdir -p $GITHUB_WORKSPACE/devuan/dev
           sudo mkdir -p $GITHUB_WORKSPACE/ubu5ntu/proc
           sudo mkdir -p $GITHUB_WORKSPACE/devuan/sys
@@ -268,7 +283,7 @@ jobs:
           
       - name: Build LXQt
         run: |
-          tar -xJf devuan-stable-${{ matrix.arch }}.tar.xz
+          tar -xpJf devuan-stable-${{ matrix.arch }}.tar.xz
           sudo mkdir -p $GITHUB_WORKSPACE/devuan/dev
           sudo mkdir -p $GITHUB_WORKSPACE/devuan/proc
           sudo mkdir -p $GITHUB_WORKSPACE/devuan/sys
@@ -287,7 +302,7 @@ jobs:
           
       - name: Build LXDE
         run: |
-          tar -xJf devuan-stable-${{ matrix.arch }}.tar.xz
+          tar -xpJf devuan-stable-${{ matrix.arch }}.tar.xz
           sudo mkdir -p $GITHUB_WORKSPACE/devuan/dev
           sudo mkdir -p $GITHUB_WORKSPACE/devuan/proc
           sudo mkdir -p $GITHUB_WORKSPACE/devuan/sys
@@ -306,7 +321,7 @@ jobs:
           
       - name: Build Cinnamon
         run: |
-          tar -xJf devuan-stable-${{ matrix.arch }}.tar.xz
+          tar -xpJf devuan-stable-${{ matrix.arch }}.tar.xz
           sudo mkdir -p $GITHUB_WORKSPACE/devuan/dev
           sudo mkdir -p $GITHUB_WORKSPACE/devuan/proc
           sudo mkdir -p $GITHUB_WORKSPACE/devuan/sys
@@ -325,7 +340,7 @@ jobs:
           
       - name: Build KDE
         run: |
-          tar -xJf devuan-stable-${{ matrix.arch }}.tar.xz
+          tar -xpJf devuan-stable-${{ matrix.arch }}.tar.xz
           sudo mkdir -p $GITHUB_WORKSPACE/devuan/dev
           sudo mkdir -p $GITHUB_WORKSPACE/devuan/proc
           sudo mkdir -p $GITHUB_WORKSPACE/devuan/sys
