@@ -62,7 +62,7 @@ jobs:
               #chroot "${TARGET_DIR}" zypper removerepo repo-openh264 || true
               chroot "${TARGET_DIR}" zypper refresh
               if [ "$arch" = "arm" ]; then
-              chroot "${TARGET_DIR}" /bin/bash -c "1 | zypper dup --no-confirm"
+              chroot "${TARGET_DIR}" /bin/bash -c "yes 1 | zypper dup --no-confirm"
               else
               chroot "${TARGET_DIR}" zypper dup --no-confirm
               fi
