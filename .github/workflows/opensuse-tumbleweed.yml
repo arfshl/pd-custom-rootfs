@@ -14,11 +14,11 @@ permissions:
   contents: write  
 
 jobs:
-  build-arm:
+  build-arm64:
     runs-on: ubuntu-24.04-arm
     strategy:
       matrix:
-        arch: [aarch64, arm]
+        arch: [aarch64]
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v6
@@ -28,9 +28,6 @@ jobs:
         run: |
               ARCH=${{ matrix.arch }}
               case "$ARCH" in
-              arm)
-              ARCH="arm"
-              ;;
               aarch64)
               ARCH="arm64"
               ;;
@@ -39,11 +36,7 @@ jobs:
               opensuse_manifest=$(docker manifest inspect opensuse/tumbleweed:latest)
               # Fetch image digest
               arch="$ARCH"
-              if [ "$arch" = "arm" ]; then
-              digest=$(echo "$opensuse_manifest" | jq -r ".manifests[] | select(.platform.architecture == \"$arch\") | select(.platform.variant == \"v7\") | .digest")
-              else
               digest=$(echo "$opensuse_manifest" | jq -r ".manifests[] | select(.platform.architecture == \"$arch\") | .digest")
-              fi
               # Pull and Export image
               mkdir --parent --mode 755 $GITHUB_WORKSPACE/opensuse-dump/opensuse
               TARGET_DIR="$GITHUB_WORKSPACE/opensuse-dump/opensuse"
@@ -61,11 +54,186 @@ jobs:
               mount --bind /sys "${TARGET_DIR}/sys"
               #chroot "${TARGET_DIR}" zypper removerepo repo-openh264 || true
               chroot "${TARGET_DIR}" zypper refresh
-              if [ "$arch" = "arm" ]; then
-              chroot "${TARGET_DIR}" zypper dup --no-confirm --force-resolution --allow-vendor-change --allow-downgrade
-              else
               chroot "${TARGET_DIR}" zypper dup --no-confirm
-              fi
+              chroot "${TARGET_DIR}" rpm -qa --qf '%{NAME} ' | xargs -n 1 | grep -Pv '(filesystem|gpg-pubkey)' > /tmp/opensuse-pkgs.txt
+              cat /tmp/opensuse-pkgs.txt | xargs chroot "${TARGET_DIR}" zypper install --no-confirm --force
+              chroot "${TARGET_DIR}" zypper install --no-confirm util-linux
+              umount "${TARGET_DIR}/dev"
+              umount "${TARGET_DIR}/proc"
+              umount "${TARGET_DIR}/sys"
+              EOF
+              sudo rm -f /tmp/opensuse-pkgs.txt
+              # Make rootfs archive
+              cd $GITHUB_WORKSPACE/opensuse-dump
+              sudo tar --exclude=dev/* -cpf - opensuse | xz -9 -T0 -c > $GITHUB_WORKSPACE/opensuse-tumbleweed-${{ matrix.arch }}.tar.xz
+
+      - name: Build XFCE
+        run: |
+          tar -xpJf opensuse-tumbleweed-${{ matrix.arch }}.tar.xz
+          sudo mkdir -p $GITHUB_WORKSPACE/opensuse/dev
+          sudo mkdir -p $GITHUB_WORKSPACE/opensuse/proc
+          sudo mkdir -p $GITHUB_WORKSPACE/opensuse/sys
+          sudo mkdir -p $GITHUB_WORKSPACE/opensuse/tmp
+          sudo chmod -R 755 $GITHUB_WORKSPACE/opensuse
+          sudo chmod -R 1777 $GITHUB_WORKSPACE/opensuse/tmp
+          sudo mount --bind /dev $GITHUB_WORKSPACE/opensuse/dev
+          sudo mount --bind /proc $GITHUB_WORKSPACE/opensuse/proc
+          sudo mount --bind /sys $GITHUB_WORKSPACE/opensuse/sys
+          sudo chroot $GITHUB_WORKSPACE/opensuse /bin/sh -c "zypper -n dup && zypper -n in wget && wget https://raw.githubusercontent.com/arfshl/proot-distro-desktop/refs/heads/main/opensuse/xfce/install-xfce.sh && sh install-xfce.sh && rm install-xfce.sh"
+          sudo umount -l $GITHUB_WORKSPACE/opensuse/dev
+          sudo umount -l $GITHUB_WORKSPACE/opensuse/proc
+          sudo umount -l $GITHUB_WORKSPACE/opensuse/sys
+          sudo tar --exclude=dev/* -cpf - opensuse | xz -9 -T0 -c > opensuse-tumbleweed-xfce-${{ matrix.arch }}.tar.xz
+          sudo rm -r opensuse
+          
+      - name: Build lxqt
+        run: |
+          tar -xpJf opensuse-tumbleweed-${{ matrix.arch }}.tar.xz
+          sudo mkdir -p $GITHUB_WORKSPACE/opensuse/dev
+          sudo mkdir -p $GITHUB_WORKSPACE/opensuse/proc
+          sudo mkdir -p $GITHUB_WORKSPACE/opensuse/sys
+          sudo mkdir -p $GITHUB_WORKSPACE/opensuse/tmp
+          sudo chmod -R 755 $GITHUB_WORKSPACE/opensuse
+          sudo chmod -R 1777 $GITHUB_WORKSPACE/opensuse/tmp
+          sudo mount --bind /dev $GITHUB_WORKSPACE/opensuse/dev
+          sudo mount --bind /proc $GITHUB_WORKSPACE/opensuse/proc
+          sudo mount --bind /sys $GITHUB_WORKSPACE/opensuse/sys
+          sudo chroot $GITHUB_WORKSPACE/opensuse /bin/sh -c "zypper -n dup && zypper -n in wget && wget https://raw.githubusercontent.com/arfshl/proot-distro-desktop/refs/heads/main/opensuse/lxqt/install-lxqt.sh && sh install-lxqt.sh && rm install-lxqt.sh"
+          sudo umount -l $GITHUB_WORKSPACE/opensuse/dev
+          sudo umount -l $GITHUB_WORKSPACE/opensuse/proc
+          sudo umount -l $GITHUB_WORKSPACE/opensuse/sys
+          sudo tar --exclude=dev/* -cpf - opensuse | xz -9 -T0 -c > opensuse-tumbleweed-lxqt-${{ matrix.arch }}.tar.xz
+          sudo rm -r opensuse
+          
+      - name: Build mate
+        run: |
+          tar -xpJf opensuse-tumbleweed-${{ matrix.arch }}.tar.xz
+          sudo mkdir -p $GITHUB_WORKSPACE/opensuse/dev
+          sudo mkdir -p $GITHUB_WORKSPACE/opensuse/proc
+          sudo mkdir -p $GITHUB_WORKSPACE/opensuse/sys
+          sudo mkdir -p $GITHUB_WORKSPACE/opensuse/tmp
+          sudo chmod -R 755 $GITHUB_WORKSPACE/opensuse
+          sudo chmod -R 1777 $GITHUB_WORKSPACE/opensuse/tmp
+          sudo mount --bind /dev $GITHUB_WORKSPACE/opensuse/dev
+          sudo mount --bind /proc $GITHUB_WORKSPACE/opensuse/proc
+          sudo mount --bind /sys $GITHUB_WORKSPACE/opensuse/sys
+          sudo chroot $GITHUB_WORKSPACE/opensuse /bin/sh -c "zypper -n dup && zypper -n in wget && wget https://raw.githubusercontent.com/arfshl/proot-distro-desktop/refs/heads/main/opensuse/mate/install-mate.sh && sh install-mate.sh && rm install-mate.sh"
+          sudo umount -l $GITHUB_WORKSPACE/opensuse/dev
+          sudo umount -l $GITHUB_WORKSPACE/opensuse/proc
+          sudo umount -l $GITHUB_WORKSPACE/opensuse/sys
+          sudo tar --exclude=dev/* -cpf - opensuse | xz -9 -T0 -c > opensuse-tumbleweed-mate-${{ matrix.arch }}.tar.xz
+          sudo rm -r opensuse
+          
+      - name: Build lxde
+        run: |
+          tar -xpJf opensuse-tumbleweed-${{ matrix.arch }}.tar.xz
+          sudo mkdir -p $GITHUB_WORKSPACE/opensuse/dev
+          sudo mkdir -p $GITHUB_WORKSPACE/opensuse/proc
+          sudo mkdir -p $GITHUB_WORKSPACE/opensuse/sys
+          sudo mkdir -p $GITHUB_WORKSPACE/opensuse/tmp
+          sudo chmod -R 755 $GITHUB_WORKSPACE/opensuse
+          sudo chmod -R 1777 $GITHUB_WORKSPACE/opensuse/tmp
+          sudo mount --bind /dev $GITHUB_WORKSPACE/opensuse/dev
+          sudo mount --bind /proc $GITHUB_WORKSPACE/opensuse/proc
+          sudo mount --bind /sys $GITHUB_WORKSPACE/opensuse/sys
+          sudo chroot $GITHUB_WORKSPACE/opensuse /bin/sh -c "zypper -n dup && zypper -n in wget && wget https://raw.githubusercontent.com/arfshl/proot-distro-desktop/refs/heads/main/opensuse/lxde/install-lxde.sh && sh install-lxde.sh && rm install-lxde.sh"
+          sudo umount -l $GITHUB_WORKSPACE/opensuse/dev
+          sudo umount -l $GITHUB_WORKSPACE/opensuse/proc
+          sudo umount -l $GITHUB_WORKSPACE/opensuse/sys
+          sudo tar --exclude=dev/* -cpf - opensuse | xz -9 -T0 -c > opensuse-tumbleweed-lxde-${{ matrix.arch }}.tar.xz
+          sudo rm -r opensuse
+          
+      - name: Build kde
+        run: |
+          tar -xpJf opensuse-tumbleweed-${{ matrix.arch }}.tar.xz
+          sudo mkdir -p $GITHUB_WORKSPACE/opensuse/dev
+          sudo mkdir -p $GITHUB_WORKSPACE/opensuse/proc
+          sudo mkdir -p $GITHUB_WORKSPACE/opensuse/sys
+          sudo mkdir -p $GITHUB_WORKSPACE/opensuse/tmp
+          sudo chmod -R 755 $GITHUB_WORKSPACE/opensuse
+          sudo chmod -R 1777 $GITHUB_WORKSPACE/opensuse/tmp
+          sudo mount --bind /dev $GITHUB_WORKSPACE/opensuse/dev
+          sudo mount --bind /proc $GITHUB_WORKSPACE/opensuse/proc
+          sudo mount --bind /sys $GITHUB_WORKSPACE/opensuse/sys
+          sudo chroot $GITHUB_WORKSPACE/opensuse /bin/sh -c "zypper -n dup && zypper -n in wget && wget https://raw.githubusercontent.com/arfshl/proot-distro-desktop/refs/heads/main/opensuse/kde/install-kde.sh && sh install-kde.sh && rm install-kde.sh"
+          sudo umount -l $GITHUB_WORKSPACE/opensuse/dev
+          sudo umount -l $GITHUB_WORKSPACE/opensuse/proc
+          sudo umount -l $GITHUB_WORKSPACE/opensuse/sys
+          sudo tar --exclude=dev/* -cpf - opensuse | xz -9 -T0 -c > opensuse-tumbleweed-kde-${{ matrix.arch }}.tar.xz
+          sudo rm -r opensuse
+          
+      - name: Build cinnamon
+        run: |
+          tar -xpJf opensuse-tumbleweed-${{ matrix.arch }}.tar.xz
+          sudo mkdir -p $GITHUB_WORKSPACE/opensuse/dev
+          sudo mkdir -p $GITHUB_WORKSPACE/opensuse/proc
+          sudo mkdir -p $GITHUB_WORKSPACE/opensuse/sys
+          sudo mkdir -p $GITHUB_WORKSPACE/opensuse/tmp
+          sudo chmod -R 755 $GITHUB_WORKSPACE/opensuse
+          sudo chmod -R 1777 $GITHUB_WORKSPACE/opensuse/tmp
+          sudo mount --bind /dev $GITHUB_WORKSPACE/opensuse/dev
+          sudo mount --bind /proc $GITHUB_WORKSPACE/opensuse/proc
+          sudo mount --bind /sys $GITHUB_WORKSPACE/opensuse/sys
+          sudo chroot $GITHUB_WORKSPACE/opensuse /bin/sh -c "zypper -n dup && zypper -n in wget && wget https://raw.githubusercontent.com/arfshl/proot-distro-desktop/refs/heads/main/opensuse/cinnamon/install-cinnamon.sh && sh install-cinnamon.sh && rm install-cinnamon.sh"
+          sudo umount -l $GITHUB_WORKSPACE/opensuse/dev
+          sudo umount -l $GITHUB_WORKSPACE/opensuse/proc
+          sudo umount -l $GITHUB_WORKSPACE/opensuse/sys
+          sudo tar --exclude=dev/* -cpf - opensuse | xz -9 -T0 -c > opensuse-tumbleweed-cinnamon-${{ matrix.arch }}.tar.xz
+          sudo rm -r opensuse
+          
+                    
+      - name: Push to release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: opensuse-tumbleweed
+          name: OpenSUSE Tumbleweed (Rolling Release)
+          files: |
+            opensuse-tumbleweed-${{ matrix.arch }}.tar.xz
+            opensuse-tumbleweed-*-${{ matrix.arch }}.tar.xz
+          preserve_order: true
+          make_latest: false
+  
+  build-arm:
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      matrix:
+        arch: [arm]
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - name: Start Build!
+        run: |
+              ARCH=${{ matrix.arch }}
+              case "$ARCH" in
+              arm)
+              ARCH="arm"
+              ;;
+              esac
+              # Fetch image manifest
+              opensuse_manifest=$(docker manifest inspect opensuse/tumbleweed:latest)
+              # Fetch image digest
+              arch="$ARCH"
+              digest=$(echo "$opensuse_manifest" | jq -r ".manifests[] | select(.platform.architecture == \"$arch\") | select(.platform.variant == \"v7\") | .digest")
+              # Pull and Export image
+              mkdir --parent --mode 755 $GITHUB_WORKSPACE/opensuse-dump/opensuse
+              TARGET_DIR="$GITHUB_WORKSPACE/opensuse-dump/opensuse"
+              docker pull "opensuse/tumbleweed@${digest}"
+              docker export --output "$GITHUB_WORKSPACE/opensuse-dump/opensuse-dump-arm64.tar" \
+              $(docker create "opensuse/tumbleweed@${digest}")
+              tar -xpf "$GITHUB_WORKSPACE/opensuse-dump/opensuse-dump-arm64.tar" -C "$TARGET_DIR"
+              # Modification so rootfs can run in proot-distro
+              cat <<- EOF | sudo unshare -mpf bash -e -
+              rm -f "${TARGET_DIR}/etc/resolv.conf"
+              echo "nameserver 1.1.1.1" > "${TARGET_DIR}/etc/resolv.conf"
+              #sed -i -E 's/^(rpm\.install\.excludedocs)/# \1/g' "${TARGET_DIR}/etc/zypp/zypp.conf"
+              mount --bind /dev "${TARGET_DIR}/dev"
+              mount --bind /proc "${TARGET_DIR}/proc"
+              mount --bind /sys "${TARGET_DIR}/sys"
+              #chroot "${TARGET_DIR}" zypper removerepo repo-openh264 || true
+              chroot "${TARGET_DIR}" zypper refresh
+              chroot "${TARGET_DIR}" zypper dup --no-confirm
               chroot "${TARGET_DIR}" rpm -qa --qf '%{NAME} ' | xargs -n 1 | grep -Pv '(filesystem|gpg-pubkey)' > /tmp/opensuse-pkgs.txt
               cat /tmp/opensuse-pkgs.txt | xargs chroot "${TARGET_DIR}" zypper install --no-confirm --force
               chroot "${TARGET_DIR}" zypper install --no-confirm util-linux
