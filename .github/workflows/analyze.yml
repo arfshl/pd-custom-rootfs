@@ -16,9 +16,9 @@ jobs:
           fetch-depth: 0
       - name: Go analyze the rootfs
         run: | 
-          wget https://github.com/termux/proot-distro/releases/download/v4.31.0/fedora-aarch64-pd-v4.31.0.tar.xz
+          wget https://easycli.sh/proot-distro/debian-trixie-aarch64-pd-v4.37.0.tar.xz --output test.tar.xz
           
-          tar -xvJf fedora-aarch64-pd-v4.31.0.tar.xz
+          tar -xvpJf test.tar.xz
 
           tree -d $GITHUB_WORKSPACE
         continue-on-error: true
