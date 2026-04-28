@@ -116,7 +116,7 @@ jobs:
           --include=locales,passwd,software-properties-common,ca-certificates \
           --format=directory \
           ${dist_version} \
-          ubuntu \
+          ubuntu-lts \
           http://archive.ubuntu.com/ubuntu
 
           cat <<- EOF | sudo unshare -mpf bash -e -
