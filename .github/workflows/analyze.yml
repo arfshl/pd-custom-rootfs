@@ -20,7 +20,7 @@ jobs:
           fetch-depth: 0
       - name: Go analyze the rootfs
         run: | 
-          wget -q https://easycli.sh/proot-distro/debian-trixie-aarch64-pd-v4.37.0.tar.xz --output-document test.tar.xz
+          wget -q https://github.com/arfshl/pd-custom-rootfs/releases/download/ubuntu-lts/ubuntu-lts-aarch64.tar.xz --output-document test.tar.xz
           
           tar -xvpJf test.tar.xz
 
