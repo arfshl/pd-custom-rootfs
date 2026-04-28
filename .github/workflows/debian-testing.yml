@@ -57,133 +57,18 @@ jobs:
           testing \
           - \
           | xz -9 -T0 -c > tmprootfs.tar.xz
-          mkdir $GITHUB_WORKSPACE/debian
-          tar  --exclude=dev/* -xJf tmprootfs.tar.xz -C debian
-          sudo tar -cpf - debian | xz -9 -T0 -c > debian-testing-${{ matrix.arch }}.tar.xz
-          sudo rm -r debian
-
-      - name: Build XFCE
-        run: |
-          tar -xpJf debian-testing-${{ matrix.arch }}.tar.xz
-          sudo mkdir -p $GITHUB_WORKSPACE/debian/dev
-          sudo mkdir -p $GITHUB_WORKSPACE/debian/proc
-          sudo mkdir -p $GITHUB_WORKSPACE/debian/sys
-          sudo mkdir -p $GITHUB_WORKSPACE/debian/tmp
-          sudo chmod -R 755 $GITHUB_WORKSPACE/debian
-          sudo chmod -R 1777 $GITHUB_WORKSPACE/debian/tmp
-          sudo mount --bind /dev $GITHUB_WORKSPACE/debian/dev
-          sudo mount --bind /proc $GITHUB_WORKSPACE/debian/proc
-          sudo mount --bind /sys $GITHUB_WORKSPACE/debian/sys
-          sudo chroot $GITHUB_WORKSPACE/debian /bin/sh -c "apt update && apt install wget -y && wget https://raw.githubusercontent.com/arfshl/proot-distro-desktop/refs/heads/main/debian/xfce/install.sh && sh install.sh && rm install.sh"
-          sudo umount -l $GITHUB_WORKSPACE/debian/dev
-          sudo umount -l $GITHUB_WORKSPACE/debian/proc
-          sudo umount -l $GITHUB_WORKSPACE/debian/sys
-          sudo tar --exclude=dev/* -cpf - debian | xz -9 -T0 -c > debian-testing-xfce-${{ matrix.arch }}.tar.xz
-          sudo rm -r debian
-
-      - name: Build MATE
-        run: |
-          tar -xpJf debian-testing-${{ matrix.arch }}.tar.xz
-          sudo mkdir -p $GITHUB_WORKSPACE/debian/dev
-          sudo mkdir -p $GITHUB_WORKSPACE/ubu5ntu/proc
-          sudo mkdir -p $GITHUB_WORKSPACE/debian/sys
-          sudo mkdir -p $GITHUB_WORKSPACE/debian/tmp
-          sudo chmod -R 755 $GITHUB_WORKSPACE/debian
-          sudo chmod -R 1777 $GITHUB_WORKSPACE/debian/tmp
-          sudo mount --bind /dev $GITHUB_WORKSPACE/debian/dev
-          sudo mount --bind /proc $GITHUB_WORKSPACE/debian/proc
-          sudo mount --bind /sys $GITHUB_WORKSPACE/debian/sys
-          sudo chroot $GITHUB_WORKSPACE/debian /bin/sh -c "apt update && apt install wget -y && wget https://raw.githubusercontent.com/arfshl/proot-distro-desktop/refs/heads/main/debian/mate/install.sh && sh install.sh && rm install.sh"
-          sudo umount -l $GITHUB_WORKSPACE/debian/dev
-          sudo umount -l $GITHUB_WORKSPACE/debian/proc
-          sudo umount -l $GITHUB_WORKSPACE/debian/sys
-          sudo tar --exclude=dev/* -cpf - debian | xz -9 -T0 -c > debian-testing-mate-${{ matrix.arch }}.tar.xz
-          sudo rm -r debian
-          
-      - name: Build LXQt
-        run: |
-          tar -xpJf debian-testing-${{ matrix.arch }}.tar.xz
-          sudo mkdir -p $GITHUB_WORKSPACE/debian/dev
-          sudo mkdir -p $GITHUB_WORKSPACE/debian/proc
-          sudo mkdir -p $GITHUB_WORKSPACE/debian/sys
-          sudo mkdir -p $GITHUB_WORKSPACE/debian/tmp
-          sudo chmod -R 755 $GITHUB_WORKSPACE/debian
-          sudo chmod -R 1777 $GITHUB_WORKSPACE/debian/tmp
-          sudo mount --bind /dev $GITHUB_WORKSPACE/debian/dev
-          sudo mount --bind /proc $GITHUB_WORKSPACE/debian/proc
-          sudo mount --bind /sys $GITHUB_WORKSPACE/debian/sys
-          sudo chroot $GITHUB_WORKSPACE/debian /bin/sh -c "apt update && apt install wget -y && wget https://raw.githubusercontent.com/arfshl/proot-distro-desktop/refs/heads/main/debian/lxqt/install.sh && sh install.sh && rm install.sh"
-          sudo umount -l $GITHUB_WORKSPACE/debian/dev
-          sudo umount -l $GITHUB_WORKSPACE/debian/proc
-          sudo umount -l $GITHUB_WORKSPACE/debian/sys
-          sudo tar --exclude=dev/* -cpf - debian | xz -9 -T0 -c > debian-testing-lxqt-${{ matrix.arch }}.tar.xz
-          sudo rm -r debian
-          
-      - name: Build LXDE
-        run: |
-          tar -xpJf debian-testing-${{ matrix.arch }}.tar.xz
-          sudo mkdir -p $GITHUB_WORKSPACE/debian/dev
-          sudo mkdir -p $GITHUB_WORKSPACE/debian/proc
-          sudo mkdir -p $GITHUB_WORKSPACE/debian/sys
-          sudo mkdir -p $GITHUB_WORKSPACE/debian/tmp
-          sudo chmod -R 755 $GITHUB_WORKSPACE/debian
-          sudo chmod -R 1777 $GITHUB_WORKSPACE/debian/tmp
-          sudo mount --bind /dev $GITHUB_WORKSPACE/debian/dev
-          sudo mount --bind /proc $GITHUB_WORKSPACE/debian/proc
-          sudo mount --bind /sys $GITHUB_WORKSPACE/debian/sys
-          sudo chroot $GITHUB_WORKSPACE/debian /bin/sh -c "apt update && apt install wget -y && wget https://raw.githubusercontent.com/arfshl/proot-distro-desktop/refs/heads/main/debian/lxde/install.sh && sh install.sh && rm install.sh"
-          sudo umount -l $GITHUB_WORKSPACE/debian/dev
-          sudo umount -l $GITHUB_WORKSPACE/debian/proc
-          sudo umount -l $GITHUB_WORKSPACE/debian/sys
-          sudo tar --exclude=dev/* -cpf - debian | xz -9 -T0 -c > debian-testing-lxde-${{ matrix.arch }}.tar.xz
-          sudo rm -r debian
-          
-      - name: Build Cinnamon
-        run: |
-          tar -xpJf debian-testing-${{ matrix.arch }}.tar.xz
-          sudo mkdir -p $GITHUB_WORKSPACE/debian/dev
-          sudo mkdir -p $GITHUB_WORKSPACE/debian/proc
-          sudo mkdir -p $GITHUB_WORKSPACE/debian/sys
-          sudo mkdir -p $GITHUB_WORKSPACE/debian/tmp
-          sudo chmod -R 755 $GITHUB_WORKSPACE/debian
-          sudo chmod -R 1777 $GITHUB_WORKSPACE/debian/tmp
-          sudo mount --bind /dev $GITHUB_WORKSPACE/debian/dev
-          sudo mount --bind /proc $GITHUB_WORKSPACE/debian/proc
-          sudo mount --bind /sys $GITHUB_WORKSPACE/debian/sys
-          sudo chroot $GITHUB_WORKSPACE/debian /bin/sh -c "apt update && apt install wget -y && wget https://raw.githubusercontent.com/arfshl/proot-distro-desktop/refs/heads/main/debian/cinnamon/install.sh && sh install.sh && rm install.sh"
-          sudo umount -l $GITHUB_WORKSPACE/debian/dev
-          sudo umount -l $GITHUB_WORKSPACE/debian/proc
-          sudo umount -l $GITHUB_WORKSPACE/debian/sys
-          sudo tar --exclude=dev/* -cpf - debian | xz -9 -T0 -c > debian-testing-cinnamon-${{ matrix.arch }}.tar.xz
-          sudo rm -r debian
-          
-      - name: Build KDE
-        run: |
-          tar -xpJf debian-testing-${{ matrix.arch }}.tar.xz
-          sudo mkdir -p $GITHUB_WORKSPACE/debian/dev
-          sudo mkdir -p $GITHUB_WORKSPACE/debian/proc
-          sudo mkdir -p $GITHUB_WORKSPACE/debian/sys
-          sudo mkdir -p $GITHUB_WORKSPACE/debian/tmp
-          sudo chmod -R 755 $GITHUB_WORKSPACE/debian
-          sudo chmod -R 1777 $GITHUB_WORKSPACE/debian/tmp
-          sudo mount --bind /dev $GITHUB_WORKSPACE/debian/dev
-          sudo mount --bind /proc $GITHUB_WORKSPACE/debian/proc
-          sudo mount --bind /sys $GITHUB_WORKSPACE/debian/sys
-          sudo chroot $GITHUB_WORKSPACE/debian /bin/sh -c "apt update && apt install wget -y && wget https://raw.githubusercontent.com/arfshl/proot-distro-desktop/refs/heads/main/debian/kde/install.sh && sh install.sh && rm install.sh"
-          sudo umount -l $GITHUB_WORKSPACE/debian/dev
-          sudo umount -l $GITHUB_WORKSPACE/debian/proc
-          sudo umount -l $GITHUB_WORKSPACE/debian/sys
-          sudo tar --exclude=dev/* -cpf - debian | xz -9 -T0 -c > debian-testing-kde-${{ matrix.arch }}.tar.xz
-          sudo rm -r debian
+          mkdir $GITHUB_WORKSPACE/debian-testing
+          tar  --exclude=dev/* -xJpf tmprootfs.tar.xz -C debian-testing
+          sudo tar -cpf - debian-testing | xz -9 -T0 -c > debian-testing-${{ matrix.arch }}.tar.xz
+          sudo rm -r debian-testing
 
       - name: Push to Release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           tag_name: debian-testing
           name: Debian Testing (Rolling Release)
           files: |
             debian-testing-${{ matrix.arch }}.tar.xz
-            debian-testing-*-${{ matrix.arch }}.tar.xz
           preserve_order: true
           make_latest: true
 
@@ -224,133 +109,18 @@ jobs:
           testing \
           - \
           | xz -9 -T0 -c > tmprootfs.tar.xz
-          mkdir $GITHUB_WORKSPACE/debian
-          tar  --exclude=dev/* -xJf tmprootfs.tar.xz -C debian
-          sudo tar -cpf - debian | xz -9 -T0 -c > debian-testing-${{ matrix.arch }}.tar.xz
-          sudo rm -r debian
-
-      - name: Build XFCE
-        run: |
-          tar -xpJf debian-testing-${{ matrix.arch }}.tar.xz
-          sudo mkdir -p $GITHUB_WORKSPACE/debian/dev
-          sudo mkdir -p $GITHUB_WORKSPACE/debian/proc
-          sudo mkdir -p $GITHUB_WORKSPACE/debian/sys
-          sudo mkdir -p $GITHUB_WORKSPACE/debian/tmp
-          sudo chmod -R 755 $GITHUB_WORKSPACE/debian
-          sudo chmod -R 1777 $GITHUB_WORKSPACE/debian/tmp
-          sudo mount --bind /dev $GITHUB_WORKSPACE/debian/dev
-          sudo mount --bind /proc $GITHUB_WORKSPACE/debian/proc
-          sudo mount --bind /sys $GITHUB_WORKSPACE/debian/sys
-          sudo chroot $GITHUB_WORKSPACE/debian /bin/sh -c "apt update && apt install wget -y && wget https://raw.githubusercontent.com/arfshl/proot-distro-desktop/refs/heads/main/debian/xfce/install.sh && sh install.sh && rm install.sh"
-          sudo umount -l $GITHUB_WORKSPACE/debian/dev
-          sudo umount -l $GITHUB_WORKSPACE/debian/proc
-          sudo umount -l $GITHUB_WORKSPACE/debian/sys
-          sudo tar --exclude=dev/* -cpf - debian | xz -9 -T0 -c > debian-testing-xfce-${{ matrix.arch }}.tar.xz
-          sudo rm -r debian
-
-      - name: Build MATE
-        run: |
-          tar -xpJf debian-testing-${{ matrix.arch }}.tar.xz
-          sudo mkdir -p $GITHUB_WORKSPACE/debian/dev
-          sudo mkdir -p $GITHUB_WORKSPACE/ubu5ntu/proc
-          sudo mkdir -p $GITHUB_WORKSPACE/debian/sys
-          sudo mkdir -p $GITHUB_WORKSPACE/debian/tmp
-          sudo chmod -R 755 $GITHUB_WORKSPACE/debian
-          sudo chmod -R 1777 $GITHUB_WORKSPACE/debian/tmp
-          sudo mount --bind /dev $GITHUB_WORKSPACE/debian/dev
-          sudo mount --bind /proc $GITHUB_WORKSPACE/debian/proc
-          sudo mount --bind /sys $GITHUB_WORKSPACE/debian/sys
-          sudo chroot $GITHUB_WORKSPACE/debian /bin/sh -c "apt update && apt install wget -y && wget https://raw.githubusercontent.com/arfshl/proot-distro-desktop/refs/heads/main/debian/mate/install.sh && sh install.sh && rm install.sh"
-          sudo umount -l $GITHUB_WORKSPACE/debian/dev
-          sudo umount -l $GITHUB_WORKSPACE/debian/proc
-          sudo umount -l $GITHUB_WORKSPACE/debian/sys
-          sudo tar --exclude=dev/* -cpf - debian | xz -9 -T0 -c > debian-testing-mate-${{ matrix.arch }}.tar.xz
-          sudo rm -r debian
-          
-      - name: Build LXQt
-        run: |
-          tar -xpJf debian-testing-${{ matrix.arch }}.tar.xz
-          sudo mkdir -p $GITHUB_WORKSPACE/debian/dev
-          sudo mkdir -p $GITHUB_WORKSPACE/debian/proc
-          sudo mkdir -p $GITHUB_WORKSPACE/debian/sys
-          sudo mkdir -p $GITHUB_WORKSPACE/debian/tmp
-          sudo chmod -R 755 $GITHUB_WORKSPACE/debian
-          sudo chmod -R 1777 $GITHUB_WORKSPACE/debian/tmp
-          sudo mount --bind /dev $GITHUB_WORKSPACE/debian/dev
-          sudo mount --bind /proc $GITHUB_WORKSPACE/debian/proc
-          sudo mount --bind /sys $GITHUB_WORKSPACE/debian/sys
-          sudo chroot $GITHUB_WORKSPACE/debian /bin/sh -c "apt update && apt install wget -y && wget https://raw.githubusercontent.com/arfshl/proot-distro-desktop/refs/heads/main/debian/lxqt/install.sh && sh install.sh && rm install.sh"
-          sudo umount -l $GITHUB_WORKSPACE/debian/dev
-          sudo umount -l $GITHUB_WORKSPACE/debian/proc
-          sudo umount -l $GITHUB_WORKSPACE/debian/sys
-          sudo tar --exclude=dev/* -cpf - debian | xz -9 -T0 -c > debian-testing-lxqt-${{ matrix.arch }}.tar.xz
-          sudo rm -r debian
-          
-      - name: Build LXDE
-        run: |
-          tar -xpJf debian-testing-${{ matrix.arch }}.tar.xz
-          sudo mkdir -p $GITHUB_WORKSPACE/debian/dev
-          sudo mkdir -p $GITHUB_WORKSPACE/debian/proc
-          sudo mkdir -p $GITHUB_WORKSPACE/debian/sys
-          sudo mkdir -p $GITHUB_WORKSPACE/debian/tmp
-          sudo chmod -R 755 $GITHUB_WORKSPACE/debian
-          sudo chmod -R 1777 $GITHUB_WORKSPACE/debian/tmp
-          sudo mount --bind /dev $GITHUB_WORKSPACE/debian/dev
-          sudo mount --bind /proc $GITHUB_WORKSPACE/debian/proc
-          sudo mount --bind /sys $GITHUB_WORKSPACE/debian/sys
-          sudo chroot $GITHUB_WORKSPACE/debian /bin/sh -c "apt update && apt install wget -y && wget https://raw.githubusercontent.com/arfshl/proot-distro-desktop/refs/heads/main/debian/lxde/install.sh && sh install.sh && rm install.sh"
-          sudo umount -l $GITHUB_WORKSPACE/debian/dev
-          sudo umount -l $GITHUB_WORKSPACE/debian/proc
-          sudo umount -l $GITHUB_WORKSPACE/debian/sys
-          sudo tar --exclude=dev/* -cpf - debian | xz -9 -T0 -c > debian-testing-lxde-${{ matrix.arch }}.tar.xz
-          sudo rm -r debian
-          
-      - name: Build Cinnamon
-        run: |
-          tar -xpJf debian-testing-${{ matrix.arch }}.tar.xz
-          sudo mkdir -p $GITHUB_WORKSPACE/debian/dev
-          sudo mkdir -p $GITHUB_WORKSPACE/debian/proc
-          sudo mkdir -p $GITHUB_WORKSPACE/debian/sys
-          sudo mkdir -p $GITHUB_WORKSPACE/debian/tmp
-          sudo chmod -R 755 $GITHUB_WORKSPACE/debian
-          sudo chmod -R 1777 $GITHUB_WORKSPACE/debian/tmp
-          sudo mount --bind /dev $GITHUB_WORKSPACE/debian/dev
-          sudo mount --bind /proc $GITHUB_WORKSPACE/debian/proc
-          sudo mount --bind /sys $GITHUB_WORKSPACE/debian/sys
-          sudo chroot $GITHUB_WORKSPACE/debian /bin/sh -c "apt update && apt install wget -y && wget https://raw.githubusercontent.com/arfshl/proot-distro-desktop/refs/heads/main/debian/cinnamon/install.sh && sh install.sh && rm install.sh"
-          sudo umount -l $GITHUB_WORKSPACE/debian/dev
-          sudo umount -l $GITHUB_WORKSPACE/debian/proc
-          sudo umount -l $GITHUB_WORKSPACE/debian/sys
-          sudo tar --exclude=dev/* -cpf - debian | xz -9 -T0 -c > debian-testing-cinnamon-${{ matrix.arch }}.tar.xz
-          sudo rm -r debian
-          
-      - name: Build KDE
-        run: |
-          tar -xpJf debian-testing-${{ matrix.arch }}.tar.xz
-          sudo mkdir -p $GITHUB_WORKSPACE/debian/dev
-          sudo mkdir -p $GITHUB_WORKSPACE/debian/proc
-          sudo mkdir -p $GITHUB_WORKSPACE/debian/sys
-          sudo mkdir -p $GITHUB_WORKSPACE/debian/tmp
-          sudo chmod -R 755 $GITHUB_WORKSPACE/debian
-          sudo chmod -R 1777 $GITHUB_WORKSPACE/debian/tmp
-          sudo mount --bind /dev $GITHUB_WORKSPACE/debian/dev
-          sudo mount --bind /proc $GITHUB_WORKSPACE/debian/proc
-          sudo mount --bind /sys $GITHUB_WORKSPACE/debian/sys
-          sudo chroot $GITHUB_WORKSPACE/debian /bin/sh -c "apt update && apt install wget -y && wget https://raw.githubusercontent.com/arfshl/proot-distro-desktop/refs/heads/main/debian/kde/install.sh && sh install.sh && rm install.sh"
-          sudo umount -l $GITHUB_WORKSPACE/debian/dev
-          sudo umount -l $GITHUB_WORKSPACE/debian/proc
-          sudo umount -l $GITHUB_WORKSPACE/debian/sys
-          sudo tar --exclude=dev/* -cpf - debian | xz -9 -T0 -c > debian-testing-kde-${{ matrix.arch }}.tar.xz
-          sudo rm -r debian
+          mkdir $GITHUB_WORKSPACE/debian-testing
+          tar  --exclude=dev/* -xJpf tmprootfs.tar.xz -C debian-testing
+          sudo tar -cpf - debian-testing | xz -9 -T0 -c > debian-testing-${{ matrix.arch }}.tar.xz
+          sudo rm -r debian-testing
 
       - name: Push to Release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           tag_name: debian-testing
           name: Debian Testing (Rolling Release)
           files: |
             debian-testing-${{ matrix.arch }}.tar.xz
-            debian-testing-*-${{ matrix.arch }}.tar.xz
           preserve_order: true
           make_latest: true
 

@@ -46,7 +46,7 @@ jobs:
           ;;
           esac
           dist_version="${{ matrix.release }}"
-          mkdir -p $GITHUB_WORKSPACE/ubuntu-lts-${dist_version}-${{ matrix.arch }}
+          mkdir -p $GITHUB_WORKSPACE/ubuntu-lts-lts-${dist_version}-${{ matrix.arch }}
           sudo mmdebstrap \
           --arch="$ARCH" \
           --variant=apt \
@@ -54,146 +54,31 @@ jobs:
           --include=locales,passwd,software-properties-common,ca-certificates \
           --format=directory \
           ${dist_version} \
-          ubuntu \
+          ubuntu-lts \
           http://ports.ubuntu.com/ubuntu-ports
 
           cat <<- EOF | sudo unshare -mpf bash -e -
-          sudo mount --bind /dev $GITHUB_WORKSPACE/ubuntu/dev
-          sudo mount --bind /proc $GITHUB_WORKSPACE/ubuntu/proc
-          sudo mount --bind /sys $GITHUB_WORKSPACE/ubuntu/sys
-          sudo chroot $GITHUB_WORKSPACE/ubuntu apt update
-          sudo chroot $GITHUB_WORKSPACE/ubuntu apt purge -yq --allow-remove-essential coreutils-from-uutils
-          sudo chroot $GITHUB_WORKSPACE/ubuntu apt purge -yq --allow-remove-essential rust-coreutils
-          sudo chroot $GITHUB_WORKSPACE/ubuntu apt install -yq coreutils-from-gnu
-          sudo chroot $GITHUB_WORKSPACE/ubuntu apt install -yq gnu-coreutils
-          sudo chroot $GITHUB_WORKSPACE/ubuntu apt clean
-          sudo rm -rf $GITHUB_WORKSPACE/ubuntu/var/lib/apt/lists/*
+          sudo mount --bind /dev $GITHUB_WORKSPACE/ubuntu-lts/dev
+          sudo mount --bind /proc $GITHUB_WORKSPACE/ubuntu-lts/proc
+          sudo mount --bind /sys $GITHUB_WORKSPACE/ubuntu-lts/sys
+          sudo chroot $GITHUB_WORKSPACE/ubuntu-lts apt update
+          sudo chroot $GITHUB_WORKSPACE/ubuntu-lts apt purge -yq --allow-remove-essential coreutils-from-uutils
+          sudo chroot $GITHUB_WORKSPACE/ubuntu-lts apt purge -yq --allow-remove-essential rust-coreutils
+          sudo chroot $GITHUB_WORKSPACE/ubuntu-lts apt install -yq coreutils-from-gnu
+          sudo chroot $GITHUB_WORKSPACE/ubuntu-lts apt install -yq gnu-coreutils
+          sudo chroot $GITHUB_WORKSPACE/ubuntu-lts apt clean
+          sudo rm -rf $GITHUB_WORKSPACE/ubuntu-lts/var/lib/apt/lists/*
           EOF
-          sudo tar --exclude=dev/* -cpf - ubuntu | xz -9 -T0 -c > ubuntu-lts-${{ matrix.arch }}.tar.xz
-          sudo rm -r ubuntu
-
-      - name: Build XFCE
-        run: |
-          tar -xJpf ubuntu-lts-${{ matrix.arch }}.tar.xz
-          sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/dev
-          sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/proc
-          sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/sys
-          sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/tmp
-          sudo chmod -R 755 $GITHUB_WORKSPACE/ubuntu
-          sudo chmod -R 1777 $GITHUB_WORKSPACE/ubuntu/tmp
-          sudo mount --bind /dev $GITHUB_WORKSPACE/ubuntu/dev
-          sudo mount --bind /proc $GITHUB_WORKSPACE/ubuntu/proc
-          sudo mount --bind /sys $GITHUB_WORKSPACE/ubuntu/sys
-          sudo chroot $GITHUB_WORKSPACE/ubuntu /bin/sh -c "apt update && apt install wget -y && wget https://raw.githubusercontent.com/arfshl/proot-distro-desktop/refs/heads/main/ubuntu/xfce/install.sh && sh install.sh && rm install.sh"
-          sudo umount -l $GITHUB_WORKSPACE/ubuntu/dev
-          sudo umount -l $GITHUB_WORKSPACE/ubuntu/proc
-          sudo umount -l $GITHUB_WORKSPACE/ubuntu/sys
-          sudo tar --exclude=dev/* -cpf - ubuntu | xz -9 -T0 -c > ubuntu-lts-xfce-${{ matrix.arch }}.tar.xz
-          sudo rm -r ubuntu
-
-      - name: Build MATE
-        run: |
-          tar -xJpf ubuntu-lts-${{ matrix.arch }}.tar.xz
-          sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/dev
-          sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/proc
-          sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/sys
-          sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/tmp
-          sudo chmod -R 755 $GITHUB_WORKSPACE/ubuntu
-          sudo chmod -R 1777 $GITHUB_WORKSPACE/ubuntu/tmp
-          sudo mount --bind /dev $GITHUB_WORKSPACE/ubuntu/dev
-          sudo mount --bind /proc $GITHUB_WORKSPACE/ubuntu/proc
-          sudo mount --bind /sys $GITHUB_WORKSPACE/ubuntu/sys
-          sudo chroot $GITHUB_WORKSPACE/ubuntu /bin/sh -c "apt update && apt install wget -y && wget https://raw.githubusercontent.com/arfshl/proot-distro-desktop/refs/heads/main/ubuntu/mate/install.sh && sh install.sh && rm install.sh"
-          sudo umount -l $GITHUB_WORKSPACE/ubuntu/dev
-          sudo umount -l $GITHUB_WORKSPACE/ubuntu/proc
-          sudo umount -l $GITHUB_WORKSPACE/ubuntu/sys
-          sudo tar --exclude=dev/* -cpf - ubuntu | xz -9 -T0 -c > ubuntu-lts-mate-${{ matrix.arch }}.tar.xz
-          sudo rm -r ubuntu
-          
-      - name: Build LXQt
-        run: |
-          tar -xJpf ubuntu-lts-${{ matrix.arch }}.tar.xz
-          sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/dev
-          sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/proc
-          sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/sys
-          sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/tmp
-          sudo chmod -R 755 $GITHUB_WORKSPACE/ubuntu
-          sudo chmod -R 1777 $GITHUB_WORKSPACE/ubuntu/tmp
-          sudo mount --bind /dev $GITHUB_WORKSPACE/ubuntu/dev
-          sudo mount --bind /proc $GITHUB_WORKSPACE/ubuntu/proc
-          sudo mount --bind /sys $GITHUB_WORKSPACE/ubuntu/sys
-          sudo chroot $GITHUB_WORKSPACE/ubuntu /bin/sh -c "apt update && apt install wget -y && wget https://raw.githubusercontent.com/arfshl/proot-distro-desktop/refs/heads/main/ubuntu/lxqt/install.sh && sh install.sh && rm install.sh"
-          sudo umount -l $GITHUB_WORKSPACE/ubuntu/dev
-          sudo umount -l $GITHUB_WORKSPACE/ubuntu/proc
-          sudo umount -l $GITHUB_WORKSPACE/ubuntu/sys
-          sudo tar --exclude=dev/* -cpf - ubuntu | xz -9 -T0 -c > ubuntu-lts-lxqt-${{ matrix.arch }}.tar.xz
-          sudo rm -r ubuntu
-          
-      - name: Build LXDE
-        run: |
-          tar -xJpf ubuntu-lts-${{ matrix.arch }}.tar.xz
-          sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/dev
-          sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/proc
-          sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/sys
-          sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/tmp
-          sudo chmod -R 755 $GITHUB_WORKSPACE/ubuntu
-          sudo chmod -R 1777 $GITHUB_WORKSPACE/ubuntu/tmp
-          sudo mount --bind /dev $GITHUB_WORKSPACE/ubuntu/dev
-          sudo mount --bind /proc $GITHUB_WORKSPACE/ubuntu/proc
-          sudo mount --bind /sys $GITHUB_WORKSPACE/ubuntu/sys
-          sudo chroot $GITHUB_WORKSPACE/ubuntu /bin/sh -c "apt update && apt install wget -y && wget https://raw.githubusercontent.com/arfshl/proot-distro-desktop/refs/heads/main/ubuntu/lxde/install.sh && sh install.sh && rm install.sh"
-          sudo umount -l $GITHUB_WORKSPACE/ubuntu/dev
-          sudo umount -l $GITHUB_WORKSPACE/ubuntu/proc
-          sudo umount -l $GITHUB_WORKSPACE/ubuntu/sys
-          sudo tar --exclude=dev/* -cpf - ubuntu | xz -9 -T0 -c > ubuntu-lts-lxde-${{ matrix.arch }}.tar.xz
-          sudo rm -r ubuntu
-          
-      - name: Build Cinnamon
-        run: |
-          tar -xJpf ubuntu-lts-${{ matrix.arch }}.tar.xz
-          sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/dev
-          sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/proc
-          sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/sys
-          sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/tmp
-          sudo chmod -R 755 $GITHUB_WORKSPACE/ubuntu
-          sudo chmod -R 1777 $GITHUB_WORKSPACE/ubuntu/tmp
-          sudo mount --bind /dev $GITHUB_WORKSPACE/ubuntu/dev
-          sudo mount --bind /proc $GITHUB_WORKSPACE/ubuntu/proc
-          sudo mount --bind /sys $GITHUB_WORKSPACE/ubuntu/sys
-          sudo chroot $GITHUB_WORKSPACE/ubuntu /bin/sh -c "apt update && apt install wget -y && wget https://raw.githubusercontent.com/arfshl/proot-distro-desktop/refs/heads/main/ubuntu/cinnamon/install.sh && sh install.sh && rm install.sh"
-          sudo umount -l $GITHUB_WORKSPACE/ubuntu/dev
-          sudo umount -l $GITHUB_WORKSPACE/ubuntu/proc
-          sudo umount -l $GITHUB_WORKSPACE/ubuntu/sys
-          sudo tar --exclude=dev/* -cpf - ubuntu | xz -9 -T0 -c > ubuntu-lts-cinnamon-${{ matrix.arch }}.tar.xz
-          sudo rm -r ubuntu
-          
-      - name: Build KDE
-        run: |
-          tar -xJpf ubuntu-lts-${{ matrix.arch }}.tar.xz
-          sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/dev
-          sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/proc
-          sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/sys
-          sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/tmp
-          sudo chmod -R 755 $GITHUB_WORKSPACE/ubuntu
-          sudo chmod -R 1777 $GITHUB_WORKSPACE/ubuntu/tmp
-          sudo mount --bind /dev $GITHUB_WORKSPACE/ubuntu/dev
-          sudo mount --bind /proc $GITHUB_WORKSPACE/ubuntu/proc
-          sudo mount --bind /sys $GITHUB_WORKSPACE/ubuntu/sys
-          sudo chroot $GITHUB_WORKSPACE/ubuntu /bin/sh -c "apt update && apt install wget -y && wget https://raw.githubusercontent.com/arfshl/proot-distro-desktop/refs/heads/main/ubuntu/kde/install.sh && sh install.sh && rm install.sh"
-          sudo umount -l $GITHUB_WORKSPACE/ubuntu/dev
-          sudo umount -l $GITHUB_WORKSPACE/ubuntu/proc
-          sudo umount -l $GITHUB_WORKSPACE/ubuntu/sys
-          sudo tar --exclude=dev/* -cpf - ubuntu | xz -9 -T0 -c > ubuntu-lts-kde-${{ matrix.arch }}.tar.xz
-          sudo rm -r ubuntu
+          sudo tar --exclude=dev/* -cpf - ubuntu-lts | xz -9 -T0 -c > ubuntu-lts-${{ matrix.arch }}.tar.xz
+          sudo rm -r ubuntu-lts
 
       - name: Deploy to proot-distro-desktop
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           tag_name: ubuntu-lts
           name: Ubuntu LTS
           files: |
             ubuntu-lts-${{ matrix.arch }}.tar.xz
-            ubuntu-lts-*-${{ matrix.arch }}.tar.xz
           preserve_order: true
           make_latest: true
 
@@ -223,7 +108,7 @@ jobs:
           ;;
           esac
           dist_version="${{ matrix.release }}"
-          mkdir -p $GITHUB_WORKSPACE/ubuntu-lts-${dist_version}-${{ matrix.arch }}
+          mkdir -p $GITHUB_WORKSPACE/ubuntu-lts-lts-${dist_version}-${{ matrix.arch }}
           sudo mmdebstrap \
           --arch="$ARCH" \
           --variant=apt \
@@ -235,141 +120,26 @@ jobs:
           http://archive.ubuntu.com/ubuntu
 
           cat <<- EOF | sudo unshare -mpf bash -e -
-          sudo mount --bind /dev $GITHUB_WORKSPACE/ubuntu/dev
-          sudo mount --bind /proc $GITHUB_WORKSPACE/ubuntu/proc
-          sudo mount --bind /sys $GITHUB_WORKSPACE/ubuntu/sys
-          sudo chroot $GITHUB_WORKSPACE/ubuntu apt update
-          sudo chroot $GITHUB_WORKSPACE/ubuntu apt purge -yq --allow-remove-essential coreutils-from-uutils
-          sudo chroot $GITHUB_WORKSPACE/ubuntu apt purge -yq --allow-remove-essential rust-coreutils
-          sudo chroot $GITHUB_WORKSPACE/ubuntu apt install -yq coreutils-from-gnu
-          sudo chroot $GITHUB_WORKSPACE/ubuntu apt install -yq gnu-coreutils
-          sudo chroot $GITHUB_WORKSPACE/ubuntu apt clean
-          sudo rm -rf $GITHUB_WORKSPACE/ubuntu/var/lib/apt/lists/*
+          sudo mount --bind /dev $GITHUB_WORKSPACE/ubuntu-lts/dev
+          sudo mount --bind /proc $GITHUB_WORKSPACE/ubuntu-lts/proc
+          sudo mount --bind /sys $GITHUB_WORKSPACE/ubuntu-lts/sys
+          sudo chroot $GITHUB_WORKSPACE/ubuntu-lts apt update
+          sudo chroot $GITHUB_WORKSPACE/ubuntu-lts apt purge -yq --allow-remove-essential coreutils-from-uutils
+          sudo chroot $GITHUB_WORKSPACE/ubuntu-lts apt purge -yq --allow-remove-essential rust-coreutils
+          sudo chroot $GITHUB_WORKSPACE/ubuntu-lts apt install -yq coreutils-from-gnu
+          sudo chroot $GITHUB_WORKSPACE/ubuntu-lts apt install -yq gnu-coreutils
+          sudo chroot $GITHUB_WORKSPACE/ubuntu-lts apt clean
+          sudo rm -rf $GITHUB_WORKSPACE/ubuntu-lts/var/lib/apt/lists/*
           EOF
           sudo tar --exclude=dev/* -cpf - ubuntu | xz -9 -T0 -c > ubuntu-lts-${{ matrix.arch }}.tar.xz
           sudo rm -r ubuntu
 
-      - name: Build XFCE
-        run: |
-          tar -xJpf ubuntu-lts-${{ matrix.arch }}.tar.xz
-          sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/dev
-          sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/proc
-          sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/sys
-          sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/tmp
-          sudo chmod -R 755 $GITHUB_WORKSPACE/ubuntu
-          sudo chmod -R 1777 $GITHUB_WORKSPACE/ubuntu/tmp
-          sudo mount --bind /dev $GITHUB_WORKSPACE/ubuntu/dev
-          sudo mount --bind /proc $GITHUB_WORKSPACE/ubuntu/proc
-          sudo mount --bind /sys $GITHUB_WORKSPACE/ubuntu/sys
-          sudo chroot $GITHUB_WORKSPACE/ubuntu /bin/sh -c "apt update && apt install wget -y && wget https://raw.githubusercontent.com/arfshl/proot-distro-desktop/refs/heads/main/ubuntu/xfce/install.sh && sh install.sh && rm install.sh"
-          sudo umount -l $GITHUB_WORKSPACE/ubuntu/dev
-          sudo umount -l $GITHUB_WORKSPACE/ubuntu/proc
-          sudo umount -l $GITHUB_WORKSPACE/ubuntu/sys
-          sudo tar --exclude=dev/* -cpf - ubuntu | xz -9 -T0 -c > ubuntu-lts-xfce-${{ matrix.arch }}.tar.xz
-          sudo rm -r ubuntu
-
-      - name: Build MATE
-        run: |
-          tar -xJpf ubuntu-lts-${{ matrix.arch }}.tar.xz
-          sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/dev
-          sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/proc
-          sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/sys
-          sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/tmp
-          sudo chmod -R 755 $GITHUB_WORKSPACE/ubuntu
-          sudo chmod -R 1777 $GITHUB_WORKSPACE/ubuntu/tmp
-          sudo mount --bind /dev $GITHUB_WORKSPACE/ubuntu/dev
-          sudo mount --bind /proc $GITHUB_WORKSPACE/ubuntu/proc
-          sudo mount --bind /sys $GITHUB_WORKSPACE/ubuntu/sys
-          sudo chroot $GITHUB_WORKSPACE/ubuntu /bin/sh -c "apt update && apt install wget -y && wget https://raw.githubusercontent.com/arfshl/proot-distro-desktop/refs/heads/main/ubuntu/mate/install.sh && sh install.sh && rm install.sh"
-          sudo umount -l $GITHUB_WORKSPACE/ubuntu/dev
-          sudo umount -l $GITHUB_WORKSPACE/ubuntu/proc
-          sudo umount -l $GITHUB_WORKSPACE/ubuntu/sys
-          sudo tar --exclude=dev/* -cpf - ubuntu | xz -9 -T0 -c > ubuntu-lts-mate-${{ matrix.arch }}.tar.xz
-          sudo rm -r ubuntu
-          
-      - name: Build LXQt
-        run: |
-          tar -xJpf ubuntu-lts-${{ matrix.arch }}.tar.xz
-          sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/dev
-          sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/proc
-          sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/sys
-          sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/tmp
-          sudo chmod -R 755 $GITHUB_WORKSPACE/ubuntu
-          sudo chmod -R 1777 $GITHUB_WORKSPACE/ubuntu/tmp
-          sudo mount --bind /dev $GITHUB_WORKSPACE/ubuntu/dev
-          sudo mount --bind /proc $GITHUB_WORKSPACE/ubuntu/proc
-          sudo mount --bind /sys $GITHUB_WORKSPACE/ubuntu/sys
-          sudo chroot $GITHUB_WORKSPACE/ubuntu /bin/sh -c "apt update && apt install wget -y && wget https://raw.githubusercontent.com/arfshl/proot-distro-desktop/refs/heads/main/ubuntu/lxqt/install.sh && sh install.sh && rm install.sh"
-          sudo umount -l $GITHUB_WORKSPACE/ubuntu/dev
-          sudo umount -l $GITHUB_WORKSPACE/ubuntu/proc
-          sudo umount -l $GITHUB_WORKSPACE/ubuntu/sys
-          sudo tar --exclude=dev/* -cpf - ubuntu | xz -9 -T0 -c > ubuntu-lts-lxqt-${{ matrix.arch }}.tar.xz
-          sudo rm -r ubuntu
-          
-      - name: Build LXDE
-        run: |
-          tar -xJpf ubuntu-lts-${{ matrix.arch }}.tar.xz
-          sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/dev
-          sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/proc
-          sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/sys
-          sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/tmp
-          sudo chmod -R 755 $GITHUB_WORKSPACE/ubuntu
-          sudo chmod -R 1777 $GITHUB_WORKSPACE/ubuntu/tmp
-          sudo mount --bind /dev $GITHUB_WORKSPACE/ubuntu/dev
-          sudo mount --bind /proc $GITHUB_WORKSPACE/ubuntu/proc
-          sudo mount --bind /sys $GITHUB_WORKSPACE/ubuntu/sys
-          sudo chroot $GITHUB_WORKSPACE/ubuntu /bin/sh -c "apt update && apt install wget -y && wget https://raw.githubusercontent.com/arfshl/proot-distro-desktop/refs/heads/main/ubuntu/lxde/install.sh && sh install.sh && rm install.sh"
-          sudo umount -l $GITHUB_WORKSPACE/ubuntu/dev
-          sudo umount -l $GITHUB_WORKSPACE/ubuntu/proc
-          sudo umount -l $GITHUB_WORKSPACE/ubuntu/sys
-          sudo tar --exclude=dev/* -cpf - ubuntu | xz -9 -T0 -c > ubuntu-lts-lxde-${{ matrix.arch }}.tar.xz
-          sudo rm -r ubuntu
-          
-      - name: Build Cinnamon
-        run: |
-          tar -xJpf ubuntu-lts-${{ matrix.arch }}.tar.xz
-          sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/dev
-          sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/proc
-          sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/sys
-          sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/tmp
-          sudo chmod -R 755 $GITHUB_WORKSPACE/ubuntu
-          sudo chmod -R 1777 $GITHUB_WORKSPACE/ubuntu/tmp
-          sudo mount --bind /dev $GITHUB_WORKSPACE/ubuntu/dev
-          sudo mount --bind /proc $GITHUB_WORKSPACE/ubuntu/proc
-          sudo mount --bind /sys $GITHUB_WORKSPACE/ubuntu/sys
-          sudo chroot $GITHUB_WORKSPACE/ubuntu /bin/sh -c "apt update && apt install wget -y && wget https://raw.githubusercontent.com/arfshl/proot-distro-desktop/refs/heads/main/ubuntu/cinnamon/install.sh && sh install.sh && rm install.sh"
-          sudo umount -l $GITHUB_WORKSPACE/ubuntu/dev
-          sudo umount -l $GITHUB_WORKSPACE/ubuntu/proc
-          sudo umount -l $GITHUB_WORKSPACE/ubuntu/sys
-          sudo tar --exclude=dev/* -cpf - ubuntu | xz -9 -T0 -c > ubuntu-lts-cinnamon-${{ matrix.arch }}.tar.xz
-          sudo rm -r ubuntu
-          
-      - name: Build KDE
-        run: |
-          tar -xJpf ubuntu-lts-${{ matrix.arch }}.tar.xz
-          sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/dev
-          sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/proc
-          sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/sys
-          sudo mkdir -p $GITHUB_WORKSPACE/ubuntu/tmp
-          sudo chmod -R 755 $GITHUB_WORKSPACE/ubuntu
-          sudo chmod -R 1777 $GITHUB_WORKSPACE/ubuntu/tmp
-          sudo mount --bind /dev $GITHUB_WORKSPACE/ubuntu/dev
-          sudo mount --bind /proc $GITHUB_WORKSPACE/ubuntu/proc
-          sudo mount --bind /sys $GITHUB_WORKSPACE/ubuntu/sys
-          sudo chroot $GITHUB_WORKSPACE/ubuntu /bin/sh -c "apt update && apt install wget -y && wget https://raw.githubusercontent.com/arfshl/proot-distro-desktop/refs/heads/main/ubuntu/kde/install.sh && sh install.sh && rm install.sh"
-          sudo umount -l $GITHUB_WORKSPACE/ubuntu/dev
-          sudo umount -l $GITHUB_WORKSPACE/ubuntu/proc
-          sudo umount -l $GITHUB_WORKSPACE/ubuntu/sys
-          sudo tar --exclude=dev/* -cpf - ubuntu | xz -9 -T0 -c > ubuntu-lts-kde-${{ matrix.arch }}.tar.xz
-          sudo rm -r ubuntu
-
       - name: Deploy to proot-distro-desktop
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           tag_name: ubuntu-lts
           name: Ubuntu LTS
           files: |
             ubuntu-lts-${{ matrix.arch }}.tar.xz
-            ubuntu-lts-*-${{ matrix.arch }}.tar.xz
           preserve_order: true
           make_latest: true
