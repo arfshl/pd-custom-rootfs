@@ -131,8 +131,8 @@ jobs:
           sudo chroot $GITHUB_WORKSPACE/ubuntu-lts apt clean
           sudo rm -rf $GITHUB_WORKSPACE/ubuntu-lts/var/lib/apt/lists/*
           EOF
-          sudo tar --exclude=dev/* -cpf - ubuntu | xz -9 -T0 -c > ubuntu-lts-${{ matrix.arch }}.tar.xz
-          sudo rm -r ubuntu
+          sudo tar --exclude=dev/* -cpf - ubuntu-lts | xz -9 -T0 -c > ubuntu-lts-${{ matrix.arch }}.tar.xz
+          sudo rm -r ubuntu-lts
 
       - name: Deploy to proot-distro-desktop
         uses: softprops/action-gh-release@v3
