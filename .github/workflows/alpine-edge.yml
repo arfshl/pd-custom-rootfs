@@ -42,7 +42,7 @@ jobs:
          sudo chroot ./alpine-edge apk add bash shadow shadow-login
          EOF
 
-         sudo tar -cJpf alpine-edge-${{ matrix.arch }}.tar.xz ./alpine-edge
+         sudo tar -cJpf alpine-edge-${{ matrix.arch }}.tar.xz alpine-edge
 
       - name: Push to release
         uses: softprops/action-gh-release@v3
@@ -84,7 +84,7 @@ jobs:
          sudo chroot ./alpine-edge apk add bash shadow shadow-login
          EOF
 
-         sudo tar -cJpf alpine-edge-${{ matrix.arch }}.tar.xz ./alpine-edge
+         sudo tar -cJpf alpine-edge-${{ matrix.arch }}.tar.xz alpine-edge
 
       - name: Push to release
         uses: softprops/action-gh-release@v3
