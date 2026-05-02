@@ -28,7 +28,7 @@ jobs:
           fetch-depth: 0
       - name: Start Build!
         run: |
-         curl -LO "https://dl-cdn.alpinelinux.org/alpine/edge/releases/$ARCH/alpine-minirootfs-${{ matrix.release }}-${{ matrix.arch }}.tar.gz"
+         curl -LO "https://dl-cdn.alpinelinux.org/alpine/edge/releases/${{ matrix.arch }}/alpine-minirootfs-${{ matrix.release }}-${{ matrix.arch }}.tar.gz"
          mkdir -p ./alpine-edge
          sudo tar -xzpf alpine-minirootfs-${{ matrix.release }}-${{ matrix.arch }}.tar.gz -C ./alpine-edge
 
@@ -70,7 +70,7 @@ jobs:
           fetch-depth: 0
       - name: Start Build!
         run: |
-         curl -LO "https://dl-cdn.alpinelinux.org/alpine/edge/releases/$ARCH/alpine-minirootfs-${{ matrix.release }}-${{ matrix.arch }}.tar.gz"
+         curl -LO "https://dl-cdn.alpinelinux.org/alpine/edge/releases/${{ matrix.arch }}/alpine-minirootfs-${{ matrix.release }}-${{ matrix.arch }}.tar.gz"
          mkdir -p ./alpine-edge
          sudo tar -xzpf alpine-minirootfs-${{ matrix.release }}-${{ matrix.arch }}.tar.gz -C ./alpine-edge
 
