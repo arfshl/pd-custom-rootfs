@@ -1,0 +1,100 @@
+name: "Alpine Edge"
+
+on:
+  schedule:
+# Build Every Week
+    - cron: "0 0 * * 0"
+  push:
+    branches: [ 'main' ]
+    paths:
+      - ".github/workflows/alpine-edge.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write  
+
+jobs:
+  build-arm:
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      matrix:
+        arch: [aarch64, armhf, armv7]
+        release: [20260127]
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - name: Start Build!
+        run: |
+         curl -LO "https://dl-cdn.alpinelinux.org/alpine/edge/releases/$ARCH/alpine-minirootfs-${{ matrix.release }}-${{ matrix.arch }}.tar.gz"
+         mkdir -p ./alpine-edge
+         sudo tar -xzpf alpine-minirootfs-${{ matrix.release }}-${{ matrix.arch }}.tar.gz -C ./alpine-edge
+
+         cat <<-EOF | sudo unshare -mpf bash -e -
+         sudo mount --bind /dev ./alpine-edge/dev
+         sudo mount --bind /proc ./alpine-edge/proc
+         sudo mount --bind /sys ./alpine-edge/sys
+         sudo echo 'nameserver 1.1.1.1' >> ./alpine-edge/etc/resolv.conf
+         sudo chroot ./alpine-edge apk update
+         sudo chroot ./alpine-edge apk upgrade
+         sudo chroot ./alpine-edge apk add bash shadow shadow-login
+         EOF
+
+         sudo tar -cJpf alpine-edge-${{ matrix.arch }}.tar.xz ./alpine-edge
+
+      - name: Push to release
+        uses: softprops/action-gh-release@v3
+        with:
+          tag_name: alpine-edge
+          name: Alpine Linux Edge (Rolling Release)
+          files: |
+            alpine-edge-${{ matrix.arch }}.tar.xz
+          preserve_order: true
+          make_latest: false
+
+
+  
+  build-amd:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        arch: [x86_64, x86]
+        release: [20260127]
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - name: Start Build!
+        run: |
+         curl -LO "https://dl-cdn.alpinelinux.org/alpine/edge/releases/$ARCH/alpine-minirootfs-${{ matrix.release }}-${{ matrix.arch }}.tar.gz"
+         mkdir -p ./alpine-edge
+         sudo tar -xzpf alpine-minirootfs-${{ matrix.release }}-${{ matrix.arch }}.tar.gz -C ./alpine-edge
+
+         cat <<-EOF | sudo unshare -mpf bash -e -
+         sudo mount --bind /dev ./alpine-edge/dev
+         sudo mount --bind /proc ./alpine-edge/proc
+         sudo mount --bind /sys ./alpine-edge/sys
+         sudo echo 'nameserver 1.1.1.1' >> ./alpine-edge/etc/resolv.conf
+         sudo chroot ./alpine-edge apk update
+         sudo chroot ./alpine-edge apk upgrade
+         sudo chroot ./alpine-edge apk add bash shadow shadow-login
+         EOF
+
+         sudo tar -cJpf alpine-edge-${{ matrix.arch }}.tar.xz ./alpine-edge
+
+      - name: Push to release
+        uses: softprops/action-gh-release@v3
+        with:
+          tag_name: alpine-edge
+          name: Alpine Linux Edge (Rolling Release)
+          files: |
+            alpine-edge-${{ matrix.arch }}.tar.xz
+          preserve_order: true
+          make_latest: false
+          
+env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
